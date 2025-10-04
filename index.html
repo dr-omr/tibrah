@@ -1675,6 +1675,8 @@
                     <button class="quiz-quick-btn btn btn-secondary py-1.5 px-4 rounded-full" data-quiz="stop-bang">STOP‑Bang نوم</button>
                     <button class="quiz-quick-btn btn btn-secondary py-1.5 px-4 rounded-full" data-quiz="cat">CAT COPD</button>
                 </div>
+                <!-- Inline quiz container (non-modal) -->
+                <div id="quiz-inline" class="hidden"></div>
                 <!-- Dynamic grid -->
                 <div id="quizzes-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
                 
@@ -2099,6 +2101,77 @@
                messagingSenderId: "920755760709",
                appId: "1:920755760709:web:778cd12e6edbd199827d2c"
             };
+
+            // Catalog rendering and interactivity (moved inside initQuizzes)
+            if (false && featuredWrap && gridWrap) {
+                const staticGrid = document.querySelector('#view-quizzes .max-w-4xl');
+                function renderCatalog() {
+                    try {
+                        const activeCatBtn = catControl?.querySelector('.quiz-cat-btn[aria-selected="true"]');
+                        const cat = activeCatBtn?.dataset.cat || 'all';
+                        const q = (searchInput?.value || '').trim();
+                        const entries = Object.entries(quizzes).map(([id, data])=>({id, data})).filter(e=>{
+                            const d = e.data;
+                            const inCat = cat==='all' || (d.meta && d.meta.cat===cat);
+                            const text = (d.title + ' ' + (d.meta?.description||'')).toLowerCase();
+                            const okSearch = !q || text.includes(q.toLowerCase());
+                            return inCat && okSearch;
+                        });
+                        const featured = entries.filter(e=>e.data.meta?.featured).slice(0,2);
+                        const regular = entries.filter(e=>!e.data.meta?.featured);
+                        const card = (e)=>{
+                            const cat = e.data.meta?.cat || 'lifestyle';
+                            const icon = catIcon[cat] || 'fa-clipboard-check';
+                            const isCalc = (e.data.type === 'calculator');
+                            const verified = Array.isArray(e.data.references) && e.data.references.length > 0;
+                            return `<div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow transform transition-transform hover:-translate-y-1">
+                                <div class="flex items-center justify-between mb-2">
+                                   <h3 class="text-2xl font-bold text-[--primary-dark]">${e.data.title}</h3>
+                                   <span class="text-[--primary-color]"><i class="fa-solid ${icon}"></i></span>
+                                </div>
+                                <div class="flex items-center gap-2 mb-3">
+                                   <span class="badge ${isCalc?'badge-secondary':'badge-primary'}">${isCalc?'حاسبة':'استبيان'}</span>
+                                   ${verified?'<span class="badge badge-success"><i class="fa-solid fa-shield-heart ml-1"></i>موثّق</span>':''}
+                                </div>
+                                <p class="text-gray-600 mb-3">${e.data.meta?.description||''}</p>
+                                <button class="btn btn-primary text-white py-2 px-6 rounded-full quiz-start-btn" data-quiz="${e.id}">ابدأ التقييم</button>
+                            </div>`;
+                        };
+                        // Always hide static fallback; render dynamic list (or an empty-state message)
+                        staticGrid?.classList.add('hidden');
+                        featuredWrap.innerHTML = featured.map(card).join('');
+                        gridWrap.innerHTML = entries.length
+                            ? regular.map(card).join('')
+                            : `<div class="col-span-2 text-center text-gray-600">لا توجد نتائج مطابقة. جرّب تصنيفاً آخر أو عدّل عبارة البحث.</div>`;
+                        bindStartButtons(featuredWrap);
+                        bindStartButtons(gridWrap);
+                    } catch (err) {
+                        console.error('renderCatalog error:', err);
+                        // Fallback to static grid if dynamic fails
+                        staticGrid?.classList.remove('hidden');
+                    }
+                }
+                catControl?.addEventListener('click', (ev)=>{
+                    const btn = ev.target.closest('.quiz-cat-btn');
+                    if (!btn) return;
+                    catControl.querySelectorAll('.quiz-cat-btn').forEach(b=>b.setAttribute('aria-selected','false'));
+                    btn.setAttribute('aria-selected','true');
+                    try { location.hash = `view=quizzes&cat=${encodeURIComponent(btn.dataset.cat || 'all')}`; } catch {}
+                    renderCatalog();
+                });
+                searchInput?.addEventListener('input', renderCatalog);
+
+                // Enter to open top result
+                searchInput?.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        const first = gridWrap.querySelector('.quiz-start-btn') || featuredWrap.querySelector('.quiz-start-btn');
+                        if (first) first.click();
+                    }
+                });
+                renderCatalog();
+                // Expose re-render for view activation safety
+                window.__renderQuizzes = renderCatalog;
+            }
         
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
@@ -2357,7 +2430,7 @@
         }
         
         // Catalog rendering and interactivity
-        if (featuredWrap && gridWrap) {
+        if (false && featuredWrap && gridWrap) {
             const staticGrid = document.querySelector('#view-quizzes .max-w-4xl');
             function renderCatalog() {
                 try {
@@ -5168,12 +5241,14 @@ The entire response should be in warm, supportive Arabic. Start with a positive 
         // --- QUIZZES MODULE (COMPLETED) ---
         function initQuizzes() {
             const modal = document.getElementById('quiz-modal');
-            const modalContent = document.getElementById('quiz-modal-content');
+            let modalContent = document.getElementById('quiz-modal-content');
             const modalClose = document.getElementById('quiz-modal-close');
             const catControl = document.getElementById('quiz-cat-control');
             const searchInput = document.getElementById('quiz-search');
             const featuredWrap = document.getElementById('quizzes-featured');
             const gridWrap = document.getElementById('quizzes-grid');
+            const inlineContainer = document.getElementById('quiz-inline');
+            const useInline = true; // user preference: inline rendering, no modal
             const catIcon = {
                 mental: 'fa-brain',
                 sleep: 'fa-bed',
@@ -5558,6 +5633,28 @@ The entire response should be in warm, supportive Arabic. Start with a positive 
                 }
             };
 
+            function showCatalog(show) {
+                try {
+                    const controlsRow = searchInput?.closest('.mb-6');
+                    const quickLinksEl = document.getElementById('quiz-quick-links');
+                    controlsRow && controlsRow.classList.toggle('hidden', !show);
+                    featuredWrap && featuredWrap.classList.toggle('hidden', !show);
+                    quickLinksEl && quickLinksEl.classList.toggle('hidden', !show);
+                    gridWrap && gridWrap.classList.toggle('hidden', !show);
+                    inlineContainer && inlineContainer.classList.toggle('hidden', show);
+                } catch {}
+            }
+            function hideQuizInline() {
+                showCatalog(true);
+                if (inlineContainer) inlineContainer.innerHTML = '';
+                try {
+                    const p = typeof parseHashParams === 'function' ? parseHashParams() : {};
+                    const cat = p && p.cat ? `&cat=${encodeURIComponent(p.cat)}` : '';
+                    window.__quizNavigating = true;
+                    location.hash = `view=quizzes${cat}`;
+                } catch {}
+                activeQuizId = null;
+            }
             const hideQuizModal = () => {
                 modal.classList.remove('is-open');
                 setTimeout(() => {
@@ -5596,6 +5693,15 @@ The entire response should be in warm, supportive Arabic. Start with a positive 
                 });
             }
             bindStartButtons();
+            // Event delegation for dynamically inserted quiz cards
+            const quizzesViewEl = document.getElementById('view-quizzes');
+            quizzesViewEl?.addEventListener('click', (ev) => {
+                const btn = ev.target.closest('.quiz-start-btn');
+                if (!btn) return;
+                ev.preventDefault();
+                const id = btn.getAttribute('data-quiz');
+                if (id) startQuiz(id);
+            });
             // Quick links (chips) fast start
             document.querySelectorAll('#quiz-quick-links .quiz-quick-btn')?.forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -5605,7 +5711,78 @@ The entire response should be in warm, supportive Arabic. Start with a positive 
             });
             // Expose starter for deep links
             window.__startQuiz = startQuiz;
-            
+
+            // Catalog rendering and interactivity (inside initQuizzes)
+            if (featuredWrap && gridWrap) {
+                const staticGrid = document.querySelector('#view-quizzes .max-w-4xl');
+                function renderCatalog() {
+                    try {
+                        const activeCatBtn = catControl?.querySelector('.quiz-cat-btn[aria-selected="true"]');
+                        const cat = activeCatBtn?.dataset.cat || 'all';
+                        const q = (searchInput?.value || '').trim();
+                        const entries = Object.entries(quizzes).map(([id, data])=>({id, data})).filter(e=>{
+                            const d = e.data;
+                            const inCat = cat==='all' || (d.meta && d.meta.cat===cat);
+                            const text = (d.title + ' ' + (d.meta?.description||'')).toLowerCase();
+                            const okSearch = !q || text.includes(q.toLowerCase());
+                            return inCat && okSearch;
+                        });
+                        const featured = entries.filter(e=>e.data.meta?.featured).slice(0,2);
+                        const regular = entries.filter(e=>!e.data.meta?.featured);
+                        const card = (e)=>{
+                            const cat = e.data.meta?.cat || 'lifestyle';
+                            const icon = catIcon[cat] || 'fa-clipboard-check';
+                            const isCalc = (e.data.type === 'calculator');
+                            const verified = Array.isArray(e.data.references) && e.data.references.length > 0;
+                            return `<div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow transform transition-transform hover:-translate-y-1">
+                                <div class="flex items-center justify-between mb-2">
+                                   <h3 class="text-2xl font-bold text-[--primary-dark]">${e.data.title}</h3>
+                                   <span class="text-[--primary-color]"><i class="fa-solid ${icon}"></i></span>
+                                </div>
+                                <div class="flex items-center gap-2 mb-3">
+                                   <span class="badge ${isCalc?'badge-secondary':'badge-primary'}">${isCalc?'حاسبة':'استبيان'}</span>
+                                   ${verified?'<span class="badge badge-success"><i class="fa-solid fa-shield-heart ml-1"></i>موثّق</span>':''}
+                                </div>
+                                <p class="text-gray-600 mb-3">${e.data.meta?.description||''}</p>
+                                <button class="btn btn-primary text-white py-2 px-6 rounded-full quiz-start-btn" data-quiz="${e.id}">ابدأ التقييم</button>
+                            </div>`;
+                        };
+                        // Always hide static fallback; render dynamic list (or an empty-state message)
+                        staticGrid?.classList.add('hidden');
+                        featuredWrap.innerHTML = featured.map(card).join('');
+                        gridWrap.innerHTML = entries.length
+                            ? regular.map(card).join('')
+                            : `<div class="col-span-2 text-center text-gray-600">لا توجد نتائج مطابقة. جرّب تصنيفاً آخر أو عدّل عبارة البحث.</div>`;
+                        bindStartButtons(featuredWrap);
+                        bindStartButtons(gridWrap);
+                    } catch (err) {
+                        console.error('renderCatalog error:', err);
+                        // Fallback to static grid if dynamic fails
+                        staticGrid?.classList.remove('hidden');
+                    }
+                }
+                catControl?.addEventListener('click', (ev)=>{
+                    const btn = ev.target.closest('.quiz-cat-btn');
+                    if (!btn) return;
+                    catControl.querySelectorAll('.quiz-cat-btn').forEach(b=>b.setAttribute('aria-selected','false'));
+                    btn.setAttribute('aria-selected','true');
+                    try { location.hash = `view=quizzes&cat=${encodeURIComponent(btn.dataset.cat || 'all')}`; } catch {}
+                    renderCatalog();
+                });
+                searchInput?.addEventListener('input', renderCatalog);
+
+                // Enter to open top result
+                searchInput?.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        const first = gridWrap.querySelector('.quiz-start-btn') || featuredWrap.querySelector('.quiz-start-btn');
+                        if (first) first.click();
+                    }
+                });
+                renderCatalog();
+                // Expose re-render for view activation safety
+                window.__renderQuizzes = renderCatalog;
+            }
+
             function startQuiz(quizId) {
                 const quizData = quizzes[quizId];
                 if (!quizData) return;
@@ -5618,6 +5795,17 @@ The entire response should be in warm, supportive Arabic. Start with a positive 
                     window.__quizNavigating = true;
                     location.hash = `view=quizzes&quiz=${encodeURIComponent(quizId)}${cat}`;
                 } catch {}
+                if (useInline && inlineContainer) {
+                    // Prepare inline rendering shell with Back button
+                    showCatalog(false);
+                    inlineContainer.innerHTML = `
+                        <div class="text-right mb-4">
+                          <button id="quiz-inline-back" class="btn btn-outline py-2 px-4 rounded-full"><i class="fa-solid fa-arrow-right-long ml-2"></i>عودة للقائمة</button>
+                        </div>
+                        <div id="quiz-inner"></div>`;
+                    modalContent = document.getElementById('quiz-inner');
+                    inlineContainer.querySelector('#quiz-inline-back')?.addEventListener('click', hideQuizInline);
+                }
                 if (quizData.type === 'calculator') {
                     renderCalculator(quizId, quizData);
                 } else if (quizData.isColorTest) {
@@ -5626,20 +5814,23 @@ The entire response should be in warm, supportive Arabic. Start with a positive 
                     // generic questionnaire/likert
                     renderQuestionnaire(quizData);
                 }
-                modal.classList.remove('hidden');
-                setTimeout(() => modal.classList.add('is-open'), 10);
+                if (!useInline) {
+                    modal.classList.remove('hidden');
+                    setTimeout(() => modal.classList.add('is-open'), 10);
+                }
             }
             
             function renderQuestionnaire(quizData) {
                 let currentQuestion = 0;
                 let score = 0;
                 function renderQuestion() {
-                    if (currentQuestion >= quizData.questions.length) {
+                    const list = (quizData.items || quizData.questions || []);
+                    if (currentQuestion >= list.length) {
                         renderResult();
                         return;
                     }
-                    const q = (quizData.items || quizData.questions)[currentQuestion];
-                    const total = (quizData.items || quizData.questions).length;
+                    const q = list[currentQuestion];
+                    const total = list.length;
                     const hasOptions = Array.isArray(q.options);
                     let optionsHtml = '';
                     if (hasOptions) {
@@ -5712,7 +5903,7 @@ The entire response should be in warm, supportive Arabic. Start with a positive 
                         <div class="legal-disclaimer mt-4 p-3 text-sm">
                             <p>هذه الأداة معلوماتية ولا تُعد تشخيصاً طبياً. شارك نتائجك مع مختص لاتخاذ القرار الأنسب لحالتك.</p>
                         </div>`;
-                    document.getElementById('download-quiz-pdf')?.addEventListener('click', ()=> downloadResultAsPDF('quiz-modal-content', toolTitle));
+                    document.getElementById('download-quiz-pdf')?.addEventListener('click', ()=> downloadResultAsPDF(useInline ? 'quiz-inner' : 'quiz-modal-content', toolTitle));
                     document.getElementById('save-quiz-result')?.addEventListener('click', ()=> {
                         const full = `--- العنوان ---\n${toolTitle}\n\n--- الدرجة ---\n${score}\n\n--- التفسير ---\n${resultText}`;
                         saveResultToFirestore(toolTitle, full, { kind:'assessment', id: activeQuizId, cat: quizData.meta?.cat || null, score });
@@ -5735,7 +5926,7 @@ The entire response should be in warm, supportive Arabic. Start with a positive 
                             }
                         } catch {}
                     });
-                    modalContent.querySelector('.close-quiz-modal-btn')?.addEventListener('click', hideQuizModal);
+                    modalContent.querySelector('.close-quiz-modal-btn')?.addEventListener('click', useInline ? hideQuizInline : hideQuizModal);
                 }
                 renderQuestion();
             }
