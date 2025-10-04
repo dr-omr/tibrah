@@ -1676,7 +1676,7 @@
                     <button class="quiz-quick-btn btn btn-secondary py-1.5 px-4 rounded-full" data-quiz="cat">CAT COPD</button>
                 </div>
                 <!-- Inline quiz container (non-modal) -->
-                <div id="quiz-inline" class="hidden"></div>
+                <div id="quiz-inline" class="hidden" role="region" aria-label="منطقة التقييمات"></div>
                 <!-- Dynamic grid -->
                 <div id="quizzes-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
                 
@@ -5686,6 +5686,8 @@ The entire response should be in warm, supportive Arabic. Start with a positive 
 
             function bindStartButtons(scope) {
                 (scope || document).querySelectorAll('.quiz-start-btn').forEach(btn => {
+                    if (btn.dataset.bound === '1') return;
+                    btn.dataset.bound = '1';
                     btn.addEventListener('click', () => {
                         const quizId = btn.dataset.quiz;
                         startQuiz(quizId);
