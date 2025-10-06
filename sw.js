@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tibrah-cache-v2';
+const CACHE_NAME = 'tibrah-cache-v4';
 const CORE_ASSETS = [
   './',
   './index.html',

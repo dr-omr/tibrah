@@ -2858,32 +2858,111 @@
                         </button>
                     </div>
                     <div class="text-center mb-12">
-                        <h2 class="large-title text-4xl font-bold mb-4 section-title">عجلة العافية الشمولية</h2>
-                        <p class="max-w-3xl mx-auto text-lg">قيّم مستوى رضاك في الجوانب الأساسية لحياتك. حرك المؤشرات
-                            لتعكس وضعك الحالي، ثم احصل على رؤى فورية لمساعدتك على تحديد نقاط التركيز في رحلتك نحو
-                            التوازن.</p>
+                        <h2 class="large-title text-4xl font-bold mb-4 section-title">عجلة العافية الشمولية المتقدمة</h2>
+                        <p class="max-w-4xl mx-auto text-lg mb-6">أداة تقييم شاملة لجودة حياتك الصحية والشخصية. قيّم نفسك في 8 مجالات أساسية واحصل على تحليل مفصل وخطة عمل مخصصة لتحسين حياتك.</p>
+                        
+                        <!-- Quick Stats -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 max-w-2xl mx-auto">
+                            <div class="bg-blue-100 p-3 rounded-lg">
+                                <div class="text-2xl font-bold text-blue-600" id="overall-score">--</div>
+                                <div class="text-xs text-blue-600">النتيجة الإجمالية</div>
+                            </div>
+                            <div class="bg-green-100 p-3 rounded-lg">
+                                <div class="text-2xl font-bold text-green-600" id="strongest-area">--</div>
+                                <div class="text-xs text-green-600">أقوى مجال</div>
+                            </div>
+                            <div class="bg-red-100 p-3 rounded-lg">
+                                <div class="text-2xl font-bold text-red-600" id="weakest-area">--</div>
+                                <div class="text-xs text-red-600">يحتاج تطوير</div>
+                            </div>
+                            <div class="bg-purple-100 p-3 rounded-lg">
+                                <div class="text-2xl font-bold text-purple-600" id="balance-score">--</div>
+                                <div class="text-xs text-purple-600">مستوى التوازن</div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div id="wheel-of-life-result-container"
-                        class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                        <!-- Chart Canvas -->
-                        <div class="w-full max-w-lg mx-auto fade-in-up">
-                            <canvas id="wheel-of-life-chart"></canvas>
+                    <!-- Assessment Container -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Chart and Controls -->
+                        <div class="lg:col-span-1">
+                            <div class="bg-white p-6 rounded-xl shadow-lg sticky top-4">
+                                <h3 class="text-xl font-bold mb-4 text-center">عجلة العافية</h3>
+                                <div class="w-full max-w-sm mx-auto mb-4">
+                                    <canvas id="wheel-of-life-chart"></canvas>
+                                </div>
+                                
+                                <!-- Action Buttons -->
+                                <div class="space-y-3">
+                                    <button id="get-wheel-insight-btn" class="btn btn-primary text-white w-full py-2 rounded-lg">
+                                        <i class="fas fa-brain ml-2"></i>
+                                        تحليل النتائج
+                                    </button>
+                                    <button id="generate-action-plan-btn" class="btn bg-green-600 hover:bg-green-700 text-white w-full py-2 rounded-lg">
+                                        <i class="fas fa-clipboard-list ml-2"></i>
+                                        خطة العمل
+                                    </button>
+                                    <button id="save-assessment-btn" class="btn bg-blue-600 hover:bg-blue-700 text-white w-full py-2 rounded-lg">
+                                        <i class="fas fa-save ml-2"></i>
+                                        حفظ التقييم
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <!-- Sliders -->
-                        <div id="wheel-of-life-sliders" class="space-y-4 fade-in-up" style="animation-delay: 0.2s;">
-                            <!-- Sliders will be dynamically generated here -->
+
+                        <!-- Assessment Form -->
+                        <div class="lg:col-span-2">
+                            <div class="bg-white p-6 rounded-xl shadow-lg">
+                                <div class="flex justify-between items-center mb-6">
+                                    <h3 class="text-xl font-bold">تقييم مجالات الحياة</h3>
+                                    <button id="reset-wheel-btn" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition">
+                                        <i class="fas fa-redo ml-1"></i>
+                                        إعادة تعيين
+                                    </button>
+                                </div>
+                                
+                                <div id="wheel-of-life-sliders" class="space-y-6">
+                                    <!-- Enhanced sliders will be generated here -->
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Result Section -->
-                    <div class="mt-12 text-center">
-                        <button id="get-wheel-insight-btn"
-                            class="btn btn-primary text-white py-3 px-8 text-lg rounded-full">اكشف عن رؤيتك
-                            الشخصية</button>
-                        <div id="wheel-of-life-result"
-                            class="mt-6 p-6 bg-green-50 border-r-4 border-primary-color rounded-lg max-w-4xl mx-auto opacity-0 hidden">
-                            <!-- AI Insight will be injected here -->
+                    <!-- Results Section -->
+                    <div id="wheel-results-section" class="mt-12 hidden">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <!-- Analysis Results -->
+                            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl shadow-lg">
+                                <h3 class="text-xl font-bold mb-4 flex items-center">
+                                    <i class="fas fa-chart-line ml-2 text-blue-600"></i>
+                                    تحليل النتائج
+                                </h3>
+                                <div id="wheel-analysis-content" class="space-y-4">
+                                    <!-- Analysis will be generated here -->
+                                </div>
+                            </div>
+
+                            <!-- Action Plan -->
+                            <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl shadow-lg">
+                                <h3 class="text-xl font-bold mb-4 flex items-center">
+                                    <i class="fas fa-tasks ml-2 text-green-600"></i>
+                                    خطة العمل المقترحة
+                                </h3>
+                                <div id="wheel-action-plan-content" class="space-y-4">
+                                    <!-- Action plan will be generated here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Detailed Recommendations -->
+                        <div class="mt-8 bg-white p-6 rounded-xl shadow-lg">
+                            <h3 class="text-xl font-bold mb-4 flex items-center">
+                                <i class="fas fa-lightbulb ml-2 text-yellow-500"></i>
+                                توصيات مخصصة لكل مجال
+                            </h3>
+                            <div id="wheel-recommendations" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Recommendations will be generated here -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -3870,54 +3949,254 @@
                             </button>
                         </div>
                         <div class="text-center mb-12">
-                            <h2 class="text-4xl font-bold mb-4 section-title">مفكرة الأعراض والمزاج</h2>
-                            <p class="max-w-3xl mx-auto text-lg">أداة قوية لتصبح محققاً في رحلتك الصحية. سجّل تتبعك
-                                اليومي هنا لاكتشاف الروابط بين نمط حياتك وما تشعر به.</p>
+                            <h2 class="large-title text-4xl font-bold mb-4 section-title">مفكرة الأعراض والمزاج المتقدمة</h2>
+                            <p class="max-w-4xl mx-auto text-lg mb-6">أداة تحليل شاملة لتتبع حالتك الصحية والنفسية يومياً. اكتشف الأنماط والروابط بين أعراضك ونمط حياتك للوصول لفهم أعمق لصحتك.</p>
+                            
+                            <!-- Quick Stats Dashboard -->
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 max-w-2xl mx-auto">
+                                <div class="bg-blue-100 p-3 rounded-lg">
+                                    <div class="text-2xl font-bold text-blue-600" id="avg-mood-stat">--</div>
+                                    <div class="text-xs text-blue-600">متوسط المزاج</div>
+                                </div>
+                                <div class="bg-green-100 p-3 rounded-lg">
+                                    <div class="text-2xl font-bold text-green-600" id="avg-energy-stat">--</div>
+                                    <div class="text-xs text-green-600">متوسط الطاقة</div>
+                                </div>
+                                <div class="bg-purple-100 p-3 rounded-lg">
+                                    <div class="text-2xl font-bold text-purple-600" id="avg-sleep-stat">--</div>
+                                    <div class="text-xs text-purple-600">متوسط النوم</div>
+                                </div>
+                                <div class="bg-orange-100 p-3 rounded-lg">
+                                    <div class="text-2xl font-bold text-orange-600" id="total-entries-stat">0</div>
+                                    <div class="text-xs text-orange-600">إجمالي الإدخالات</div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <!-- New Entry Form -->
-                            <div class="md:col-span-1 bg-gray-50 p-6 rounded-xl shadow-lg">
-                                <h3 class="text-2xl font-bold mb-4 text-center">إدخال اليوم</h3>
-                                <form id="journal-form">
-                                    <div class="mb-4">
-                                        <label for="entry-date">التاريخ</label>
-                                        <input type="date" id="entry-date" class="w-full p-2 border rounded-md"
-                                            required>
+                        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                            <!-- Enhanced Entry Form -->
+                            <div class="lg:col-span-1 bg-white p-6 rounded-xl shadow-lg border-2 border-gray-100">
+                                <h3 class="text-2xl font-bold mb-6 text-center flex items-center justify-center">
+                                    <i class="fas fa-plus-circle ml-2 text-[--accent-color]"></i>
+                                    إدخال جديد
+                                </h3>
+                                <form id="journal-form" class="space-y-4">
+                                    <!-- Date and Time -->
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">التاريخ</label>
+                                            <input type="date" id="entry-date" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[--accent-color] focus:border-[--accent-color]" required>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">الوقت</label>
+                                            <input type="time" id="entry-time" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[--accent-color] focus:border-[--accent-color]">
+                                        </div>
                                     </div>
-                                    <div class="mb-4">
-                                        <label for="mood-rating">المزاج (1=سيء, 10=ممتاز)</label>
-                                        <input type="range" id="mood-rating" min="1" max="10" value="5" class="w-full">
+
+                                    <!-- Mood Rating with Visual Feedback -->
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">
+                                            المزاج العام <span id="mood-value" class="text-[--accent-color] font-bold">(5)</span>
+                                        </label>
+                                        <input type="range" id="mood-rating" min="1" max="10" value="5" 
+                                               class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mood-slider">
+                                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                            <span>😢 سيء</span>
+                                            <span>😐 متوسط</span>
+                                            <span>😊 ممتاز</span>
+                                        </div>
                                     </div>
-                                    <div class="mb-4">
-                                        <label for="energy-rating">الطاقة (1=منهك, 10=حيوي)</label>
-                                        <input type="range" id="energy-rating" min="1" max="10" value="5"
-                                            class="w-full">
+
+                                    <!-- Energy Level -->
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">
+                                            مستوى الطاقة <span id="energy-value" class="text-[--accent-color] font-bold">(5)</span>
+                                        </label>
+                                        <input type="range" id="energy-rating" min="1" max="10" value="5" 
+                                               class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer energy-slider">
+                                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                            <span>🔋 منهك</span>
+                                            <span>⚡ متوسط</span>
+                                            <span>🚀 حيوي</span>
+                                        </div>
                                     </div>
-                                    <div class="mb-4">
-                                        <label for="sleep-quality">جودة النوم (ساعات)</label>
-                                        <input type="number" id="sleep-quality" min="0" max="12" step="0.5"
-                                            class="w-full p-2 border rounded-md" placeholder="e.g., 7.5">
+
+                                    <!-- Sleep Quality -->
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">ساعات النوم</label>
+                                            <input type="number" id="sleep-hours" min="0" max="12" step="0.5" 
+                                                   class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[--accent-color] focus:border-[--accent-color]" 
+                                                   placeholder="7.5">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-1">جودة النوم</label>
+                                            <select id="sleep-quality" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-[--accent-color] focus:border-[--accent-color]">
+                                                <option value="">اختر...</option>
+                                                <option value="poor">ضعيف</option>
+                                                <option value="fair">مقبول</option>
+                                                <option value="good">جيد</option>
+                                                <option value="excellent">ممتاز</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="mb-4">
-                                        <label for="symptoms-today">الأعراض اليوم</label>
-                                        <textarea id="symptoms-today" rows="3"
-                                            class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-[--accent-color] focus:outline-none focus:ring-2 focus:ring-[--accent-color]/20 transition-all"
-                                            placeholder="صداع، انتفاخ، ألم مفاصل..."></textarea>
+
+                                    <!-- Stress Level -->
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">
+                                            مستوى التوتر <span id="stress-value" class="text-[--accent-color] font-bold">(5)</span>
+                                        </label>
+                                        <input type="range" id="stress-rating" min="1" max="10" value="5" 
+                                               class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer stress-slider">
+                                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                            <span>😌 مسترخي</span>
+                                            <span>😐 متوسط</span>
+                                            <span>😰 متوتر</span>
+                                        </div>
                                     </div>
-                                    <button type="submit"
-                                        class="btn btn-primary text-white w-full py-3 rounded-full">حفظ الإدخال</button>
+
+                                    <!-- Symptoms Categories -->
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">الأعراض الجسدية</label>
+                                        <div class="grid grid-cols-2 gap-2 text-sm">
+                                            <label class="flex items-center">
+                                                <input type="checkbox" name="symptoms" value="headache" class="ml-2">
+                                                صداع
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="checkbox" name="symptoms" value="fatigue" class="ml-2">
+                                                إرهاق
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="checkbox" name="symptoms" value="nausea" class="ml-2">
+                                                غثيان
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="checkbox" name="symptoms" value="pain" class="ml-2">
+                                                ألم
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="checkbox" name="symptoms" value="bloating" class="ml-2">
+                                                انتفاخ
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="checkbox" name="symptoms" value="dizziness" class="ml-2">
+                                                دوخة
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Custom Symptoms -->
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">أعراض أخرى</label>
+                                        <textarea id="custom-symptoms" rows="2"
+                                                  class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[--accent-color] focus:border-[--accent-color] resize-none"
+                                                  placeholder="اكتب أي أعراض إضافية..."></textarea>
+                                    </div>
+
+                                    <!-- Activities -->
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">الأنشطة اليوم</label>
+                                        <div class="grid grid-cols-2 gap-2 text-sm">
+                                            <label class="flex items-center">
+                                                <input type="checkbox" name="activities" value="exercise" class="ml-2">
+                                                رياضة
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="checkbox" name="activities" value="meditation" class="ml-2">
+                                                تأمل
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="checkbox" name="activities" value="work" class="ml-2">
+                                                عمل
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="checkbox" name="activities" value="social" class="ml-2">
+                                                اجتماعي
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Notes -->
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">ملاحظات إضافية</label>
+                                        <textarea id="daily-notes" rows="3"
+                                                  class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[--accent-color] focus:border-[--accent-color] resize-none"
+                                                  placeholder="أي ملاحظات أو أحداث مهمة..."></textarea>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary text-white w-full py-3 rounded-full font-bold hover:shadow-lg transition-all">
+                                        <i class="fas fa-save ml-2"></i>
+                                        حفظ الإدخال
+                                    </button>
                                 </form>
                             </div>
-                            <!-- Entries & Charts -->
-                            <div class="md:col-span-2">
-                                <h3 class="text-2xl font-bold mb-4 text-center">تحليل الأنماط</h3>
-                                <div class="bg-gray-50 p-6 rounded-xl shadow-lg mb-6">
-                                    <canvas id="journal-chart"></canvas>
+
+                            <!-- Analytics and Charts -->
+                            <div class="lg:col-span-3 space-y-6">
+                                <!-- Chart Tabs -->
+                                <div class="bg-white p-6 rounded-xl shadow-lg border-2 border-gray-100">
+                                    <div class="flex flex-wrap gap-2 mb-4">
+                                        <button class="chart-tab-btn active px-4 py-2 rounded-full text-sm font-medium bg-[--accent-color] text-white" data-chart="mood">
+                                            📈 المزاج
+                                        </button>
+                                        <button class="chart-tab-btn px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-600" data-chart="energy">
+                                            ⚡ الطاقة
+                                        </button>
+                                        <button class="chart-tab-btn px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-600" data-chart="sleep">
+                                            😴 النوم
+                                        </button>
+                                        <button class="chart-tab-btn px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-600" data-chart="stress">
+                                            😰 التوتر
+                                        </button>
+                                        <button class="chart-tab-btn px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-600" data-chart="correlation">
+                                            🔗 الارتباط
+                                        </button>
+                                    </div>
+                                    <div class="h-64">
+                                        <canvas id="journal-chart" class="w-full h-full"></canvas>
+                                    </div>
                                 </div>
-                                <h3 class="text-2xl font-bold mb-4 text-center">سجل إدخالاتي</h3>
-                                <div id="journal-entries-container" class="space-y-4 max-h-96 overflow-y-auto pr-2">
-                                    <!-- Entries will be loaded here -->
+
+                                <!-- Insights Panel -->
+                                <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl shadow-lg">
+                                    <h4 class="text-lg font-bold mb-4 flex items-center">
+                                        <i class="fas fa-lightbulb ml-2 text-yellow-500"></i>
+                                        رؤى ذكية
+                                    </h4>
+                                    <div id="insights-container" class="space-y-3">
+                                        <div class="bg-white p-3 rounded-lg text-sm">
+                                            <i class="fas fa-info-circle text-blue-500 ml-2"></i>
+                                            ابدأ بتسجيل بياناتك لمدة أسبوع للحصول على رؤى مخصصة
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Recent Entries -->
+                                <div class="bg-white p-6 rounded-xl shadow-lg border-2 border-gray-100">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <h4 class="text-lg font-bold flex items-center">
+                                            <i class="fas fa-history ml-2 text-[--accent-color]"></i>
+                                            الإدخالات الأخيرة
+                                        </h4>
+                                        <div class="flex gap-2">
+                                            <button id="export-journal" class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm hover:bg-green-200 transition">
+                                                <i class="fas fa-download ml-1"></i>
+                                                تصدير
+                                            </button>
+                                            <button id="clear-journal" class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm hover:bg-red-200 transition">
+                                                <i class="fas fa-trash ml-1"></i>
+                                                مسح الكل
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="journal-entries-container" class="space-y-3 max-h-80 overflow-y-auto">
+                                        <div class="text-center text-gray-500 py-8">
+                                            <i class="fas fa-clipboard-list text-4xl mb-3 opacity-50"></i>
+                                            <p>لا توجد إدخالات بعد</p>
+                                            <p class="text-sm">ابدأ بإضافة إدخالك الأول!</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -7531,48 +7810,94 @@ Structure the output in Arabic with clear headings for each marker using markdow
                 }
             }
 
-            // --- WHEEL OF LIFE MODULE ---
+            // --- ENHANCED WHEEL OF LIFE MODULE ---
+            let currentWheelData = {};
+            
             async function initWheelOfLife() {
                 await ensureChart();
+                setupWheelInterface();
+                initializeWheelChart();
+                setupWheelEventListeners();
+            }
+            
+            function setupWheelInterface() {
+                const categories = [
+                    { name: 'الصحة الجسدية', icon: '💪', desc: 'اللياقة والطاقة والصحة العامة' },
+                    { name: 'الصحة النفسية', icon: '🧠', desc: 'المزاج والتوتر والاستقرار العاطفي' },
+                    { name: 'الحياة المهنية', icon: '💼', desc: 'الرضا الوظيفي والإنجاز المهني' },
+                    { name: 'العلاقات الاجتماعية', icon: '👥', desc: 'الأسرة والأصدقاء والعلاقات' },
+                    { name: 'الوضع المالي', icon: '💰', desc: 'الاستقرار المالي والأمان الاقتصادي' },
+                    { name: 'النمو الشخصي', icon: '🌱', desc: 'التعلم والتطوير الذاتي' },
+                    { name: 'الترفيه والاستجمام', icon: '🎯', desc: 'الهوايات والأنشطة الممتعة' },
+                    { name: 'الحياة الروحية', icon: '🕊️', desc: 'المعنى والهدف والروحانية' }
+                ];
+                
+                currentWheelData = {
+                    categories: categories,
+                    scores: Array(categories.length).fill(5),
+                    timestamp: new Date()
+                };
+                
+                const container = document.getElementById('wheel-of-life-sliders');
+                container.innerHTML = categories.map((cat, index) => `
+                    <div class="p-4 border border-gray-200 rounded-lg hover:border-blue-300 transition-all">
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="text-2xl">${cat.icon}</div>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-lg">${cat.name}</h4>
+                                <p class="text-sm text-gray-600">${cat.desc}</p>
+                            </div>
+                            <div class="text-center">
+                                <span id="value-${index}" class="text-2xl font-bold text-blue-600">5</span>
+                                <div class="text-xs text-gray-500">من 10</div>
+                            </div>
+                        </div>
+                        <input type="range" id="slider-${index}" min="0" max="10" value="5" 
+                               class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" 
+                               data-index="${index}">
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>ضعيف</span>
+                            <span>متوسط</span>
+                            <span>ممتاز</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            function initializeWheelChart() {
                 const ctx = document.getElementById('wheel-of-life-chart');
                 if (!ctx) return;
-                const slidersContainer = document.getElementById('wheel-of-life-sliders');
-                const getInsightBtn = document.getElementById('get-wheel-insight-btn');
-
-                const labels = ['الصحة الجسدية', 'النمو الشخصي', 'الحياة المهنية', 'المالية', 'البيئة المحيطة', 'المرح والاستجمام', 'العلاقات الأسرية والاجتماعية', 'الحياة الروحية'];
-                const initialData = Array(labels.length).fill(5);
-
-                slidersContainer.innerHTML = labels.map((label, index) => `
-                <div class="flex items-center gap-4">
-                    <label for="slider-${index}" class="w-1/3 text-right">${label}</label>
-                    <input type="range" id="slider-${index}" min="0" max="10" value="5" class="range-slider flex-grow" data-index="${index}">
-                    <span id="value-${index}" class="w-8 text-center font-bold">5</span>
-                </div>`).join('');
-
-                wheelChart = new Chart(ctx, {
+                
+                window.wheelChart = new Chart(ctx, {
                     type: 'radar',
                     data: {
-                        labels: labels,
+                        labels: currentWheelData.categories.map(cat => cat.name),
                         datasets: [{
                             label: 'تقييمي الحالي',
-                            data: initialData,
+                            data: currentWheelData.scores,
                             fill: true,
                             backgroundColor: hexToRgba(cssVar('--accent-color') || '#2DD4BF', 0.35),
                             borderColor: cssVar('--primary-color') || '#1F6FEB',
                             pointBackgroundColor: cssVar('--primary-color') || '#1F6FEB',
                             pointBorderColor: '#fff',
                             pointHoverBackgroundColor: '#fff',
-                            pointHoverBorderColor: cssVar('--primary-color') || '#1F6FEB'
+                            pointHoverBorderColor: cssVar('--primary-color') || '#1F6FEB',
+                            borderWidth: 3,
+                            pointRadius: 6
                         }]
                     },
                     options: {
-                        elements: { line: { borderWidth: 3 } },
+                        responsive: true,
+                        maintainAspectRatio: true,
                         scales: {
                             r: {
                                 angleLines: { color: hexToRgba(cssVar('--primary-dark') || '#0F4CA8', 0.25) },
                                 grid: { color: hexToRgba(cssVar('--primary-dark') || '#0F4CA8', 0.25) },
-                                pointLabels: { font: { family: "'Noto Kufi Arabic', sans-serif", size: 13 }, color: cssVar('--text-dark') || '#222' },
-                                ticks: { backdropColor: 'var(--secondary-color)', color: '#555', stepSize: 2 },
+                                pointLabels: { 
+                                    font: { family: "'Noto Kufi Arabic', sans-serif", size: 11, weight: 'bold' }, 
+                                    color: cssVar('--text-dark') || '#222' 
+                                },
+                                ticks: { backdropColor: 'rgba(255,255,255,0.8)', color: '#555', stepSize: 2 },
                                 suggestedMin: 0,
                                 suggestedMax: 10
                             }
@@ -7580,57 +7905,230 @@ Structure the output in Arabic with clear headings for each marker using markdow
                         plugins: { legend: { display: false } }
                     }
                 });
-
-                slidersContainer.addEventListener('input', (e) => {
-                    if (e.target.type === 'range') {
-                        const index = e.target.dataset.index;
-                        const value = e.target.value;
-                        document.getElementById(`value-${index}`).textContent = value;
-                        wheelChart.data.datasets[0].data[index] = value;
-                        wheelChart.update();
-                    }
-                });
-
-                getInsightBtn.addEventListener('click', getWheelInsight);
+                
+                updateWheelStats();
             }
-
-            async function getWheelInsight() {
-                const resultDiv = document.getElementById('wheel-of-life-result');
-                const data = wheelChart.data.datasets[0].data;
-                const labels = wheelChart.data.labels;
-
-                resultDiv.classList.remove('hidden');
-                resultDiv.style.opacity = '0';
-
-                let userInput = "User's Wheel of Life scores are: ";
-                labels.forEach((label, index) => {
-                    userInput += `${label}: ${data[index]}/10, `;
-                });
-
-                const prompt = `Act as a wise and compassionate holistic life coach. Based on the user's Wheel of Life scores: [${userInput}]. Your task is to:
-1.  Identify the top 2-3 highest scoring areas and acknowledge them as strengths.
-2.  Identify the top 2-3 lowest scoring areas and frame them as opportunities for growth, not failures.
-3.  Provide one insightful, holistic observation about the potential interplay between the high and low areas (e.g., "I notice your career score is high, but your health is low. Perhaps your professional success is coming at the expense of your physical wellbeing?").
-4.  Offer one simple, actionable first step for one of the lowest areas.
-5.  End with an encouraging and empowering message.
-The entire response should be in warm, supportive Arabic. Start with a positive affirmation. Use markdown for lists and bolding.`;
-
-                const insightText = await handleApiRequest(prompt, 'wheel-of-life-result', GEMINI_API_KEY);
-
-                if (insightText) {
-                    resultDiv.innerHTML = `
-                    <div id="wheel-result-content" class="text-right whitespace-pre-wrap">${insightText}</div>
-                    <div class="mt-4 text-center">
-                        ${currentUser ? '<button id="save-wheel-result-btn" class="btn btn-secondary py-2 px-4 rounded-full text-sm">حفظ النتيجة في ملفي</button>' : '<p class="text-sm text-gray-500">سجل الدخول لحفظ هذه الرؤى القيمة!</p>'}
-                    </div>`;
-                    if (currentUser) {
-                        document.getElementById('save-wheel-result-btn').addEventListener('click', () => {
-                            const fullResultText = `--- تقييم عجلة العافية ---\n${userInput}\n\n--- رؤى التحليل ---\n${insightText}`;
-                            saveResultToFirestore("تحليل عجلة العافية", fullResultText);
-                        });
+            
+            function setupWheelEventListeners() {
+                // Slider changes
+                document.getElementById('wheel-of-life-sliders').addEventListener('input', handleSliderChange);
+                
+                // Action buttons
+                document.getElementById('get-wheel-insight-btn').addEventListener('click', generateWheelAnalysis);
+                document.getElementById('generate-action-plan-btn').addEventListener('click', generateActionPlan);
+                document.getElementById('save-assessment-btn').addEventListener('click', saveWheelAssessment);
+                document.getElementById('reset-wheel-btn').addEventListener('click', resetWheelAssessment);
+            }
+            
+            function handleSliderChange(e) {
+                if (e.target.type === 'range') {
+                    const index = parseInt(e.target.dataset.index);
+                    const value = parseInt(e.target.value);
+                    
+                    // Update display
+                    document.getElementById(`value-${index}`).textContent = value;
+                    
+                    // Update data
+                    currentWheelData.scores[index] = value;
+                    
+                    // Update chart
+                    if (window.wheelChart) {
+                        window.wheelChart.data.datasets[0].data[index] = value;
+                        window.wheelChart.update('none');
                     }
+                    
+                    updateWheelStats();
                 }
-                resultDiv.style.opacity = '1';
+            }
+            
+            function updateWheelStats() {
+                const scores = currentWheelData.scores;
+                const categories = currentWheelData.categories;
+                
+                // Overall score
+                const overall = (scores.reduce((sum, score) => sum + score, 0) / scores.length).toFixed(1);
+                document.getElementById('overall-score').textContent = overall;
+                
+                // Strongest area
+                const maxScore = Math.max(...scores);
+                const strongestIndex = scores.indexOf(maxScore);
+                document.getElementById('strongest-area').textContent = maxScore;
+                
+                // Weakest area
+                const minScore = Math.min(...scores);
+                const weakestIndex = scores.indexOf(minScore);
+                document.getElementById('weakest-area').textContent = minScore;
+                
+                // Balance score (lower variance = better balance)
+                const variance = scores.reduce((sum, score) => sum + Math.pow(score - overall, 2), 0) / scores.length;
+                const balance = Math.max(0, (10 - Math.sqrt(variance))).toFixed(1);
+                document.getElementById('balance-score').textContent = balance;
+            }
+            
+            async function generateWheelAnalysis() {
+                const analysisContainer = document.getElementById('wheel-analysis-content');
+                const resultsSection = document.getElementById('wheel-results-section');
+                
+                resultsSection.classList.remove('hidden');
+                analysisContainer.innerHTML = '<div class="text-center py-4"><i class="fas fa-spinner fa-spin text-2xl text-blue-600"></i><p class="mt-2">جاري تحليل النتائج...</p></div>';
+                
+                const scores = currentWheelData.scores;
+                const categories = currentWheelData.categories;
+                
+                let analysisData = "نتائج تقييم عجلة العافية:\n";
+                categories.forEach((cat, index) => {
+                    analysisData += `${cat.name}: ${scores[index]}/10\n`;
+                });
+                
+                const prompt = `أنت مستشار صحي وخبير في التطوير الشخصي. قم بتحليل نتائج تقييم عجلة العافية التالية:
+
+${analysisData}
+
+قدم تحليلاً شاملاً يتضمن:
+1. **التقييم العام**: نظرة شاملة على الوضع الحالي
+2. **نقاط القوة**: المجالات التي تحقق فيها أداءً جيداً (7+ نقاط)
+3. **مجالات التحسين**: المجالات التي تحتاج اهتماماً (أقل من 6 نقاط)
+4. **الترابطات**: كيف تؤثر المجالات على بعضها البعض
+5. **الأولويات**: ما هي المجالات الأهم للتركيز عليها أولاً
+
+استخدم لغة عربية واضحة ومشجعة مع تنسيق markdown.`;
+
+                try {
+                    const analysis = await handleApiRequest(prompt, 'wheel-analysis', GEMINI_API_KEY);
+                    if (analysis) {
+                        analysisContainer.innerHTML = `<div class="prose prose-sm max-w-none text-right">${analysis}</div>`;
+                    }
+                } catch (error) {
+                    analysisContainer.innerHTML = '<div class="text-red-600 text-center py-4">حدث خطأ في التحليل. يرجى المحاولة مرة أخرى.</div>';
+                }
+            }
+            
+            async function generateActionPlan() {
+                const actionContainer = document.getElementById('wheel-action-plan-content');
+                const recommendationsContainer = document.getElementById('wheel-recommendations');
+                
+                actionContainer.innerHTML = '<div class="text-center py-4"><i class="fas fa-spinner fa-spin text-2xl text-green-600"></i><p class="mt-2">جاري إعداد خطة العمل...</p></div>';
+                
+                const scores = currentWheelData.scores;
+                const categories = currentWheelData.categories;
+                
+                // Find priority areas (lowest scores)
+                const priorityAreas = scores
+                    .map((score, index) => ({ score, category: categories[index].name, index }))
+                    .filter(item => item.score < 7)
+                    .sort((a, b) => a.score - b.score)
+                    .slice(0, 3);
+                
+                let planData = "المجالات ذات الأولوية للتحسين:\n";
+                priorityAreas.forEach(area => {
+                    planData += `${area.category}: ${area.score}/10\n`;
+                });
+                
+                const prompt = `بناءً على نتائج تقييم عجلة العافية، أعد خطة عمل عملية ومتدرجة:
+
+${planData}
+
+أعد خطة تتضمن:
+1. **الأهداف قصيرة المدى** (الأسبوعين القادمين)
+2. **الأهداف متوسطة المدى** (الشهر القادم)
+3. **الأهداف طويلة المدى** (3 أشهر)
+
+لكل هدف قدم:
+- خطوات عملية محددة
+- مؤشرات النجاح
+- الموارد المطلوبة
+
+استخدم تنسيق markdown باللغة العربية.`;
+
+                try {
+                    const actionPlan = await handleApiRequest(prompt, 'wheel-action-plan', GEMINI_API_KEY);
+                    if (actionPlan) {
+                        actionContainer.innerHTML = `<div class="prose prose-sm max-w-none text-right">${actionPlan}</div>`;
+                        generateRecommendations(priorityAreas);
+                    }
+                } catch (error) {
+                    actionContainer.innerHTML = '<div class="text-red-600 text-center py-4">حدث خطأ في إعداد خطة العمل. يرجى المحاولة مرة أخرى.</div>';
+                }
+            }
+            
+            function generateRecommendations(priorityAreas) {
+                const container = document.getElementById('wheel-recommendations');
+                
+                const recommendations = {
+                    'الصحة الجسدية': ['ابدأ بتمارين خفيفة 15 دقيقة يومياً', 'اشرب 8 أكواب ماء يومياً', 'نم 7-8 ساعات ليلاً'],
+                    'الصحة النفسية': ['مارس التأمل 10 دقائق يومياً', 'احتفظ بمذكرة امتنان', 'تواصل مع الأصدقاء المقربين'],
+                    'الحياة المهنية': ['حدد أهدافاً مهنية واضحة', 'طور مهارة جديدة', 'ابحث عن فرص التطوير'],
+                    'العلاقات الاجتماعية': ['خصص وقتاً للعائلة', 'انضم لأنشطة اجتماعية', 'تواصل مع أصدقاء قدامى'],
+                    'الوضع المالي': ['ضع ميزانية شهرية', 'ابدأ بالادخار', 'استثمر في تعليمك المالي'],
+                    'النمو الشخصي': ['اقرأ كتاباً شهرياً', 'تعلم مهارة جديدة', 'احضر دورات تدريبية'],
+                    'الترفيه والاستجمام': ['مارس هواية تحبها', 'خطط لرحلات قصيرة', 'خصص وقتاً للاسترخاء'],
+                    'الحياة الروحية': ['مارس التأمل أو الصلاة', 'اقرأ كتباً روحية', 'تطوع في أعمال خيرية']
+                };
+                
+                container.innerHTML = priorityAreas.map(area => `
+                    <div class="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+                        <h4 class="font-bold text-lg mb-2 flex items-center">
+                            <span class="w-3 h-3 rounded-full ${area.score <= 3 ? 'bg-red-500' : area.score <= 6 ? 'bg-yellow-500' : 'bg-green-500'} ml-2"></span>
+                            ${area.category}
+                        </h4>
+                        <div class="text-sm text-gray-600 mb-3">النقاط الحالية: ${area.score}/10</div>
+                        <ul class="space-y-2 text-sm">
+                            ${(recommendations[area.category] || ['حدد أهدافاً صغيرة', 'اطلب الدعم من المحيطين', 'راقب تقدمك بانتظام']).map(rec => `
+                                <li class="flex items-start gap-2">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 flex-shrink-0"></i>
+                                    <span>${rec}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `).join('');
+            }
+            
+            function saveWheelAssessment() {
+                if (!currentUser) {
+                    showNotification('يجب تسجيل الدخول لحفظ التقييم', 'warning');
+                    return;
+                }
+                
+                const assessment = {
+                    ...currentWheelData,
+                    id: Date.now().toString(),
+                    timestamp: new Date().toISOString(),
+                    userId: currentUser.uid
+                };
+                
+                try {
+                    localStorage.setItem('lastWheelAssessment', JSON.stringify(assessment));
+                    showNotification('تم حفظ التقييم بنجاح', 'success');
+                } catch (error) {
+                    showNotification('حدث خطأ في حفظ التقييم', 'error');
+                }
+            }
+            
+            function resetWheelAssessment() {
+                if (confirm('هل أنت متأكد من إعادة تعيين جميع القيم؟')) {
+                    currentWheelData.scores.fill(5);
+                    
+                    // Reset sliders and values
+                    currentWheelData.categories.forEach((_, index) => {
+                        const slider = document.getElementById(`slider-${index}`);
+                        const valueDisplay = document.getElementById(`value-${index}`);
+                        if (slider && valueDisplay) {
+                            slider.value = 5;
+                            valueDisplay.textContent = 5;
+                        }
+                    });
+                    
+                    // Update chart
+                    if (window.wheelChart) {
+                        window.wheelChart.data.datasets[0].data.fill(5);
+                        window.wheelChart.update();
+                    }
+                    
+                    updateWheelStats();
+                    document.getElementById('wheel-results-section').classList.add('hidden');
+                    showNotification('تم إعادة تعيين التقييم', 'info');
+                }
             }
 
             // --- AUDIO PLAYER MODULE ---
@@ -9460,40 +9958,477 @@ The entire response should be in warm, supportive Arabic. Start with a positive 
                 }
             }
 
-            // --- JOURNAL MODULE ---
+            // --- ENHANCED JOURNAL MODULE ---
+            let journalEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+            let currentJournalChart = null;
+            let activeChartType = 'mood';
+
             function initJournal() {
                 const form = document.getElementById('journal-form');
                 if (!form) return;
 
-                document.getElementById('entry-date').valueAsDate = new Date();
+                // Set current date and time
+                const now = new Date();
+                document.getElementById('entry-date').valueAsDate = now;
+                document.getElementById('entry-time').value = now.toTimeString().slice(0, 5);
 
-                form.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    if (!currentUser) {
-                        showNotification("يجب تسجيل الدخول لحفظ الإدخالات.", "error");
-                        return;
-                    }
-                    const entry = {
-                        date: document.getElementById('entry-date').value,
-                        mood: document.getElementById('mood-rating').value,
-                        energy: document.getElementById('energy-rating').value,
-                        sleep: document.getElementById('sleep-quality').value,
-                        symptoms: document.getElementById('symptoms-today').value,
-                        createdAt: new Date()
-                    };
+                // Initialize sliders with real-time feedback
+                initJournalSliders();
+                
+                // Initialize chart tabs
+                initJournalChartTabs();
 
-                    try {
-                        const journalCollection = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'journalEntries');
-                        await addDoc(journalCollection, entry);
-                        showNotification("تم حفظ الإدخال بنجاح!", "success");
-                        form.reset();
-                        document.getElementById('entry-date').valueAsDate = new Date();
-                        loadJournalEntries();
-                    } catch (error) {
-                        console.error("Error saving journal entry: ", error);
-                        showNotification("حدث خطأ أثناء حفظ الإدخال.", "error");
+                // Load existing data
+                loadJournalData();
+                updateJournalStats();
+                renderJournalChart();
+                generateJournalInsights();
+
+                // Form submission
+                form.addEventListener('submit', handleJournalFormSubmit);
+
+                // Export and clear buttons
+                document.getElementById('export-journal')?.addEventListener('click', exportJournal);
+                document.getElementById('clear-journal')?.addEventListener('click', clearJournal);
+            }
+
+            function initJournalSliders() {
+                // Mood slider
+                const moodSlider = document.getElementById('mood-rating');
+                const moodValue = document.getElementById('mood-value');
+                moodSlider?.addEventListener('input', (e) => {
+                    moodValue.textContent = `(${e.target.value})`;
+                    updateSliderColor(e.target, e.target.value);
+                });
+
+                // Energy slider
+                const energySlider = document.getElementById('energy-rating');
+                const energyValue = document.getElementById('energy-value');
+                energySlider?.addEventListener('input', (e) => {
+                    energyValue.textContent = `(${e.target.value})`;
+                    updateSliderColor(e.target, e.target.value);
+                });
+
+                // Stress slider
+                const stressSlider = document.getElementById('stress-rating');
+                const stressValue = document.getElementById('stress-value');
+                stressSlider?.addEventListener('input', (e) => {
+                    stressValue.textContent = `(${e.target.value})`;
+                    updateSliderColor(e.target, e.target.value);
+                });
+            }
+
+            function updateSliderColor(slider, value) {
+                const percentage = ((value - slider.min) / (slider.max - slider.min)) * 100;
+                const hue = ((10 - value) * 12); // Red to green gradient
+                slider.style.background = `linear-gradient(90deg, hsl(${hue}, 70%, 50%) ${percentage}%, #e5e7eb ${percentage}%)`;
+            }
+
+            function initJournalChartTabs() {
+                const tabs = document.querySelectorAll('.chart-tab-btn');
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        // Update active tab
+                        tabs.forEach(t => {
+                            t.classList.remove('active', 'bg-[--accent-color]', 'text-white');
+                            t.classList.add('bg-gray-100', 'text-gray-600');
+                        });
+                        tab.classList.remove('bg-gray-100', 'text-gray-600');
+                        tab.classList.add('active', 'bg-[--accent-color]', 'text-white');
+                        
+                        // Update chart
+                        activeChartType = tab.dataset.chart;
+                        renderJournalChart();
+                    });
+                });
+            }
+
+            function handleJournalFormSubmit(e) {
+                e.preventDefault();
+                
+                const formData = {
+                    id: Date.now().toString(),
+                    date: document.getElementById('entry-date').value,
+                    time: document.getElementById('entry-time').value,
+                    mood: parseInt(document.getElementById('mood-rating').value),
+                    energy: parseInt(document.getElementById('energy-rating').value),
+                    stress: parseInt(document.getElementById('stress-rating').value),
+                    sleepHours: parseFloat(document.getElementById('sleep-hours').value) || 0,
+                    sleepQuality: document.getElementById('sleep-quality').value,
+                    symptoms: Array.from(document.querySelectorAll('input[name="symptoms"]:checked')).map(cb => cb.value),
+                    customSymptoms: document.getElementById('custom-symptoms').value,
+                    activities: Array.from(document.querySelectorAll('input[name="activities"]:checked')).map(cb => cb.value),
+                    notes: document.getElementById('daily-notes').value,
+                    createdAt: new Date().toISOString()
+                };
+
+                // Save entry
+                journalEntries.unshift(formData);
+                localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+
+                // Reset form
+                e.target.reset();
+                const now = new Date();
+                document.getElementById('entry-date').valueAsDate = now;
+                document.getElementById('entry-time').value = now.toTimeString().slice(0, 5);
+                
+                // Reset sliders
+                document.getElementById('mood-value').textContent = '(5)';
+                document.getElementById('energy-value').textContent = '(5)';
+                document.getElementById('stress-value').textContent = '(5)';
+
+                // Update UI
+                loadJournalData();
+                updateJournalStats();
+                renderJournalChart();
+                generateJournalInsights();
+
+                showNotification('تم حفظ الإدخال بنجاح!', 'success');
+            }
+
+            function loadJournalData() {
+                const container = document.getElementById('journal-entries-container');
+                
+                if (journalEntries.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center text-gray-500 py-8">
+                            <i class="fas fa-clipboard-list text-4xl mb-3 opacity-50"></i>
+                            <p>لا توجد إدخالات بعد</p>
+                            <p class="text-sm">ابدأ بإضافة إدخالك الأول!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = journalEntries.slice(0, 10).map(entry => `
+                    <div class="bg-gray-50 p-4 rounded-lg border-r-4 border-[--accent-color] journal-entry-card">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm font-medium">${new Date(entry.date).toLocaleDateString('ar-SA')}</span>
+                                ${entry.time ? `<span class="text-xs text-gray-500">${entry.time}</span>` : ''}
+                            </div>
+                            <button onclick="deleteJournalEntry('${entry.id}')" class="text-red-500 hover:text-red-700 text-sm">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm mb-2">
+                            <div class="flex items-center">
+                                <span class="text-blue-600">😊 ${entry.mood}/10</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-green-600">⚡ ${entry.energy}/10</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-purple-600">😰 ${entry.stress}/10</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-orange-600">😴 ${entry.sleepHours}h</span>
+                            </div>
+                        </div>
+                        ${entry.symptoms.length > 0 ? `
+                            <div class="mb-2">
+                                <span class="text-xs text-gray-600">الأعراض:</span>
+                                <div class="flex flex-wrap gap-1 mt-1">
+                                    ${entry.symptoms.map(symptom => `<span class="px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs">${getSymptomName(symptom)}</span>`).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        ${entry.activities.length > 0 ? `
+                            <div class="mb-2">
+                                <span class="text-xs text-gray-600">الأنشطة:</span>
+                                <div class="flex flex-wrap gap-1 mt-1">
+                                    ${entry.activities.map(activity => `<span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs">${getActivityName(activity)}</span>`).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        ${entry.notes ? `<p class="text-sm text-gray-700 mt-2">${entry.notes}</p>` : ''}
+                    </div>
+                `).join('');
+            }
+
+            function updateJournalStats() {
+                if (journalEntries.length === 0) {
+                    document.getElementById('avg-mood-stat').textContent = '--';
+                    document.getElementById('avg-energy-stat').textContent = '--';
+                    document.getElementById('avg-sleep-stat').textContent = '--';
+                    document.getElementById('total-entries-stat').textContent = '0';
+                    return;
+                }
+
+                const avgMood = (journalEntries.reduce((sum, entry) => sum + entry.mood, 0) / journalEntries.length).toFixed(1);
+                const avgEnergy = (journalEntries.reduce((sum, entry) => sum + entry.energy, 0) / journalEntries.length).toFixed(1);
+                const avgSleep = (journalEntries.reduce((sum, entry) => sum + (entry.sleepHours || 0), 0) / journalEntries.length).toFixed(1);
+
+                document.getElementById('avg-mood-stat').textContent = avgMood;
+                document.getElementById('avg-energy-stat').textContent = avgEnergy;
+                document.getElementById('avg-sleep-stat').textContent = avgSleep + 'h';
+                document.getElementById('total-entries-stat').textContent = journalEntries.length;
+            }
+
+            async function renderJournalChart() {
+                await ensureChart();
+                const canvas = document.getElementById('journal-chart');
+                if (!canvas || journalEntries.length === 0) return;
+
+                const ctx = canvas.getContext('2d');
+                
+                // Destroy existing chart
+                if (currentJournalChart) {
+                    currentJournalChart.destroy();
+                }
+
+                const last30Days = journalEntries.slice(0, 30).reverse();
+                const labels = last30Days.map(entry => new Date(entry.date).toLocaleDateString('ar-SA', { month: 'short', day: 'numeric' }));
+
+                let datasets = [];
+                
+                switch (activeChartType) {
+                    case 'mood':
+                        datasets = [{
+                            label: 'المزاج',
+                            data: last30Days.map(entry => entry.mood),
+                            borderColor: 'rgb(59, 130, 246)',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }];
+                        break;
+                    case 'energy':
+                        datasets = [{
+                            label: 'الطاقة',
+                            data: last30Days.map(entry => entry.energy),
+                            borderColor: 'rgb(34, 197, 94)',
+                            backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }];
+                        break;
+                    case 'sleep':
+                        datasets = [{
+                            label: 'ساعات النوم',
+                            data: last30Days.map(entry => entry.sleepHours || 0),
+                            borderColor: 'rgb(168, 85, 247)',
+                            backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }];
+                        break;
+                    case 'stress':
+                        datasets = [{
+                            label: 'التوتر',
+                            data: last30Days.map(entry => entry.stress),
+                            borderColor: 'rgb(239, 68, 68)',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }];
+                        break;
+                    case 'correlation':
+                        datasets = [
+                            {
+                                label: 'المزاج',
+                                data: last30Days.map(entry => entry.mood),
+                                borderColor: 'rgb(59, 130, 246)',
+                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                tension: 0.4
+                            },
+                            {
+                                label: 'الطاقة',
+                                data: last30Days.map(entry => entry.energy),
+                                borderColor: 'rgb(34, 197, 94)',
+                                backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                                tension: 0.4
+                            },
+                            {
+                                label: 'التوتر',
+                                data: last30Days.map(entry => entry.stress),
+                                borderColor: 'rgb(239, 68, 68)',
+                                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                                tension: 0.4
+                            }
+                        ];
+                        break;
+                }
+
+                currentJournalChart = new Chart(ctx, {
+                    type: 'line',
+                    data: { labels, datasets },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: activeChartType === 'sleep' ? 12 : 10
+                            }
+                        }
                     }
                 });
+            }
+
+            function generateJournalInsights() {
+                const container = document.getElementById('insights-container');
+                
+                if (journalEntries.length < 7) {
+                    container.innerHTML = `
+                        <div class="bg-white p-3 rounded-lg text-sm">
+                            <i class="fas fa-info-circle text-blue-500 ml-2"></i>
+                            ابدأ بتسجيل بياناتك لمدة أسبوع للحصول على رؤى مخصصة
+                        </div>
+                    `;
+                    return;
+                }
+
+                const insights = [];
+                const recent7Days = journalEntries.slice(0, 7);
+                
+                // Mood trend
+                const avgMood = recent7Days.reduce((sum, entry) => sum + entry.mood, 0) / 7;
+                if (avgMood >= 7) {
+                    insights.push({
+                        type: 'positive',
+                        icon: 'fas fa-smile',
+                        text: 'مزاجك ممتاز هذا الأسبوع! استمر على هذا المنوال'
+                    });
+                } else if (avgMood <= 4) {
+                    insights.push({
+                        type: 'warning',
+                        icon: 'fas fa-exclamation-triangle',
+                        text: 'مزاجك منخفض مؤخراً. فكر في ممارسة الرياضة أو التأمل'
+                    });
+                }
+
+                // Sleep pattern
+                const avgSleep = recent7Days.reduce((sum, entry) => sum + (entry.sleepHours || 0), 0) / 7;
+                if (avgSleep < 6) {
+                    insights.push({
+                        type: 'warning',
+                        icon: 'fas fa-bed',
+                        text: 'تحتاج إلى المزيد من النوم. حاول النوم 7-8 ساعات يومياً'
+                    });
+                } else if (avgSleep >= 8) {
+                    insights.push({
+                        type: 'positive',
+                        icon: 'fas fa-check-circle',
+                        text: 'نومك ممتاز! هذا يساعد على تحسين مزاجك وطاقتك'
+                    });
+                }
+
+                // Stress correlation
+                const highStressDays = recent7Days.filter(entry => entry.stress >= 7);
+                if (highStressDays.length >= 3) {
+                    insights.push({
+                        type: 'warning',
+                        icon: 'fas fa-heart',
+                        text: 'مستوى التوتر مرتفع. جرب تقنيات الاسترخاء والتنفس العميق'
+                    });
+                }
+
+                // Activity correlation
+                const exerciseDays = recent7Days.filter(entry => entry.activities.includes('exercise'));
+                if (exerciseDays.length >= 3) {
+                    const avgMoodExercise = exerciseDays.reduce((sum, entry) => sum + entry.mood, 0) / exerciseDays.length;
+                    const avgMoodNoExercise = recent7Days.filter(entry => !entry.activities.includes('exercise'))
+                        .reduce((sum, entry) => sum + entry.mood, 0) / (7 - exerciseDays.length);
+                    
+                    if (avgMoodExercise > avgMoodNoExercise + 1) {
+                        insights.push({
+                            type: 'positive',
+                            icon: 'fas fa-running',
+                            text: 'الرياضة تحسن مزاجك بشكل واضح! استمر في ممارستها'
+                        });
+                    }
+                }
+
+                if (insights.length === 0) {
+                    insights.push({
+                        type: 'info',
+                        icon: 'fas fa-chart-line',
+                        text: 'استمر في تسجيل بياناتك للحصول على رؤى أكثر تفصيلاً'
+                    });
+                }
+
+                container.innerHTML = insights.map(insight => `
+                    <div class="bg-white p-3 rounded-lg text-sm border-r-4 ${
+                        insight.type === 'positive' ? 'border-green-500' :
+                        insight.type === 'warning' ? 'border-yellow-500' : 'border-blue-500'
+                    }">
+                        <i class="${insight.icon} ${
+                            insight.type === 'positive' ? 'text-green-500' :
+                            insight.type === 'warning' ? 'text-yellow-500' : 'text-blue-500'
+                        } ml-2"></i>
+                        ${insight.text}
+                    </div>
+                `).join('');
+            }
+
+            function getSymptomName(symptom) {
+                const symptoms = {
+                    'headache': 'صداع',
+                    'fatigue': 'إرهاق',
+                    'nausea': 'غثيان',
+                    'pain': 'ألم',
+                    'bloating': 'انتفاخ',
+                    'dizziness': 'دوخة'
+                };
+                return symptoms[symptom] || symptom;
+            }
+
+            function getActivityName(activity) {
+                const activities = {
+                    'exercise': 'رياضة',
+                    'meditation': 'تأمل',
+                    'work': 'عمل',
+                    'social': 'اجتماعي'
+                };
+                return activities[activity] || activity;
+            }
+
+            function deleteJournalEntry(entryId) {
+                if (confirm('هل أنت متأكد من حذف هذا الإدخال؟')) {
+                    journalEntries = journalEntries.filter(entry => entry.id !== entryId);
+                    localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+                    loadJournalData();
+                    updateJournalStats();
+                    renderJournalChart();
+                    generateJournalInsights();
+                    showNotification('تم حذف الإدخال', 'info');
+                }
+            }
+
+            function exportJournal() {
+                if (journalEntries.length === 0) {
+                    showNotification('لا توجد بيانات للتصدير', 'warning');
+                    return;
+                }
+
+                const dataStr = JSON.stringify(journalEntries, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `journal-export-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                URL.revokeObjectURL(url);
+                
+                showNotification('تم تصدير البيانات بنجاح', 'success');
+            }
+
+            function clearJournal() {
+                if (confirm('هل أنت متأكد من حذف جميع الإدخالات؟ هذا الإجراء لا يمكن التراجع عنه.')) {
+                    journalEntries = [];
+                    localStorage.removeItem('journalEntries');
+                    loadJournalData();
+                    updateJournalStats();
+                    if (currentJournalChart) currentJournalChart.destroy();
+                    generateJournalInsights();
+                    showNotification('تم مسح جميع الإدخالات', 'info');
+                }
             }
 
             function toggleJournalView(isLoggedIn) {
@@ -9501,76 +10436,8 @@ The entire response should be in warm, supportive Arabic. Start with a positive 
                 document.getElementById('journal-login-prompt').classList.toggle('hidden', isLoggedIn);
             }
 
-            async function loadJournalEntries() {
-                if (!currentUser) return;
-                const entriesContainer = document.getElementById('journal-entries-container');
-                entriesContainer.innerHTML = '<p>جاري تحميل السجلات...</p>';
-
-                const journalCollection = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'journalEntries');
-                const q = query(journalCollection, limit(30));
-                const querySnapshot = await getDocs(q);
-
-                if (querySnapshot.empty) {
-                    entriesContainer.innerHTML = '<p>لا توجد إدخالات بعد. ابدأ بتسجيل يومك!</p>';
-                    if (journalChart) journalChart.destroy();
-                    return;
-                }
-
-                const entries = [];
-                querySnapshot.forEach(doc => {
-                    entries.push(doc.data());
-                });
-
-                entries.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-                let entriesHTML = '';
-                entries.forEach(data => {
-                    entriesHTML += `
-                    <div class="bg-white p-4 rounded-lg shadow-sm journal-entry">
-                        <p class="font-bold text-lg">${data.date}</p>
-                        <p class="text-sm"><strong>المزاج:</strong> ${data.mood}/10 | <strong>الطاقة:</strong> ${data.energy}/10 | <strong>النوم:</strong> ${data.sleep || 'N/A'} س</p>
-                        ${data.symptoms ? `<p class="text-sm text-gray-600 mt-1"><strong>الأعراض:</strong> ${data.symptoms}</p>` : ''}
-                    </div>`;
-                });
-                entriesContainer.innerHTML = entriesHTML;
-
-                renderJournalChart(entries.reverse());
-            }
-
-            async function renderJournalChart(entries) {
-                await ensureChart();
-                const ctx = document.getElementById('journal-chart').getContext('2d');
-                if (journalChart) {
-                    journalChart.destroy();
-                }
-                journalChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: entries.map(e => e.date),
-                        datasets: [
-                            {
-                                label: 'مستوى المزاج',
-                                data: entries.map(e => e.mood),
-                                borderColor: cssVar('--primary-color') || '#1F6FEB',
-                                backgroundColor: hexToRgba(cssVar('--primary-color') || '#1F6FEB', 0.2),
-                                tension: 0.1
-                            },
-                            {
-                                label: 'مستوى الطاقة',
-                                data: entries.map(e => e.energy),
-                                borderColor: cssVar('--accent-color') || '#2DD4BF',
-                                backgroundColor: hexToRgba(cssVar('--accent-color') || '#2DD4BF', 0.2),
-                                tension: 0.1
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: { legend: { position: 'top' } },
-                        scales: { y: { beginAtZero: true, max: 10 } }
-                    }
-                });
-            }
+            // Make deleteJournalEntry globally accessible
+            window.deleteJournalEntry = deleteJournalEntry;
         </script>
 
         <script>
