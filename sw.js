@@ -1,8 +1,10 @@
-const CACHE_NAME = 'tibrah-cache-v1';
+const CACHE_NAME = 'tibrah-cache-v2';
 const CORE_ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.webmanifest'
+  './',
+  './index.html',
+  './manifest.webmanifest',
+  './assets/audio/DO صوت الاسترخاء العميق .mp3',
+  './assets/audio/د.سمية الناصر _موسيقى الجذب والاسترخاء sunset(MP3_70K).mp3'
 ];
 
 self.addEventListener('install', (event) => {
