@@ -3152,12 +3152,22 @@
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                             <div>
-                                <h3 class="text-2xl font-bold mb-4">مشغل الترددات</h3>
-                                <canvas id="frequency-canvas" class="w-full h-40 mb-4"></canvas>
-                                <button id="stop-freq-btn" class="btn btn-secondary py-2 px-6 rounded-full w-full">إيقاف
-                                    التردد فقط</button>
+                                <h3 class="text-2xl font-bold mb-4">🎛️ مشغل الترددات المرئي</h3>
+                                <div class="relative">
+                                    <canvas id="frequency-canvas" class="w-full h-40 mb-2 cursor-pointer border-2 border-gray-300 rounded-lg"></canvas>
+                                    <div class="absolute top-2 left-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">
+                                        انقر للتبديل بين أوضاع العرض
+                                    </div>
+                                </div>
+                                <div class="flex gap-2 mb-4">
+                                    <button id="stop-freq-btn" class="btn btn-secondary py-2 px-4 rounded-full flex-1">إيقاف التردد</button>
+                                    <button id="fullscreen-canvas" class="btn btn-outline py-2 px-4 rounded-full">🔍 تكبير</button>
+                                </div>
                                 <div id="frequency-status" class="mt-2 text-center text-sm hidden">
                                     <span class="text-green-600 font-medium">🎵 التردد نشط</span>
+                                </div>
+                                <div class="text-xs text-gray-500 text-center mt-2">
+                                    أوضاع العرض: موجة صوتية • طيف ترددي • دائري
                                 </div>
                             </div>
                             <div>
@@ -3177,16 +3187,16 @@
                                                 value="https://freesound.org/data/previews/316/316847_5123451-lq.mp3">
                                                 أصوات الطبيعة</option>
                                             <option
-                                                value="https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-one/zapsplat_nature_water_stream_gentle_flow_001_26690.mp3">
-                                                جدول الماء الهادئ</option>
+                                                value="https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3">
+                                                كاليمبا مريحة</option>
                                             <option
-                                                value="https://archive.org/download/testmp3testfile/mpthreetest.mp3">
-                                                موسيقى تجريبية</option>
+                                                value="https://file-examples.com/storage/fe68c1b7d4c2b1b1b1b1b1b/2017/11/file_example_MP3_700KB.mp3">
+                                                موسيقى كلاسيكية</option>
                                         </select>
                                     </div>
                                     <p id="music-title" class="font-bold text-lg mb-1">صوت الاسترخاء العميق</p>
                                     <p class="text-sm text-gray-500 mb-3">موسيقى علاجية للاسترخاء والتأمل</p>
-                                    <audio id="background-music" loop
+                                    <audio id="background-music" crossorigin="anonymous" preload="auto" loop
                                         src="assets/audio/DO صوت الاسترخاء العميق .mp3"></audio>
                                     <div class="flex items-center gap-4 mt-2">
                                         <button id="music-play-pause-btn"
@@ -3212,6 +3222,87 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <!-- Advanced Frequency Controls -->
+                        <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl mb-8">
+                            <h3 class="text-xl font-bold mb-4 text-center">🎛️ التحكم المتقدم بالترددات</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <!-- Custom Frequency Input -->
+                                <div class="bg-white p-4 rounded-lg shadow-sm">
+                                    <label class="block text-sm font-medium mb-2">تردد مخصص (Hz):</label>
+                                    <div class="flex gap-2">
+                                        <input id="custom-freq-input" type="number" min="1" max="20000" step="0.01" 
+                                               placeholder="مثال: 528" class="flex-1 p-2 border rounded-lg text-center">
+                                        <button id="play-custom-freq" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                                            تشغيل
+                                        </button>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1">نطاق: 1-20000 Hz</p>
+                                </div>
+                                
+                                <!-- Waveform Selector -->
+                                <div class="bg-white p-4 rounded-lg shadow-sm">
+                                    <label class="block text-sm font-medium mb-2">نوع الموجة:</label>
+                                    <select id="waveform-selector" class="w-full p-2 border rounded-lg">
+                                        <option value="sine">جيبية (Sine) - نقية</option>
+                                        <option value="square">مربعة (Square) - قوية</option>
+                                        <option value="triangle">مثلثية (Triangle) - ناعمة</option>
+                                        <option value="sawtooth">منشارية (Sawtooth) - حادة</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Binaural Base Frequency -->
+                                <div class="bg-white p-4 rounded-lg shadow-sm">
+                                    <label class="block text-sm font-medium mb-2">تردد القاعدة للبينورال:</label>
+                                    <input id="binaural-base" type="number" min="80" max="1000" step="1" value="200" 
+                                           class="w-full p-2 border rounded-lg text-center">
+                                    <p class="text-xs text-gray-500 mt-1">القاعدة: 80-1000 Hz</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Quick Presets -->
+                            <div class="mt-4">
+                                <label class="block text-sm font-medium mb-2">إعدادات سريعة:</label>
+                                <div class="flex flex-wrap gap-2">
+                                    <button class="preset-btn px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm hover:bg-green-200 transition" 
+                                            data-freq="40" data-wave="sine">جاما 40Hz</button>
+                                    <button class="preset-btn px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm hover:bg-blue-200 transition" 
+                                            data-freq="10" data-wave="sine">ألفا 10Hz</button>
+                                    <button class="preset-btn px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm hover:bg-purple-200 transition" 
+                                            data-freq="6" data-wave="sine">ثيتا 6Hz</button>
+                                    <button class="preset-btn px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm hover:bg-indigo-200 transition" 
+                                            data-freq="2" data-wave="sine">دلتا 2Hz</button>
+                                    <button class="preset-btn px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm hover:bg-yellow-200 transition" 
+                                            data-freq="528" data-wave="sine">DNA 528Hz</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Favorites System -->
+                            <div class="mt-6 bg-white p-4 rounded-lg shadow-sm">
+                                <div class="flex justify-between items-center mb-3">
+                                    <label class="text-sm font-medium">⭐ الترددات المفضلة:</label>
+                                    <button id="save-favorite" class="px-3 py-1 bg-yellow-500 text-white rounded-lg text-sm hover:bg-yellow-600 transition">
+                                        حفظ الحالي
+                                    </button>
+                                </div>
+                                <div id="favorites-container" class="flex flex-wrap gap-2 min-h-[2rem]">
+                                    <span class="text-gray-400 text-sm">لا توجد ترددات محفوظة</span>
+                                </div>
+                                <div class="mt-2 flex gap-2">
+                                    <button id="clear-favorites" class="px-2 py-1 bg-red-100 text-red-600 rounded text-xs hover:bg-red-200 transition">
+                                        مسح الكل
+                                    </button>
+                                    <button id="export-favorites" class="px-2 py-1 bg-blue-100 text-blue-600 rounded text-xs hover:bg-blue-200 transition">
+                                        تصدير
+                                    </button>
+                                    <input type="file" id="import-favorites" accept=".json" class="hidden">
+                                    <button id="import-favorites-btn" class="px-2 py-1 bg-green-100 text-green-600 rounded text-xs hover:bg-green-200 transition">
+                                        استيراد
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <hr class="my-8">
                         <h3 class="text-2xl font-bold mb-4">ترددات النقلة الموازية (Parallel Shift)</h3>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8" id="parallel-shift-buttons">
@@ -3350,16 +3441,49 @@
 
                         <!-- Session Timer -->
                         <hr class="my-8">
-                        <div class="bg-white p-6 rounded-xl border-2 border-gray-200 max-w-md mx-auto">
-                            <h4 class="text-lg font-bold mb-4">مؤقت الجلسة العلاجية</h4>
-                            <div class="flex items-center justify-center gap-4 mb-4">
-                                <button id="timer-5" class="btn btn-secondary py-2 px-4 rounded-full">5 دقائق</button>
-                                <button id="timer-10" class="btn btn-secondary py-2 px-4 rounded-full">10 دقائق</button>
-                                <button id="timer-20" class="btn btn-secondary py-2 px-4 rounded-full">20 دقيقة</button>
+                        <div class="bg-white p-6 rounded-xl border-2 border-gray-200 max-w-lg mx-auto">
+                            <h4 class="text-lg font-bold mb-4">⏰ مؤقت الجلسة العلاجية</h4>
+                            
+                            <!-- Preset Timer Buttons -->
+                            <div class="grid grid-cols-2 md:grid-cols-5 gap-2 mb-4">
+                                <button id="timer-5" class="btn btn-secondary py-2 px-3 rounded-full text-sm">5 دقائق</button>
+                                <button id="timer-10" class="btn btn-secondary py-2 px-3 rounded-full text-sm">10 دقائق</button>
+                                <button id="timer-20" class="btn btn-secondary py-2 px-3 rounded-full text-sm">20 دقيقة</button>
+                                <button id="timer-30" class="btn btn-secondary py-2 px-3 rounded-full text-sm">30 دقيقة</button>
+                                <button id="timer-45" class="btn btn-secondary py-2 px-3 rounded-full text-sm">45 دقيقة</button>
                             </div>
-                            <div id="timer-display" class="text-2xl font-bold text-center mb-4 hidden">00:00</div>
-                            <button id="timer-start-stop" class="btn btn-primary w-full py-2 rounded-full hidden">بدء
-                                المؤقت</button>
+                            
+                            <!-- Custom Timer Input -->
+                            <div class="flex gap-2 mb-4">
+                                <input id="custom-timer-input" type="number" min="1" max="120" placeholder="دقائق مخصصة" 
+                                       class="flex-1 p-2 border rounded-lg text-center text-sm">
+                                <button id="set-custom-timer" class="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition text-sm">
+                                    تعيين
+                                </button>
+                            </div>
+                            
+                            <div id="timer-display" class="text-3xl font-bold text-center mb-4 hidden text-blue-600">00:00</div>
+                            <div id="timer-progress" class="w-full bg-gray-200 rounded-full h-2 mb-4 hidden">
+                                <div id="timer-progress-bar" class="bg-blue-500 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                            
+                            <button id="timer-start-stop" class="btn btn-primary w-full py-2 rounded-full hidden">بدء المؤقت</button>
+                            
+                            <!-- Timer Settings -->
+                            <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+                                <div class="flex items-center justify-between text-sm">
+                                    <label class="flex items-center gap-2">
+                                        <input type="checkbox" id="timer-auto-stop" checked class="rounded">
+                                        إيقاف تلقائي عند انتهاء الوقت
+                                    </label>
+                                </div>
+                                <div class="flex items-center justify-between text-sm mt-2">
+                                    <label class="flex items-center gap-2">
+                                        <input type="checkbox" id="timer-notification" checked class="rounded">
+                                        إشعار صوتي عند الانتهاء
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -6302,6 +6426,14 @@ Structure the output in Arabic with clear headings for each marker using markdow
             }
 
             // --- FREQUENCY GENERATOR MODULE (ROBUST & UPGRADED) ---
+            function checkCombinedStatus() {
+                try {
+                    const freqOn = !document.getElementById('frequency-status')?.classList.contains('hidden') || !document.getElementById('stop-freq-btn')?.classList.contains('hidden');
+                    const musicOn = !document.getElementById('music-status')?.classList.contains('hidden');
+                    const bar = document.getElementById('combined-status');
+                    if (bar) bar.classList.toggle('hidden', !(freqOn && musicOn));
+                } catch (e) {}
+            }
             async function initFrequencyGenerator() {
                 await ensureTone();
                 const audioPrompt = document.getElementById('audio-init-prompt');
@@ -6318,6 +6450,12 @@ Structure the output in Arabic with clear headings for each marker using markdow
                 let audioContext, oscillator, analyser, gainNode, animationFrameId;
                 let isAudioInitialized = false;
                 const canvasCtx = canvas.getContext('2d');
+                
+                // Advanced controls
+                let currentWaveform = 'sine';
+                let binauralBaseFreq = 200;
+                let currentFrequency = null;
+                let favorites = JSON.parse(localStorage.getItem('tibrah-freq-favorites') || '[]');
 
                 const allFreqButtons = document.querySelectorAll('.freq-btn');
 
@@ -6345,19 +6483,21 @@ Structure the output in Arabic with clear headings for each marker using markdow
                 const playFrequency = (freq) => {
                     if (!isAudioInitialized) return;
 
-                    musicPlayer.pause();
-                    musicPlayPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    // allow simultaneous: do not pause music here
 
                     if (oscillator) {
                         oscillator.disconnect();
                         oscillator.stop();
                     }
 
-                    oscillator = new Tone.Oscillator(freq, "sine").connect(analyser).connect(gainNode);
+                    oscillator = new Tone.Oscillator(freq, currentWaveform).connect(analyser).connect(gainNode);
                     oscillator.volume.value = -9;
                     oscillator.start();
 
+                    currentFrequency = freq;
                     stopFreqBtn.classList.remove('hidden');
+                    document.getElementById('frequency-status')?.classList.remove('hidden');
+                    try { checkCombinedStatus(); } catch {}
                     if (!animationFrameId) visualize();
                 };
 
@@ -6367,24 +6507,58 @@ Structure the output in Arabic with clear headings for each marker using markdow
                         oscillator.disconnect();
                         oscillator = null;
                     }
+                    currentFrequency = null;
                     stopFreqBtn.classList.add('hidden');
                     allFreqButtons.forEach(b => b.classList.remove('active'));
+                    document.getElementById('frequency-status')?.classList.add('hidden');
+                    try { checkCombinedStatus(); } catch {}
                 };
 
                 function visualize() {
+                    let visualMode = 'waveform'; // 'waveform', 'spectrum', 'circular'
+                    
+                    // Add spectrum analyzer
+                    const spectrumAnalyser = new Tone.Analyser('fft', 512);
+                    if (oscillator) oscillator.connect(spectrumAnalyser);
+                    
                     const draw = () => {
                         animationFrameId = requestAnimationFrame(draw);
                         if (!analyser || !oscillator) {
                             canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
                             return;
-                        };
-                        const waveform = analyser.getValue();
-                        canvasCtx.fillStyle = '#121212';
+                        }
+                        
+                        // Clear canvas with gradient background
+                        const gradient = canvasCtx.createLinearGradient(0, 0, 0, canvas.height);
+                        gradient.addColorStop(0, '#1a1a2e');
+                        gradient.addColorStop(1, '#16213e');
+                        canvasCtx.fillStyle = gradient;
                         canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
-                        canvasCtx.lineWidth = 2;
-                        canvasCtx.strokeStyle = 'rgb(200, 160, 125, 0.7)';
+                        
+                        if (visualMode === 'waveform') {
+                            drawWaveform();
+                        } else if (visualMode === 'spectrum') {
+                            drawSpectrum();
+                        } else if (visualMode === 'circular') {
+                            drawCircular();
+                        }
+                        
+                        // Add frequency info overlay
+                        drawFrequencyInfo();
+                    };
+                    
+                    const drawWaveform = () => {
+                        const waveform = analyser.getValue();
+                        canvasCtx.lineWidth = 3;
+                        
+                        // Create gradient stroke
+                        const strokeGradient = canvasCtx.createLinearGradient(0, 0, canvas.width, 0);
+                        strokeGradient.addColorStop(0, '#ff6b6b');
+                        strokeGradient.addColorStop(0.5, '#4ecdc4');
+                        strokeGradient.addColorStop(1, '#45b7d1');
+                        canvasCtx.strokeStyle = strokeGradient;
+                        
                         canvasCtx.beginPath();
-
                         for (let i = 0; i < waveform.length; i++) {
                             const x = (i / (waveform.length - 1)) * canvas.width;
                             const y = (waveform[i] + 1) / 2 * canvas.height;
@@ -6392,7 +6566,86 @@ Structure the output in Arabic with clear headings for each marker using markdow
                             else canvasCtx.lineTo(x, y);
                         }
                         canvasCtx.stroke();
+                        
+                        // Add glow effect
+                        canvasCtx.shadowColor = '#4ecdc4';
+                        canvasCtx.shadowBlur = 10;
+                        canvasCtx.stroke();
+                        canvasCtx.shadowBlur = 0;
                     };
+                    
+                    const drawSpectrum = () => {
+                        const spectrum = spectrumAnalyser.getValue();
+                        const barWidth = canvas.width / spectrum.length;
+                        
+                        for (let i = 0; i < spectrum.length; i++) {
+                            const barHeight = (spectrum[i] + 140) * 2; // Convert dB to pixel height
+                            const hue = (i / spectrum.length) * 360;
+                            
+                            canvasCtx.fillStyle = `hsla(${hue}, 70%, 60%, 0.8)`;
+                            canvasCtx.fillRect(i * barWidth, canvas.height - barHeight, barWidth - 1, barHeight);
+                            
+                            // Add glow effect for bars
+                            canvasCtx.shadowColor = `hsl(${hue}, 70%, 60%)`;
+                            canvasCtx.shadowBlur = 5;
+                            canvasCtx.fillRect(i * barWidth, canvas.height - barHeight, barWidth - 1, barHeight);
+                            canvasCtx.shadowBlur = 0;
+                        }
+                    };
+                    
+                    const drawCircular = () => {
+                        const waveform = analyser.getValue();
+                        const centerX = canvas.width / 2;
+                        const centerY = canvas.height / 2;
+                        const radius = Math.min(centerX, centerY) * 0.7;
+                        
+                        canvasCtx.lineWidth = 2;
+                        canvasCtx.strokeStyle = '#4ecdc4';
+                        canvasCtx.beginPath();
+                        
+                        for (let i = 0; i < waveform.length; i++) {
+                            const angle = (i / waveform.length) * Math.PI * 2;
+                            const amplitude = waveform[i] * 50;
+                            const x = centerX + Math.cos(angle) * (radius + amplitude);
+                            const y = centerY + Math.sin(angle) * (radius + amplitude);
+                            
+                            if (i === 0) canvasCtx.moveTo(x, y);
+                            else canvasCtx.lineTo(x, y);
+                        }
+                        canvasCtx.closePath();
+                        canvasCtx.stroke();
+                        
+                        // Add center circle
+                        canvasCtx.beginPath();
+                        canvasCtx.arc(centerX, centerY, 5, 0, Math.PI * 2);
+                        canvasCtx.fillStyle = '#ff6b6b';
+                        canvasCtx.fill();
+                    };
+                    
+                    const drawFrequencyInfo = () => {
+                        if (!currentFrequency) return;
+                        
+                        canvasCtx.font = 'bold 16px Arial';
+                        canvasCtx.fillStyle = '#ffffff';
+                        canvasCtx.textAlign = 'right';
+                        canvasCtx.fillText(`${currentFrequency} Hz`, canvas.width - 10, 25);
+                        
+                        canvasCtx.font = '12px Arial';
+                        canvasCtx.fillText(currentWaveform.toUpperCase(), canvas.width - 10, 45);
+                        
+                        // Mode indicator
+                        canvasCtx.textAlign = 'left';
+                        canvasCtx.fillText(`Mode: ${visualMode}`, 10, 25);
+                    };
+                    
+                    // Add click handler to cycle through visualization modes
+                    canvas.addEventListener('click', () => {
+                        const modes = ['waveform', 'spectrum', 'circular'];
+                        const currentIndex = modes.indexOf(visualMode);
+                        visualMode = modes[(currentIndex + 1) % modes.length];
+                        showNotification(`تم تغيير وضع العرض إلى: ${visualMode}`, 'info');
+                    });
+                    
                     draw();
                 }
 
@@ -6411,21 +6664,509 @@ Structure the output in Arabic with clear headings for each marker using markdow
 
                 stopFreqBtn.addEventListener('click', stopFrequency);
 
-                // Music Player Logic
-                musicPlayPauseBtn.addEventListener('click', () => {
-                    if (!isAudioInitialized) return;
-                    if (musicPlayer.paused) {
-                        stopFrequency();
-                        musicPlayer.play();
-                        musicPlayPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                    } else {
-                        musicPlayer.pause();
-                        musicPlayPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                    }
-                });
+                // Music Player Logic handled centrally by initMusicPlayer() below to avoid duplicate handlers
                 musicVolumeSlider.addEventListener('input', (e) => {
                     musicPlayer.volume = e.target.value;
                 });
+                
+                // Advanced Controls Event Listeners
+                const customFreqInput = document.getElementById('custom-freq-input');
+                const playCustomBtn = document.getElementById('play-custom-freq');
+                const waveformSelector = document.getElementById('waveform-selector');
+                const binauralBaseInput = document.getElementById('binaural-base');
+                const presetBtns = document.querySelectorAll('.preset-btn');
+                
+                // Custom frequency input
+                playCustomBtn?.addEventListener('click', async () => {
+                    if (!isAudioInitialized) {
+                        const audioReady = await setupAudioSystem();
+                        if (!audioReady) return;
+                    }
+                    
+                    const freq = parseFloat(customFreqInput.value);
+                    if (freq && freq >= 1 && freq <= 20000) {
+                        allFreqButtons.forEach(b => b.classList.remove('active'));
+                        playFrequency(freq);
+                        showNotification(`تم تشغيل التردد المخصص ${freq} Hz`, 'success');
+                    } else {
+                        showNotification('يرجى إدخال تردد صحيح بين 1-20000 Hz', 'error');
+                    }
+                });
+                
+                // Enter key support for custom frequency
+                customFreqInput?.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        playCustomBtn.click();
+                    }
+                });
+                
+                // Waveform selector
+                waveformSelector?.addEventListener('change', (e) => {
+                    currentWaveform = e.target.value;
+                    showNotification(`تم تغيير نوع الموجة إلى ${e.target.options[e.target.selectedIndex].text}`, 'info');
+                });
+                
+                // Binaural base frequency
+                binauralBaseInput?.addEventListener('input', (e) => {
+                    binauralBaseFreq = parseInt(e.target.value);
+                });
+                
+                // Preset buttons
+                presetBtns.forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        if (!isAudioInitialized) {
+                            const audioReady = await setupAudioSystem();
+                            if (!audioReady) return;
+                        }
+                        
+                        const freq = parseFloat(btn.dataset.freq);
+                        const wave = btn.dataset.wave;
+                        
+                        if (wave && wave !== currentWaveform) {
+                            currentWaveform = wave;
+                            waveformSelector.value = wave;
+                        }
+                        
+                        allFreqButtons.forEach(b => b.classList.remove('active'));
+                        playFrequency(freq);
+                        
+                        // Visual feedback for preset button
+                        presetBtns.forEach(b => b.classList.remove('ring-2', 'ring-blue-400'));
+                        btn.classList.add('ring-2', 'ring-blue-400');
+                        setTimeout(() => btn.classList.remove('ring-2', 'ring-blue-400'), 2000);
+                    });
+                });
+                
+                // Favorites System
+                const saveFavoriteBtn = document.getElementById('save-favorite');
+                const clearFavoritesBtn = document.getElementById('clear-favorites');
+                const exportFavoritesBtn = document.getElementById('export-favorites');
+                const importFavoritesBtn = document.getElementById('import-favorites-btn');
+                const importFavoritesInput = document.getElementById('import-favorites');
+                const favoritesContainer = document.getElementById('favorites-container');
+                
+                const renderFavorites = () => {
+                    if (favorites.length === 0) {
+                        favoritesContainer.innerHTML = '<span class="text-gray-400 text-sm">لا توجد ترددات محفوظة</span>';
+                        return;
+                    }
+                    
+                    favoritesContainer.innerHTML = favorites.map((fav, index) => `
+                        <button class="favorite-btn px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm hover:bg-yellow-200 transition flex items-center gap-1"
+                                data-freq="${fav.freq}" data-wave="${fav.wave}" data-index="${index}">
+                            ${fav.name} (${fav.freq}Hz)
+                            <span class="remove-fav text-red-500 hover:text-red-700 ml-1 cursor-pointer" data-index="${index}">×</span>
+                        </button>
+                    `).join('');
+                    
+                    // Add event listeners for favorite buttons
+                    document.querySelectorAll('.favorite-btn').forEach(btn => {
+                        btn.addEventListener('click', async (e) => {
+                            if (e.target.classList.contains('remove-fav')) return;
+                            
+                            if (!isAudioInitialized) {
+                                const audioReady = await setupAudioSystem();
+                                if (!audioReady) return;
+                            }
+                            
+                            const freq = parseFloat(btn.dataset.freq);
+                            const wave = btn.dataset.wave;
+                            
+                            if (wave !== currentWaveform) {
+                                currentWaveform = wave;
+                                waveformSelector.value = wave;
+                            }
+                            
+                            allFreqButtons.forEach(b => b.classList.remove('active'));
+                            playFrequency(freq);
+                            showNotification(`تم تشغيل التردد المفضل: ${freq}Hz`, 'success');
+                        });
+                    });
+                    
+                    // Remove favorite buttons
+                    document.querySelectorAll('.remove-fav').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const index = parseInt(btn.dataset.index);
+                            favorites.splice(index, 1);
+                            localStorage.setItem('tibrah-freq-favorites', JSON.stringify(favorites));
+                            renderFavorites();
+                            showNotification('تم حذف التردد من المفضلة', 'info');
+                        });
+                    });
+                };
+                
+                saveFavoriteBtn?.addEventListener('click', () => {
+                    if (!currentFrequency) {
+                        showNotification('يرجى تشغيل تردد أولاً لحفظه', 'error');
+                        return;
+                    }
+                    
+                    const name = prompt('اسم التردد المفضل:', `تردد ${currentFrequency}Hz`);
+                    if (!name) return;
+                    
+                    const favorite = {
+                        name: name.trim(),
+                        freq: currentFrequency,
+                        wave: currentWaveform,
+                        date: new Date().toISOString()
+                    };
+                    
+                    // Check if already exists
+                    const exists = favorites.find(f => f.freq === currentFrequency && f.wave === currentWaveform);
+                    if (exists) {
+                        showNotification('هذا التردد محفوظ مسبقاً', 'warning');
+                        return;
+                    }
+                    
+                    favorites.push(favorite);
+                    localStorage.setItem('tibrah-freq-favorites', JSON.stringify(favorites));
+                    renderFavorites();
+                    showNotification(`تم حفظ ${name} في المفضلة`, 'success');
+                });
+                
+                clearFavoritesBtn?.addEventListener('click', () => {
+                    if (confirm('هل تريد مسح جميع الترددات المفضلة؟')) {
+                        favorites = [];
+                        localStorage.removeItem('tibrah-freq-favorites');
+                        renderFavorites();
+                        showNotification('تم مسح جميع المفضلات', 'info');
+                    }
+                });
+                
+                exportFavoritesBtn?.addEventListener('click', () => {
+                    if (favorites.length === 0) {
+                        showNotification('لا توجد مفضلات للتصدير', 'warning');
+                        return;
+                    }
+                    
+                    const dataStr = JSON.stringify(favorites, null, 2);
+                    const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                    const url = URL.createObjectURL(dataBlob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `tibrah-favorites-${new Date().toISOString().split('T')[0]}.json`;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    showNotification('تم تصدير المفضلات', 'success');
+                });
+                
+                importFavoritesBtn?.addEventListener('click', () => {
+                    importFavoritesInput.click();
+                });
+                
+                importFavoritesInput?.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        try {
+                            const importedFavorites = JSON.parse(e.target.result);
+                            if (Array.isArray(importedFavorites)) {
+                                favorites = [...favorites, ...importedFavorites];
+                                localStorage.setItem('tibrah-freq-favorites', JSON.stringify(favorites));
+                                renderFavorites();
+                                showNotification(`تم استيراد ${importedFavorites.length} تردد`, 'success');
+                            } else {
+                                showNotification('ملف غير صحيح', 'error');
+                            }
+                        } catch (err) {
+                            showNotification('خطأ في قراءة الملف', 'error');
+                        }
+                    };
+                    reader.readAsText(file);
+                });
+                
+                // Enhanced Timer System
+                let timerInterval = null;
+                let timerDuration = 0;
+                let timerRemaining = 0;
+                
+                const timerDisplay = document.getElementById('timer-display');
+                const timerProgress = document.getElementById('timer-progress');
+                const timerProgressBar = document.getElementById('timer-progress-bar');
+                const timerStartStopBtn = document.getElementById('timer-start-stop');
+                const timerAutoStop = document.getElementById('timer-auto-stop');
+                const timerNotification = document.getElementById('timer-notification');
+                
+                const formatTime = (seconds) => {
+                    const mins = Math.floor(seconds / 60);
+                    const secs = seconds % 60;
+                    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                };
+                
+                const updateTimerDisplay = () => {
+                    if (timerDisplay) timerDisplay.textContent = formatTime(timerRemaining);
+                    if (timerProgressBar && timerDuration > 0) {
+                        const progress = ((timerDuration - timerRemaining) / timerDuration) * 100;
+                        timerProgressBar.style.width = `${progress}%`;
+                    }
+                };
+                
+                const startTimer = (minutes) => {
+                    if (timerInterval) clearInterval(timerInterval);
+                    
+                    timerDuration = minutes * 60;
+                    timerRemaining = timerDuration;
+                    
+                    timerDisplay?.classList.remove('hidden');
+                    timerProgress?.classList.remove('hidden');
+                    timerStartStopBtn?.classList.remove('hidden');
+                    timerStartStopBtn.textContent = 'إيقاف المؤقت';
+                    
+                    updateTimerDisplay();
+                    
+                    timerInterval = setInterval(() => {
+                        timerRemaining--;
+                        updateTimerDisplay();
+                        
+                        if (timerRemaining <= 0) {
+                            clearInterval(timerInterval);
+                            timerInterval = null;
+                            
+                            // Timer finished
+                            if (timerNotification?.checked) {
+                                showNotification('انتهت جلسة العلاج بالترددات! 🎵', 'success', 5000);
+                                // Play notification sound
+                                try {
+                                    const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
+                                    audio.play().catch(() => {});
+                                } catch (e) {}
+                            }
+                            
+                            if (timerAutoStop?.checked) {
+                                stopFrequency();
+                                showNotification('تم إيقاف التردد تلقائياً', 'info');
+                            }
+                            
+                            timerStartStopBtn.textContent = 'بدء المؤقت';
+                            timerProgressBar.style.width = '100%';
+                        }
+                    }, 1000);
+                };
+                
+                const stopTimer = () => {
+                    if (timerInterval) {
+                        clearInterval(timerInterval);
+                        timerInterval = null;
+                    }
+                    timerDisplay?.classList.add('hidden');
+                    timerProgress?.classList.add('hidden');
+                    timerStartStopBtn?.classList.add('hidden');
+                    timerStartStopBtn.textContent = 'بدء المؤقت';
+                };
+                
+                // Timer button event listeners
+                [5, 10, 20, 30, 45].forEach(minutes => {
+                    const btn = document.getElementById(`timer-${minutes}`);
+                    btn?.addEventListener('click', () => {
+                        startTimer(minutes);
+                        showNotification(`تم بدء مؤقت ${minutes} دقيقة`, 'info');
+                    });
+                });
+                
+                document.getElementById('set-custom-timer')?.addEventListener('click', () => {
+                    const minutes = parseInt(document.getElementById('custom-timer-input')?.value);
+                    if (minutes && minutes >= 1 && minutes <= 120) {
+                        startTimer(minutes);
+                        showNotification(`تم بدء مؤقت مخصص ${minutes} دقيقة`, 'info');
+                    } else {
+                        showNotification('يرجى إدخال عدد دقائق صحيح (1-120)', 'error');
+                    }
+                });
+                
+                timerStartStopBtn?.addEventListener('click', () => {
+                    if (timerInterval) {
+                        stopTimer();
+                        showNotification('تم إيقاف المؤقت', 'info');
+                    }
+                });
+                
+                // Fullscreen canvas functionality
+                const fullscreenCanvasBtn = document.getElementById('fullscreen-canvas');
+                fullscreenCanvasBtn?.addEventListener('click', () => {
+                    if (!canvas) return;
+                    
+                    // Create fullscreen modal
+                    const modal = document.createElement('div');
+                    modal.className = 'fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center';
+                    modal.innerHTML = `
+                        <div class="relative w-full h-full max-w-6xl max-h-4xl p-4">
+                            <canvas id="fullscreen-frequency-canvas" class="w-full h-full border-2 border-white rounded-lg cursor-pointer"></canvas>
+                            <button class="absolute top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                                إغلاق ✕
+                            </button>
+                            <div class="absolute bottom-4 left-4 bg-black bg-opacity-70 text-white p-3 rounded-lg">
+                                <div class="text-sm">انقر على الكانفاس للتبديل بين أوضاع العرض</div>
+                                <div class="text-xs mt-1">الأوضاع: موجة صوتية • طيف ترددي • دائري</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.body.appendChild(modal);
+                    
+                    // Setup fullscreen canvas
+                    const fullscreenCanvas = modal.querySelector('#fullscreen-frequency-canvas');
+                    const fullscreenCtx = fullscreenCanvas.getContext('2d');
+                    fullscreenCanvas.width = fullscreenCanvas.offsetWidth;
+                    fullscreenCanvas.height = fullscreenCanvas.offsetHeight;
+                    
+                    // Copy visualization to fullscreen
+                    let fsVisualMode = 'waveform';
+                    const fsSpectrumAnalyser = new Tone.Analyser('fft', 1024);
+                    if (oscillator) oscillator.connect(fsSpectrumAnalyser);
+                    
+                    const drawFullscreen = () => {
+                        if (!modal.parentNode) return; // Stop if modal is closed
+                        
+                        requestAnimationFrame(drawFullscreen);
+                        
+                        if (!analyser || !oscillator) {
+                            fullscreenCtx.clearRect(0, 0, fullscreenCanvas.width, fullscreenCanvas.height);
+                            return;
+                        }
+                        
+                        // Enhanced gradient background
+                        const gradient = fullscreenCtx.createRadialGradient(
+                            fullscreenCanvas.width/2, fullscreenCanvas.height/2, 0,
+                            fullscreenCanvas.width/2, fullscreenCanvas.height/2, Math.max(fullscreenCanvas.width, fullscreenCanvas.height)/2
+                        );
+                        gradient.addColorStop(0, '#0f0f23');
+                        gradient.addColorStop(1, '#1a1a2e');
+                        fullscreenCtx.fillStyle = gradient;
+                        fullscreenCtx.fillRect(0, 0, fullscreenCanvas.width, fullscreenCanvas.height);
+                        
+                        // Draw visualization based on mode
+                        if (fsVisualMode === 'waveform') {
+                            drawFullscreenWaveform();
+                        } else if (fsVisualMode === 'spectrum') {
+                            drawFullscreenSpectrum();
+                        } else if (fsVisualMode === 'circular') {
+                            drawFullscreenCircular();
+                        }
+                        
+                        // Enhanced info overlay
+                        drawFullscreenInfo();
+                    };
+                    
+                    const drawFullscreenWaveform = () => {
+                        const waveform = analyser.getValue();
+                        fullscreenCtx.lineWidth = 4;
+                        
+                        const strokeGradient = fullscreenCtx.createLinearGradient(0, 0, fullscreenCanvas.width, 0);
+                        strokeGradient.addColorStop(0, '#ff6b6b');
+                        strokeGradient.addColorStop(0.3, '#4ecdc4');
+                        strokeGradient.addColorStop(0.7, '#45b7d1');
+                        strokeGradient.addColorStop(1, '#96ceb4');
+                        fullscreenCtx.strokeStyle = strokeGradient;
+                        
+                        fullscreenCtx.beginPath();
+                        for (let i = 0; i < waveform.length; i++) {
+                            const x = (i / (waveform.length - 1)) * fullscreenCanvas.width;
+                            const y = (waveform[i] + 1) / 2 * fullscreenCanvas.height;
+                            if (i === 0) fullscreenCtx.moveTo(x, y);
+                            else fullscreenCtx.lineTo(x, y);
+                        }
+                        fullscreenCtx.stroke();
+                        
+                        // Enhanced glow effect
+                        fullscreenCtx.shadowColor = '#4ecdc4';
+                        fullscreenCtx.shadowBlur = 20;
+                        fullscreenCtx.stroke();
+                        fullscreenCtx.shadowBlur = 0;
+                    };
+                    
+                    const drawFullscreenSpectrum = () => {
+                        const spectrum = fsSpectrumAnalyser.getValue();
+                        const barWidth = fullscreenCanvas.width / spectrum.length;
+                        
+                        for (let i = 0; i < spectrum.length; i++) {
+                            const barHeight = Math.max(0, (spectrum[i] + 140) * 3);
+                            const hue = (i / spectrum.length) * 360;
+                            
+                            fullscreenCtx.fillStyle = `hsla(${hue}, 80%, 65%, 0.9)`;
+                            fullscreenCtx.fillRect(i * barWidth, fullscreenCanvas.height - barHeight, barWidth - 2, barHeight);
+                            
+                            // Enhanced glow
+                            fullscreenCtx.shadowColor = `hsl(${hue}, 80%, 65%)`;
+                            fullscreenCtx.shadowBlur = 10;
+                            fullscreenCtx.fillRect(i * barWidth, fullscreenCanvas.height - barHeight, barWidth - 2, barHeight);
+                            fullscreenCtx.shadowBlur = 0;
+                        }
+                    };
+                    
+                    const drawFullscreenCircular = () => {
+                        const waveform = analyser.getValue();
+                        const centerX = fullscreenCanvas.width / 2;
+                        const centerY = fullscreenCanvas.height / 2;
+                        const radius = Math.min(centerX, centerY) * 0.6;
+                        
+                        fullscreenCtx.lineWidth = 3;
+                        fullscreenCtx.strokeStyle = '#4ecdc4';
+                        fullscreenCtx.beginPath();
+                        
+                        for (let i = 0; i < waveform.length; i++) {
+                            const angle = (i / waveform.length) * Math.PI * 2;
+                            const amplitude = waveform[i] * 100;
+                            const x = centerX + Math.cos(angle) * (radius + amplitude);
+                            const y = centerY + Math.sin(angle) * (radius + amplitude);
+                            
+                            if (i === 0) fullscreenCtx.moveTo(x, y);
+                            else fullscreenCtx.lineTo(x, y);
+                        }
+                        fullscreenCtx.closePath();
+                        fullscreenCtx.stroke();
+                        
+                        // Enhanced center
+                        fullscreenCtx.beginPath();
+                        fullscreenCtx.arc(centerX, centerY, 8, 0, Math.PI * 2);
+                        fullscreenCtx.fillStyle = '#ff6b6b';
+                        fullscreenCtx.fill();
+                        
+                        // Add frequency rings
+                        for (let ring = 1; ring <= 3; ring++) {
+                            fullscreenCtx.beginPath();
+                            fullscreenCtx.arc(centerX, centerY, radius * ring / 3, 0, Math.PI * 2);
+                            fullscreenCtx.strokeStyle = `rgba(255, 255, 255, ${0.1 * ring})`;
+                            fullscreenCtx.lineWidth = 1;
+                            fullscreenCtx.stroke();
+                        }
+                    };
+                    
+                    const drawFullscreenInfo = () => {
+                        if (!currentFrequency) return;
+                        
+                        fullscreenCtx.font = 'bold 24px Arial';
+                        fullscreenCtx.fillStyle = '#ffffff';
+                        fullscreenCtx.textAlign = 'right';
+                        fullscreenCtx.fillText(`${currentFrequency} Hz`, fullscreenCanvas.width - 20, 40);
+                        
+                        fullscreenCtx.font = '16px Arial';
+                        fullscreenCtx.fillText(currentWaveform.toUpperCase(), fullscreenCanvas.width - 20, 65);
+                        
+                        fullscreenCtx.textAlign = 'left';
+                        fullscreenCtx.fillText(`Mode: ${fsVisualMode}`, 20, 40);
+                    };
+                    
+                    // Mode switching for fullscreen
+                    fullscreenCanvas.addEventListener('click', () => {
+                        const modes = ['waveform', 'spectrum', 'circular'];
+                        const currentIndex = modes.indexOf(fsVisualMode);
+                        fsVisualMode = modes[(currentIndex + 1) % modes.length];
+                    });
+                    
+                    // Close modal
+                    modal.querySelector('button').addEventListener('click', () => {
+                        document.body.removeChild(modal);
+                    });
+                    
+                    // Start fullscreen animation
+                    drawFullscreen();
+                });
+                
+                // Initialize favorites display
+                renderFavorites();
             }
 
             // --- BLOG MODULE ---
@@ -9114,467 +9855,7 @@ ${bmi}
                     });
                 }
 
-                // ===== HEALING FREQUENCIES FUNCTIONALITY =====
-                let audioContext = null;
-                let oscillator = null;
-                let gainNode = null;
-                let isPlaying = false;
-                let currentFreq = null;
-                let timer = null;
-                let timerInterval = null;
-                let sessionTime = 0;
-
-                // Initialize audio system
-                document.getElementById('start-audio-btn')?.addEventListener('click', async () => {
-                    try {
-                        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                        await audioContext.resume();
-
-                        document.getElementById('audio-init-prompt').classList.add('hidden');
-                        document.getElementById('frequency-player-container').classList.remove('hidden');
-
-                        showNotification('تم تشغيل النظام الصوتي بنجاح', 'success');
-                        initFrequencyButtons();
-                        initTimer();
-                    } catch (error) {
-                        showNotification('خطأ في تشغيل النظام الصوتي', 'error');
-                    }
-                });
-
-                function initFrequencyButtons() {
-                    // All frequency buttons
-                    const freqButtons = document.querySelectorAll('.freq-btn');
-
-                    freqButtons.forEach(button => {
-                        button.addEventListener('click', () => {
-                            const freq = parseFloat(button.dataset.freq);
-                            const isBinaural = button.dataset.binaural === 'true';
-
-                            if (isPlaying && currentFreq === freq) {
-                                stopFrequency();
-                            } else {
-                                playFrequency(freq, isBinaural);
-                                updateActiveButton(button);
-                            }
-                        });
-                    });
-
-                    // Stop button
-                    document.getElementById('stop-freq-btn')?.addEventListener('click', stopFrequency);
-
-                    // Initialize music player
-                    initMusicPlayer();
-                }
-
-                function initMusicPlayer() {
-                    const audio = document.getElementById('background-music');
-                    const playPauseBtn = document.getElementById('music-play-pause-btn');
-                    const volumeSlider = document.getElementById('music-volume');
-                    const musicSelector = document.getElementById('music-selector');
-                    const musicTitle = document.getElementById('music-title');
-                    const currentTimeSpan = document.getElementById('current-time');
-                    const totalTimeSpan = document.getElementById('total-time');
-                    const progressBar = document.getElementById('progress-bar');
-
-                    if (!audio || !playPauseBtn) return;
-
-                    // Music selector change
-                    musicSelector?.addEventListener('change', (e) => {
-                        const selectedValue = e.target.value;
-                        const selectedText = e.target.options[e.target.selectedIndex].text;
-
-                        // Stop current music
-                        audio.pause();
-                        audio.currentTime = 0;
-
-                        // Set new source
-                        audio.src = selectedValue;
-                        musicTitle.textContent = selectedText;
-
-                        // Reset player state
-                        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                        updateProgress();
-
-                        // Preload new audio
-                        audio.load();
-                    });
-
-                    // Play/Pause functionality
-                    playPauseBtn.addEventListener('click', () => {
-                        if (audio.paused) {
-                            audio.play().then(() => {
-                                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                                document.getElementById('music-status')?.classList.remove('hidden');
-                                checkCombinedStatus();
-                                showNotification('تم تشغيل الموسيقى', 'success');
-                            }).catch(error => {
-                                showNotification('خطأ في تشغيل الموسيقى', 'error');
-                            });
-                        } else {
-                            audio.pause();
-                            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                            document.getElementById('music-status')?.classList.add('hidden');
-                            checkCombinedStatus();
-                            showNotification('تم إيقاف الموسيقى', 'info');
-                        }
-                    });
-
-                    // Volume control
-                    volumeSlider?.addEventListener('input', (e) => {
-                        audio.volume = e.target.value;
-                    });
-
-                    // Time updates
-                    audio.addEventListener('loadedmetadata', () => {
-                        totalTimeSpan.textContent = formatMusicTime(audio.duration);
-                    });
-
-                    audio.addEventListener('timeupdate', updateProgress);
-
-                    audio.addEventListener('ended', () => {
-                        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                        showNotification('انتهت الموسيقى', 'info');
-                    });
-
-                    // Progress bar click to seek
-                    progressBar.parentElement?.addEventListener('click', (e) => {
-                        if (audio.duration) {
-                            const rect = e.currentTarget.getBoundingClientRect();
-                            const clickX = e.clientX - rect.left;
-                            const width = rect.width;
-                            const clickRatio = clickX / width;
-                            audio.currentTime = clickRatio * audio.duration;
-                        }
-                    });
-
-                    // Error handling
-                    audio.addEventListener('error', (e) => {
-                        const errorMsg = audio.error ?
-                            `خطأ في تحميل الملف الصوتي (${audio.error.code})` :
-                            'خطأ في تحميل الملف الصوتي';
-                        showNotification(errorMsg, 'error');
-                        console.error('Audio error:', e, audio.error);
-
-                        // Reset to first local file on error
-                        if (audio.src.includes('http')) {
-                            audio.src = 'assets/audio/DO صوت الاسترخاء العميق .mp3';
-                            musicTitle.textContent = 'صوت الاسترخاء العميق';
-                            musicSelector.value = audio.src;
-                            showNotification('تم التبديل إلى الملف المحلي', 'info');
-                        }
-                    });
-
-                    // Loading states
-                    audio.addEventListener('loadstart', () => {
-                        showNotification('جاري تحميل الموسيقى...', 'info');
-                    });
-
-                    audio.addEventListener('canplay', () => {
-                        showNotification('تم تحميل الموسيقى بنجاح', 'success');
-                    });
-
-                    // Auto-check combined status when music ends or starts
-                    audio.addEventListener('ended', checkCombinedStatus);
-                    audio.addEventListener('play', checkCombinedStatus);
-                    audio.addEventListener('pause', checkCombinedStatus);
-
-                    function updateProgress() {
-                        if (audio.duration) {
-                            const progress = (audio.currentTime / audio.duration) * 100;
-                            progressBar.style.width = progress + '%';
-                            currentTimeSpan.textContent = formatMusicTime(audio.currentTime);
-
-                            if (!totalTimeSpan.textContent || totalTimeSpan.textContent === '--:--') {
-                                totalTimeSpan.textContent = formatMusicTime(audio.duration);
-                            }
-                        }
-                    }
-
-                    function formatMusicTime(seconds) {
-                        if (isNaN(seconds)) return '--:--';
-                        const mins = Math.floor(seconds / 60);
-                        const secs = Math.floor(seconds % 60);
-                        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-                    }
-
-                    // Set initial volume
-                    audio.volume = 0.3;
-                }
-
-                function playFrequency(frequency, isBinaural = false) {
-                    if (!audioContext) return;
-
-                    stopFrequency();
-
-                    try {
-                        if (isBinaural) {
-                            // Create binaural beats
-                            const leftOsc = audioContext.createOscillator();
-                            const rightOsc = audioContext.createOscillator();
-                            const leftGain = audioContext.createGain();
-                            const rightGain = audioContext.createGain();
-                            const merger = audioContext.createChannelMerger(2);
-
-                            // Base frequency (e.g., 200 Hz) with binaural difference
-                            const baseFreq = 200;
-                            leftOsc.frequency.setValueAtTime(baseFreq, audioContext.currentTime);
-                            rightOsc.frequency.setValueAtTime(baseFreq + frequency, audioContext.currentTime);
-
-                            leftOsc.type = 'sine';
-                            rightOsc.type = 'sine';
-
-                            leftGain.gain.setValueAtTime(0.3, audioContext.currentTime);
-                            rightGain.gain.setValueAtTime(0.3, audioContext.currentTime);
-
-                            leftOsc.connect(leftGain);
-                            rightOsc.connect(rightGain);
-                            leftGain.connect(merger, 0, 0);
-                            rightGain.connect(merger, 0, 1);
-                            merger.connect(audioContext.destination);
-
-                            leftOsc.start();
-                            rightOsc.start();
-
-                            oscillator = { left: leftOsc, right: rightOsc };
-                        } else {
-                            // Create single frequency
-                            oscillator = audioContext.createOscillator();
-                            gainNode = audioContext.createGain();
-
-                            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-                            oscillator.type = 'sine';
-                            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-
-                            oscillator.connect(gainNode);
-                            gainNode.connect(audioContext.destination);
-                            oscillator.start();
-                        }
-
-                        isPlaying = true;
-                        currentFreq = frequency;
-
-                        // Visual feedback
-                        drawFrequencyWave(frequency);
-                        document.getElementById('frequency-status')?.classList.remove('hidden');
-                        checkCombinedStatus();
-                        showNotification(`تم تشغيل التردد ${frequency} Hz`, 'success');
-
-                    } catch (error) {
-                        showNotification('خطأ في تشغيل التردد', 'error');
-                    }
-                }
-
-                function stopFrequency() {
-                    if (oscillator) {
-                        try {
-                            if (oscillator.left && oscillator.right) {
-                                // Binaural beats
-                                oscillator.left.stop();
-                                oscillator.right.stop();
-                            } else {
-                                // Single frequency
-                                oscillator.stop();
-                            }
-                        } catch (error) {
-                            // Oscillator already stopped
-                        }
-                        oscillator = null;
-                    }
-
-                    isPlaying = false;
-                    currentFreq = null;
-                    clearActiveButtons();
-                    clearCanvas();
-                    document.getElementById('frequency-status')?.classList.add('hidden');
-                    checkCombinedStatus();
-                    showNotification('تم إيقاف التردد فقط - الموسيقى مستمرة', 'info');
-                }
-
-                function updateActiveButton(activeButton) {
-                    clearActiveButtons();
-                    activeButton.classList.add('border-blue-500', 'bg-blue-50');
-                }
-
-                function clearActiveButtons() {
-                    document.querySelectorAll('.freq-btn').forEach(btn => {
-                        btn.classList.remove('border-blue-500', 'bg-blue-50');
-                    });
-                }
-
-                function drawFrequencyWave(frequency) {
-                    const canvas = document.getElementById('frequency-canvas');
-                    if (!canvas) return;
-
-                    const ctx = canvas.getContext('2d');
-                    const width = canvas.width = canvas.offsetWidth;
-                    const height = canvas.height = canvas.offsetHeight;
-
-                    let time = 0;
-
-                    function animate() {
-                        if (!isPlaying) return;
-
-                        ctx.clearRect(0, 0, width, height);
-                        ctx.strokeStyle = '#1f6feb';
-                        ctx.lineWidth = 2;
-                        ctx.beginPath();
-
-                        for (let x = 0; x < width; x++) {
-                            const y = height / 2 + Math.sin((x / width) * Math.PI * 4 + time) * (height / 4);
-                            if (x === 0) ctx.moveTo(x, y);
-                            else ctx.lineTo(x, y);
-                        }
-
-                        ctx.stroke();
-                        // Session storage functions
-                        function saveSession() {
-                            const sessionData = {
-                                currentFreq: currentFreq,
-                                musicSrc: document.getElementById('background-music')?.src,
-                                musicVolume: document.getElementById('music-volume')?.value,
-                                lastUsed: Date.now(),
-                                timerMinutes: document.querySelector('[id^="timer-"][class*="btn-primary"]')?.id.replace('timer-', '') || null
-                            };
-                            localStorage.setItem('tibrahSession', JSON.stringify(sessionData));
-                        }
-
-                        function loadSession() {
-                            try {
-                                const saved = localStorage.getItem('tibrahSession');
-                                if (saved) {
-                                    const sessionData = JSON.parse(saved);
-                                    const isFreqPlaying = isPlaying && currentFreq;
-                                    const isMusicPlaying = audio && !audio.paused;
-
-                                    if (isFreqPlaying && isMusicPlaying) {
-                                        combinedStatus.classList.remove('hidden');
-                                    } else {
-                                        combinedStatus.classList.add('hidden');
-                                    }
-                                }
-                            }
-
-    // Timer functionality
-    function initTimer() {
-                                document.getElementById('timer-5')?.addEventListener('click', () => setTimer(5));
-                                document.getElementById('timer-10')?.addEventListener('click', () => setTimer(10));
-                                document.getElementById('timer-20')?.addEventListener('click', () => setTimer(20));
-                                document.getElementById('timer-start-stop')?.addEventListener('click', toggleTimer);
-                            }
-
-                            function setTimer(minutes) {
-                                sessionTime = minutes * 60;
-                                document.getElementById('timer-display').textContent = formatTime(sessionTime);
-                                document.getElementById('timer-display').classList.remove('hidden');
-                                document.getElementById('timer-start-stop').classList.remove('hidden');
-                                document.getElementById('timer-start-stop').textContent = 'بدء المؤقت';
-
-                                // Update button states
-                                document.querySelectorAll('[id^="timer-"]').forEach(btn => {
-                                    btn.classList.remove('btn-primary');
-                                    btn.classList.add('btn-secondary');
-                                });
-                                document.getElementById(`timer-${minutes}`).classList.remove('btn-secondary');
-                                document.getElementById(`timer-${minutes}`).classList.add('btn-primary');
-                            }
-
-                            function toggleTimer() {
-                                const button = document.getElementById('timer-start-stop');
-
-                                if (timerInterval) {
-                                    // Stop timer
-                                    clearInterval(timerInterval);
-                                    timerInterval = null;
-                                    button.textContent = 'بدء المؤقت';
-                                } else {
-                                    // Start timer
-                                    timerInterval = setInterval(() => {
-                                        sessionTime--;
-                                        document.getElementById('timer-display').textContent = formatTime(sessionTime);
-
-                                        if (sessionTime <= 0) {
-                                            clearInterval(timerInterval);
-                                            timerInterval = null;
-                                            button.textContent = 'بدء المؤقت';
-                                            stopFrequency();
-                                            showNotification('انتهت جلسة العلاج بالترددات', 'success');
-                                        }
-                                    }, 1000);
-                                    button.textContent = 'إيقاف المؤقت';
-                                }
-                            }
-
-                            function formatTime(seconds) {
-                                const mins = Math.floor(seconds / 60);
-                                const secs = seconds % 60;
-                                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-                            }
-
-                            // Session storage functions
-                            function saveSession() {
-                                const sessionData = {
-                                    currentFreq: currentFreq,
-                                    musicSrc: document.getElementById('background-music')?.src,
-                                    musicVolume: document.getElementById('music-volume')?.value,
-                                    lastUsed: Date.now()
-                                };
-                                localStorage.setItem('tibrahSession', JSON.stringify(sessionData));
-                            }
-
-                            function loadSession() {
-                                try {
-                                    const saved = localStorage.getItem('tibrahSession');
-                                    if (saved) {
-                                        const sessionData = JSON.parse(saved);
-
-                                        // Load music preferences
-                                        if (sessionData.musicSrc) {
-                                            const audio = document.getElementById('background-music');
-                                            const selector = document.getElementById('music-selector');
-                                            if (audio && selector) {
-                                                audio.src = sessionData.musicSrc;
-                                                selector.value = sessionData.musicSrc;
-                                            }
-                                        }
-
-                                        // Load volume
-                                        if (sessionData.musicVolume) {
-                                            const volumeSlider = document.getElementById('music-volume');
-                                            if (volumeSlider) {
-                                                volumeSlider.value = sessionData.musicVolume;
-                                                document.getElementById('background-music').volume = sessionData.musicVolume;
-                                            }
-                                        }
-
-                                        showNotification('تم استعادة جلستك السابقة', 'info');
-                                    }
-                                } catch (error) {
-                                    console.log('No previous session found');
-                                }
-                            }
-
-                            // Auto-save session periodically
-                            setInterval(saveSession, 30000); // Save every 30 seconds
-
-                            // Initialize everything when page loads
-                            document.addEventListener('DOMContentLoaded', function () {
-                                initAudio();
-                                initTimer();
-                                initNotifications();
-                                loadSession();
-
-                                // Initialize canvas
-                                const canvas = document.getElementById('frequency-canvas');
-                                if (canvas) {
-                                    canvas.width = canvas.offsetWidth;
-                                    canvas.height = canvas.offsetHeight;
-                                }
-
-                                // Save session on page unload
-                                window.addEventListener('beforeunload', saveSession);
-                            });
-                        });
+            });
         </script>
     </body>
-
 </html>
