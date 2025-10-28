@@ -1,0 +1,39 @@
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.getElementById('wellness-form');
+                if (!form) return;
+
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const name = document.getElementById('w-name').value;
+                    const age = document.getElementById('w-age').value;
+                    const phone = document.getElementById('w-phone').value;
+                    const symptoms = document.getElementById('w-symptoms').value || 'لا توجد أعراض محددة';
+
+                    const report = `
+                        <h3 style="color: #1F6FEB; margin-bottom: 15px;">✅ تقرير ${name}</h3>
+                        <div style="background: white; padding: 20px; border-radius: 10px; line-height: 2;">
+                            <p><strong>العمر:</strong> ${age} سنة</p>
+                            <p><strong>الأعراض:</strong> ${symptoms}</p>
+                            
+                            <h4 style="color: #059669; margin-top: 20px;">💊 التوصيات:</h4>
+                            <ul>
+                                <li>شرب 2-3 لتر ماء يومياً</li>
+                                <li>المشي 30 دقيقة يومياً</li>
+                                <li>النوم 7-8 ساعات</li>
+                                <li>تناول الخضروات الورقية</li>
+                            </ul>
+
+                            <div style="margin-top: 20px; padding: 15px; background: #dcfce7; border-radius: 8px;">
+                                <strong>📞 للمتابعة:</strong> واتساب ${phone}
+                            </div>
+                        </div>
+                    `;
+
+                    document.getElementById('wellness-content').innerHTML = report;
+                    document.getElementById('wellness-result').classList.remove('hidden');
+                    document.getElementById('wellness-result').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        </script>
