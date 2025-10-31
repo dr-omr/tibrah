@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ṭibrah - تصميم ثوري</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* ===== REVOLUTIONARY ANIMATIONS ===== */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 0 0 40px rgba(99, 102, 241, 0.6),
+                           0 0 80px rgba(168, 85, 247, 0.4),
+                           0 0 120px rgba(236, 72, 153, 0.2);
+            }
+            50% { 
+                box-shadow: 0 0 60px rgba(99, 102, 241, 0.8),
+                           0 0 100px rgba(168, 85, 247, 0.6),
+                           0 0 140px rgba(236, 72, 153, 0.4);
+            }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        
+        @keyframes holographic {
+            0%, 100% {
+                background-position: 0% 50%;
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+            25% {
+                background-position: 100% 50%;
+                transform: rotateX(5deg) rotateY(5deg);
+            }
+            50% {
+                background-position: 100% 100%;
+                transform: rotateX(0deg) rotateY(10deg);
+            }
+            75% {
+                background-position: 0% 100%;
+                transform: rotateX(-5deg) rotateY(5deg);
+            }
+        }
+        
+        @keyframes particle-float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(100px, -100px) scale(1.2);
+                opacity: 0.6;
+            }
+        }
+        
+        /* ===== BACKGROUND SYSTEM ===== */
+        .bg-deep-space {
+            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: particle-float 15s ease-in-out infinite;
+        }
+        
+        /* ===== DOCTOR IMAGE AURA ===== */
+        .doctor-aura {
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .rotating-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid;
+            animation: rotate 20s linear infinite;
+        }
+        
+        .doctor-image-container {
+            animation: pulse-glow 4s ease-in-out infinite;
+        }
+        
+        /* ===== HOLOGRAPHIC CARDS ===== */
+        .holo-card {
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0.05) 100%
+            );
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: holographic 10s ease-in-out infinite;
+            background-size: 200% 200%;
+        }
+        
+        .holo-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.4),
+                       0 0 100px rgba(168, 85, 247, 0.3);
+        }
+        
+        /* ===== SHIMMER BUTTON ===== */
+        .shimmer-btn {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+        
+        .shimmer-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: shimmer 2s linear infinite;
+        }
+        
+        /* ===== 3D TRANSFORM ===== */
+        .transform-3d {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        
+        /* ===== GLASSMORPHISM PREMIUM ===== */
+        .glass-premium {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(40px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2),
+                       inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-deep-space text-white">
+    
+    <!-- Particle Background -->
+    <div id="particles" class="fixed inset-0 pointer-events-none"></div>
+    
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        
+        <!-- Animated Gradient Mesh -->
+        <div class="absolute inset-0 opacity-30">
+            <div class="absolute w-96 h-96 bg-blue-500/40 rounded-full blur-3xl top-20 left-20 animate-pulse"></div>
+            <div class="absolute w-96 h-96 bg-purple-500/40 rounded-full blur-3xl bottom-20 right-20 animate-pulse" style="animation-delay: 1s;"></div>
+            <div class="absolute w-96 h-96 bg-pink-500/30 rounded-full blur-3xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" style="animation-delay: 2s;"></div>
+        </div>
+        
+        <div class="relative z-10 container mx-auto px-6 py-20">
+            
+            <!-- Main Grid: Split Design -->
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                
+                <!-- LEFT: Doctor Image with Revolutionary Aura -->
+                <div class="flex items-center justify-center">
+                    <div class="doctor-aura relative">
+                        
+                        <!-- Rotating Rings -->
+                        <div class="rotating-ring w-[450px] h-[450px] border-blue-500/30 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                        <div class="rotating-ring w-[500px] h-[500px] border-purple-500/20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style="animation-duration: 15s; animation-direction: reverse;"></div>
+                        <div class="rotating-ring w-[550px] h-[550px] border-pink-500/10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style="animation-duration: 25s;"></div>
+                        
+                        <!-- Energy Pulses -->
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="absolute w-80 h-80 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+                            <div class="absolute w-72 h-72 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+                            <div class="absolute w-64 h-64 bg-pink-500/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+                        </div>
+                        
+                        <!-- Doctor Image -->
+                        <div class="doctor-image-container relative z-10 w-80 h-80 rounded-full overflow-hidden border-4 border-white/10">
+                            <img src="assets/images/omar.jpg" 
+                                 alt="Dr. Omar Al-Amad" 
+                                 class="w-full h-full object-cover" 
+                                 style="filter: brightness(1.1) contrast(1.05);">
+                            
+                            <!-- Glass Overlay -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent"></div>
+                        </div>
+                        
+                        <!-- Status Badge -->
+                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 glass-premium px-6 py-3 rounded-full">
+                            <div class="flex items-center gap-3">
+                                <span class="relative flex h-3 w-3">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                                </span>
+                                <span class="text-sm font-semibold">متاح الآن</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Medical Credentials Badge -->
+                        <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 glass-premium px-8 py-3 rounded-full">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-user-md text-blue-400"></i>
+                                <span class="text-sm font-bold">طبيب معتمد</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- RIGHT: Content -->
+                <div class="space-y-10 text-right">
+                    
+                    <!-- Brand -->
+                    <div class="space-y-4">
+                        <h1 class="text-7xl md:text-8xl font-black tracking-wider"
+                            style="background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #ec4899 100%);
+                                   -webkit-background-clip: text;
+                                   -webkit-text-fill-color: transparent;
+                                   filter: drop-shadow(0 0 40px rgba(167, 139, 250, 0.5));">
+                            Ṭibrah
+                        </h1>
+                        <p class="text-2xl text-white/80 font-light">
+                            الطب الواعي • الشفاء الحقيقي
+                        </p>
+                    </div>
+                    
+                    <!-- Doctor Info -->
+                    <div class="space-y-4">
+                        <h2 class="text-5xl font-bold text-white">د. عمر العماد</h2>
+                        <p class="text-xl text-blue-300/90">طبيب عام • خبير الطب الواعي الشمولي</p>
+                        <p class="text-lg text-white/70 leading-relaxed max-w-xl" style="line-height: 2;">
+                            رحلتك نحو الشفاء تبدأ من الوعي. أرافقك في استكشاف الأسباب الجذرية وأدلّك على الطريق الطبيعي للعافية الشاملة.
+                        </p>
+                    </div>
+                    
+                    <!-- CTA Buttons -->
+                    <div class="flex gap-4 justify-end">
+                        <a href="https://wa.me/967771447111" 
+                           class="shimmer-btn px-10 py-5 rounded-2xl text-white font-bold text-lg shadow-2xl hover:scale-105 transition-transform">
+                            <i class="fab fa-whatsapp ml-2"></i>
+                            ابدأ رحلة الشفاء
+                        </a>
+                        <button class="glass-premium px-8 py-5 rounded-2xl text-white font-semibold hover:scale-105 transition-transform">
+                            اكتشف المزيد
+                        </button>
+                    </div>
+                    
+                    <!-- Trust Elements -->
+                    <div class="flex gap-6 justify-end text-sm text-white/60">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-shield-check text-green-400"></i>
+                            <span>خصوصية تامة</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-gift text-blue-400"></i>
+                            <span>استشارة أولية مجانية</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-heart text-pink-400"></i>
+                            <span>رعاية شخصية</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Holographic Service Cards -->
+            <div class="grid md:grid-cols-3 gap-6 mt-20 max-w-6xl mx-auto">
+                
+                <!-- Card 1 -->
+                <a href="#" class="holo-card group p-8 rounded-3xl transform-3d">
+                    <div class="flex flex-col items-center text-center space-y-4">
+                        <div class="w-20 h-20 rounded-2xl flex items-center justify-center"
+                             style="background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+                                    box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4);">
+                            <i class="fa-solid fa-graduation-cap text-3xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">رحلة التعلم</h3>
+                        <p class="text-white/70 leading-relaxed">دورات تفاعلية في الوعي الصحي والطب الشمولي</p>
+                        <div class="pt-4 text-blue-400 group-hover:text-blue-300">
+                            <i class="fas fa-arrow-left"></i>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Card 2 -->
+                <a href="#" class="holo-card group p-8 rounded-3xl transform-3d">
+                    <div class="flex flex-col items-center text-center space-y-4">
+                        <div class="w-20 h-20 rounded-2xl flex items-center justify-center"
+                             style="background: linear-gradient(135deg, #a855f7 0%, #d946ef 100%);
+                                    box-shadow: 0 10px 40px rgba(168, 85, 247, 0.4);">
+                            <i class="fa-solid fa-music text-3xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">الترددات الشفائية</h3>
+                        <p class="text-white/70 leading-relaxed">علاج بالصوت والذبذبات لتوازن الطاقة</p>
+                        <div class="pt-4 text-purple-400 group-hover:text-purple-300">
+                            <i class="fas fa-arrow-left"></i>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Card 3 -->
+                <a href="#" class="holo-card group p-8 rounded-3xl transform-3d">
+                    <div class="flex flex-col items-center text-center space-y-4">
+                        <div class="w-20 h-20 rounded-2xl flex items-center justify-center"
+                             style="background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
+                                    box-shadow: 0 10px 40px rgba(34, 197, 94, 0.4);">
+                            <i class="fa-solid fa-book-medical text-3xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">دليلك الصحي</h3>
+                        <p class="text-white/70 leading-relaxed">كتاب شامل للصحة الواعية - تحميل مجاني</p>
+                        <div class="pt-4 text-green-400 group-hover:text-green-300">
+                            <i class="fas fa-arrow-left"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+            <div class="glass-premium px-4 py-2 rounded-full">
+                <i class="fas fa-chevron-down text-white/60"></i>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // Generate Particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+        
+        // 3D Card Tilt Effect
+        document.querySelectorAll('.holo-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale(1.05)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+    </script>
+</body>
+</html>

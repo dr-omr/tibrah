@@ -1,0 +1,26 @@
+# API Keys و الإعدادات الحساسة
+config.js
+
+# ملفات النظام
+.DS_Store
+Thumbs.db
+
+# ملفات المحررات
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# مجلدات node_modules
+node_modules/
+npm-debug.log
+
+# ملفات البيئة
+.env
+.env.local
+.env.production
+
+# ملفات مؤقتة
+*.tmp
+*.log
