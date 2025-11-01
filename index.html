@@ -110,12 +110,8 @@
         <!-- TailwindCSS Framework -->
         <script src="https://cdn.tailwindcss.com"></script>
         
-        <!-- ═════ 1.5.1 API KEYS CONFIGURATION ═════ -->
-        <!-- ⚠️ مهم: قم بتحميل ملف config.js الذي يحتوي على API Keys -->
-        <!-- ⚠️ لا ترفع ملف config.js إلى GitHub أو أي مستودع عام -->
-        <!-- لتفعيل ميزات AI، قم بإلغاء التعليق من السطر التالي: -->
-        <!-- <script src="config.js"></script> -->
-        <!-- اقرأ README-API-KEYS.md لمزيد من التفاصيل -->
+        <!-- ═════ 1.5.1 API CONFIGURATION ═════ -->
+        <!-- جميع API Keys مدمجة ومفعلة في الكود -->
 
         <!-- ═════ 1.6 ANALYTICS & TRACKING ═════ -->
         <!-- Google Analytics (GA4) -->
@@ -452,15 +448,21 @@
                 --primary-color: #1F6FEB;
                 --primary-hover: #0F4CA8;
                 --primary-active: #0A3A7A;
+                /* Darker primary used in gradients/accents */
+                --primary-dark: #0A3A7A;
                 --primary-light: #6AA8FF;
                 --primary-lighter: #A3CBFF;
                 --primary-subtle: #EAF2FF;
+                /* Very light tint of primary for backgrounds/highlights */
+                --primary-verylight: #EEF6FF;
                 
                 /* Accent Colors */
                 --accent-color: #14B8A6;
                 --accent-hover: #0D9488;
                 --accent-light: #5EEAD4;
                 --accent-subtle: #CCFBF1;
+                /* Gold accent used for subtle glows */
+                --accent-gold: #FBBF24;
                 
                 /* Background Colors */
                 --bg-page: #F8FAFC;
@@ -473,6 +475,8 @@
                 --text-primary: #0F172A;
                 --text-secondary: #475569;
                 --text-tertiary: #64748B;
+                /* Lighter text for dark-on-primary elements */
+                --text-light: #FFFFFF;
                 --text-inverse: #FFFFFF;
                 --text-link: #1F6FEB;
                 --text-link-hover: #0F4CA8;
@@ -2880,9 +2884,6 @@
             }
 
             /* ⚠️ تم حذف animation من .page-view لتجنب الوميض عند التحميل */
-            .page-view {
-                /* animation: fadeInUp 0.5s ease-out; */
-            }
 
             /* ========== HERO ANIMATIONS ========== */
 
@@ -3121,11 +3122,26 @@
                     opacity: 1;
                 }
                 50% {
-                    opacity: 0.7;
+                    opacity: .5;
                 }
             }
-
-            /* Hero Special Effects */
+            
+            /* Slow pulse animation for chatbot button */
+            @keyframes pulse-slow {
+                0%, 100% {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+                50% {
+                    opacity: 0.85;
+                    transform: scale(1.05);
+                }
+            }
+            
+            .animate-pulse-slow {
+                animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+            
             @keyframes hero-ring-rotate {
                 from { transform: rotate(0deg); }
                 to { transform: rotate(360deg); }
@@ -3230,17 +3246,18 @@
 
             /* ========== MOBILE OPTIMIZATIONS ========== */
             
-            /* Mobile Bottom Navigation */
+            /* Mobile Bottom Navigation - Glass Effect */
             .mobile-bottom-nav {
                 position: fixed;
                 bottom: 0;
                 left: 0;
                 right: 0;
-                background: rgba(255, 255, 255, 0.95);
-                backdrop-filter: blur(20px) saturate(180%);
-                -webkit-backdrop-filter: blur(20px) saturate(180%);
-                border-top: 1px solid rgba(0, 0, 0, 0.08);
-                box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+                background: rgba(255, 255, 255, 0.7);
+                backdrop-filter: blur(30px) saturate(180%);
+                -webkit-backdrop-filter: blur(30px) saturate(180%);
+                border-top: 1px solid rgba(255, 255, 255, 0.3);
+                box-shadow: 0 -8px 32px 0 rgba(31, 38, 135, 0.2),
+                           0 -1px 0 0 rgba(255, 255, 255, 0.6) inset;
                 z-index: 100;
                 padding-bottom: env(safe-area-inset-bottom, 0px);
                 display: none;
@@ -3269,7 +3286,7 @@
                 }
                 
                 /* Stack layouts */
-                .grid.md\\:grid-cols-3 {
+                .grid.md\:grid-cols-3 {
                     grid-template-columns: 1fr !important;
                 }
                 
@@ -3296,7 +3313,9 @@
                 min-width: 48px;
                 padding: 8px 4px;
                 text-decoration: none;
-                color: #64748B;
+                color: #334155;
+                font-weight: 700;
+                text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
                 transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                 cursor: pointer;
                 -webkit-tap-highlight-color: transparent;
@@ -3496,8 +3515,24 @@
             
             /* Dark mode adjustments */
             html[data-theme="dark"] .mobile-bottom-nav {
-                background: rgba(30, 41, 59, 0.95);
-                border-top-color: rgba(255, 255, 255, 0.1);
+                background: rgba(15, 23, 42, 0.7);
+                backdrop-filter: blur(30px) saturate(180%);
+                -webkit-backdrop-filter: blur(30px) saturate(180%);
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                box-shadow: 0 -8px 32px 0 rgba(0, 0, 0, 0.5),
+                           0 -1px 0 0 rgba(255, 255, 255, 0.05) inset;
+            }
+            
+            html[data-theme="dark"] .mobile-nav-item {
+                color: #CBD5E1;
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            }
+            
+            html[data-theme="dark"] header {
+                background: rgba(15, 23, 42, 0.75) !important;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+                box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5),
+                           0 1px 0 0 rgba(255, 255, 255, 0.05) inset !important;
             }
             
             html[data-theme="dark"] .mobile-nav-item {
@@ -3684,6 +3719,91 @@
                 }
             }
             
+            /* ═══════════════════════════════════════════════════════════
+               GLOBAL SEARCH STYLES
+               ═══════════════════════════════════════════════════════════ */
+            
+            /* Ensure search container allows dropdown to overflow */
+            #global-search-container {
+                position: relative;
+                z-index: 100;
+            }
+            
+            /* Search results dropdown styling */
+            #global-search-results {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                margin-top: 0.5rem;
+                background: white;
+                border-radius: 1rem;
+                box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.3),
+                           0 10px 20px -5px rgba(0, 0, 0, 0.1);
+                border: 1px solid #e5e7eb;
+                max-height: 500px;
+                overflow-y: auto;
+                z-index: 9999 !important;
+                animation: slideDown 0.3s ease-out;
+            }
+            
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            /* Ensure header and nav don't clip the dropdown */
+            header {
+                overflow: visible !important;
+            }
+            
+            header nav {
+                overflow: visible !important;
+            }
+            
+            header .container {
+                overflow: visible !important;
+            }
+            
+            /* Smooth scrollbar for search results */
+            #global-search-results::-webkit-scrollbar {
+                width: 8px;
+            }
+            
+            #global-search-results::-webkit-scrollbar-track {
+                background: #f1f5f9;
+                border-radius: 0 1rem 1rem 0;
+            }
+            
+            #global-search-results::-webkit-scrollbar-thumb {
+                background: #cbd5e1;
+                border-radius: 4px;
+            }
+            
+            #global-search-results::-webkit-scrollbar-thumb:hover {
+                background: #94a3b8;
+            }
+            
+            /* Search item hover effects */
+            .search-item {
+                transition: all 0.2s ease;
+            }
+            
+            .search-item:hover {
+                transform: translateX(-4px);
+            }
+            
+            /* Mobile search modal optimization */
+            #mobile-search-modal {
+                z-index: 200 !important;
+            }
+            
         </style>
     </head>
 
@@ -3699,43 +3819,77 @@
      ───────────────────────────────────────────────────────────────────────────── -->
         <!-- Desktop Header Navigation (Enhanced Modern Style) -->
         <header
-            class="bg-white/90 backdrop-blur-2xl saturate-180 shadow-lg sticky top-0 z-50 transition-all duration-500 border-b border-gray-200/50"
-            role="banner" style="backdrop-filter: blur(24px); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);">
-            <nav class="container max-w-7xl mx-auto px-6 sm:px-8 py-4 flex justify-between items-center">
+            class="sticky top-0 z-50 transition-all duration-500"
+            role="banner" 
+            style="background: rgba(255, 255, 255, 0.7);
+                   backdrop-filter: blur(30px) saturate(180%);
+                   -webkit-backdrop-filter: blur(30px) saturate(180%);
+                   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+                   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15),
+                              0 1px 0 0 rgba(255, 255, 255, 0.6) inset;
+                   overflow: visible;">
+            <nav class="container max-w-7xl mx-auto px-6 sm:px-8 py-4 flex justify-between items-center" style="overflow: visible;">
                 <!-- Logo with Enhanced Style -->
                 <a href="#" class="nav-link group flex items-center gap-3" data-view="hero">
-                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <i class="fas fa-heart-pulse text-white text-xl"></i>
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                        <i class="fa-solid fa-heart-pulse text-white text-2xl drop-shadow-lg"></i>
                     </div>
                     <div class="flex flex-col">
-                        <span class="font-brand text-2xl font-black text-gray-900 group-hover:text-blue-600 transition-colors" style="letter-spacing: -0.02em;">
+                        <span class="font-brand text-2xl font-black group-hover:text-blue-600 transition-colors" 
+                              style="letter-spacing: -0.02em; color: #1e293b; text-shadow: 0 1px 2px rgba(255,255,255,0.8);">
                             د. عمر العماد
                         </span>
-                        <span class="text-xs text-gray-500 font-semibold">Ṭibrah Medical</span>
+                        <span class="text-xs font-bold" style="color: #475569; text-shadow: 0 1px 1px rgba(255,255,255,0.5);">Ṭibrah Medical</span>
                     </div>
                 </a>
+
+                <!-- Global Search Bar - Desktop -->
+                <div class="hidden lg:block flex-1 max-w-2xl mx-8 relative" id="global-search-container">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="global-search-input"
+                            placeholder="ابحث عن منتجات، خدمات، دورات، مقالات..." 
+                            class="w-full px-5 py-3 pr-12 rounded-full border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-all duration-300 text-sm bg-white/80 backdrop-blur-sm"
+                            autocomplete="off"
+                        />
+                        <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <button id="global-search-clear" class="hidden absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <!-- Search Results Dropdown -->
+                    <div id="global-search-results" class="hidden">
+                        <!-- Results will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Mobile Search Button -->
+                <button id="mobile-search-btn" class="lg:hidden w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors">
+                    <i class="fas fa-search text-gray-600"></i>
+                </button>
 
                 <!-- Desktop Navigation Links -->
                 <div class="hidden lg:flex items-center gap-8">
                     <div class="flex items-center gap-1 bg-gray-50/80 rounded-full px-2 py-2">
                         <a href="#" class="nav-link px-4 py-2 rounded-full hover:bg-white hover:shadow-md transition-all duration-300 text-sm font-semibold text-gray-700 hover:text-blue-600"
                             data-view="chronic-care">
-                            <i class="fas fa-heartbeat mr-2 text-red-500"></i>
+                            <i class="fa-solid fa-heart-circle-check mr-2 text-red-500 text-base"></i>
                             <span class="translate-text" data-ar="الأمراض المزمنة" data-en="Chronic Care">الأمراض المزمنة</span>
                         </a>
                         <a href="#" class="nav-link px-4 py-2 rounded-full hover:bg-white hover:shadow-md transition-all duration-300 text-sm font-semibold text-gray-700 hover:text-blue-600"
                             data-view="services">
-                            <i class="fas fa-stethoscope mr-2 text-blue-500"></i>
+                            <i class="fa-solid fa-user-doctor mr-2 text-blue-500 text-base"></i>
                             <span class="translate-text" data-ar="الاستشارات" data-en="Consultations">الاستشارات</span>
                         </a>
                         <a href="#" class="nav-link px-4 py-2 rounded-full hover:bg-white hover:shadow-md transition-all duration-300 text-sm font-semibold text-gray-700 hover:text-blue-600"
                             data-view="dashboard">
-                            <i class="fas fa-grid-2 mr-2 text-purple-500"></i>
+                            <i class="fa-solid fa-grid-2-plus mr-2 text-purple-500 text-base"></i>
                             <span class="translate-text" data-ar="الأدوات" data-en="Tools">الأدوات</span>
                         </a>
                         <a href="#" class="nav-link px-4 py-2 rounded-full hover:bg-white hover:shadow-md transition-all duration-300 text-sm font-semibold text-gray-700 hover:text-blue-600"
                             data-view="frequencies">
-                            <i class="fas fa-wave-square mr-2 text-green-500"></i>
+                            <i class="fa-solid fa-waveform-lines mr-2 text-green-500 text-base"></i>
                             <span class="translate-text" data-ar="الترددات" data-en="Frequencies">الترددات</span>
                         </a>
                     </div>
@@ -3744,7 +3898,7 @@
                     <a href="#" class="nav-link text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors"
                         data-view="blog"><span class="translate-text" data-ar="المدونة" data-en="Blog">المدونة</span></a>
                     <a href="#" class="nav-link text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors"
-                        data-view="store"><span class="translate-text" data-ar="المتجر" data-en="Store">المتجر</span></a>
+                        data-view="shop"><span class="translate-text" data-ar="المتجر" data-en="Store">المتجر</span></a>
                     
                     <!-- Auth Section -->
                     <div id="auth-section" class="flex items-center">
@@ -3763,7 +3917,7 @@
                 <!-- CTA Button -->
                 <a href="https://wa.me/967771447111?text=أرغب%20في%20حجز%20استشارة" target="_blank"
                    class="hidden lg:flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-6 py-3 rounded-full font-bold text-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                    <i class="fab fa-whatsapp text-lg"></i>
+                    <i class="fa-brands fa-whatsapp text-xl animate-pulse"></i>
                     <span class="translate-text" data-ar="احجز الآن" data-en="Book Now">احجز الآن</span>
                 </a>
                 <!-- Controls Group -->
@@ -3772,7 +3926,7 @@
                     <button id="theme-toggle" 
                         class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-gray-900 transition-all duration-300 hover:scale-110"
                         aria-label="تبديل الوضع">
-                        <i class="fa-solid fa-moon text-lg"></i>
+                        <i class="fa-solid fa-moon-stars text-lg"></i>
                     </button>
                     
                     <!-- Language Toggle -->
@@ -3788,7 +3942,7 @@
                         class="lg:hidden w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 transition-all duration-300" 
                         aria-controls="mobile-menu" 
                         aria-expanded="false">
-                        <i class="fas fa-bars text-lg"></i>
+                        <i class="fa-solid fa-bars-staggered text-lg"></i>
                     </button>
                 </div>
             </nav>
@@ -3797,19 +3951,19 @@
                 <div class="px-6 py-4 space-y-2">
                     <!-- Primary Links -->
                     <a href="#" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-blue-50 transition-all group" data-view="chronic-care">
-                        <i class="fas fa-heartbeat text-red-500 text-lg group-hover:scale-110 transition-transform"></i>
+                        <i class="fa-solid fa-heart-circle-check text-red-500 text-xl group-hover:scale-110 transition-transform"></i>
                         <span class="font-semibold text-gray-700 group-hover:text-blue-600 translate-text" data-ar="الأمراض المزمنة" data-en="Chronic Care">الأمراض المزمنة</span>
                     </a>
                     <a href="#" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-blue-50 transition-all group" data-view="services">
-                        <i class="fas fa-stethoscope text-blue-500 text-lg group-hover:scale-110 transition-transform"></i>
+                        <i class="fa-solid fa-user-doctor text-blue-500 text-xl group-hover:scale-110 transition-transform"></i>
                         <span class="font-semibold text-gray-700 group-hover:text-blue-600 translate-text" data-ar="الاستشارات" data-en="Consultations">الاستشارات</span>
                     </a>
                     <a href="#" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-blue-50 transition-all group" data-view="dashboard">
-                        <i class="fas fa-grid-2 text-purple-500 text-lg group-hover:scale-110 transition-transform"></i>
+                        <i class="fa-solid fa-grid-2-plus text-purple-500 text-xl group-hover:scale-110 transition-transform"></i>
                         <span class="font-semibold text-gray-700 group-hover:text-blue-600 translate-text" data-ar="الأدوات التفاعلية" data-en="Tools">الأدوات التفاعلية</span>
                     </a>
                     <a href="#" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-blue-50 transition-all group" data-view="frequencies">
-                        <i class="fas fa-wave-square text-green-500 text-lg group-hover:scale-110 transition-transform"></i>
+                        <i class="fa-solid fa-waveform-lines text-green-500 text-xl group-hover:scale-110 transition-transform"></i>
                         <span class="font-semibold text-gray-700 group-hover:text-blue-600 translate-text" data-ar="الترددات" data-en="Frequencies">الترددات</span>
                     </a>
                     
@@ -3817,15 +3971,15 @@
                     
                     <!-- Secondary Links -->
                     <a href="#" class="nav-link flex items-center gap-3 px-4 py-2 text-gray-600 hover:text-blue-600 transition-colors" data-view="blog">
-                        <i class="fas fa-book-open text-sm"></i>
+                        <i class="fa-solid fa-book-bookmark text-base"></i>
                         <span class="translate-text" data-ar="المدونة" data-en="Blog">المدونة</span>
                     </a>
-                    <a href="#" class="nav-link flex items-center gap-3 px-4 py-2 text-gray-600 hover:text-blue-600 transition-colors" data-view="store">
-                        <i class="fas fa-store text-sm"></i>
+                    <a href="#" class="nav-link flex items-center gap-3 px-4 py-2 text-gray-600 hover:text-blue-600 transition-colors" data-view="shop">
+                        <i class="fa-solid fa-bag-shopping text-base"></i>
                         <span class="translate-text" data-ar="المتجر" data-en="Store">المتجر</span>
                     </a>
                     <a href="#" class="nav-link flex items-center gap-3 px-4 py-2 text-gray-600 hover:text-blue-600 transition-colors" data-view="about">
-                        <i class="fas fa-user text-sm"></i>
+                        <i class="fa-solid fa-circle-user text-base"></i>
                         <span class="translate-text" data-ar="عني" data-en="About">عني</span>
                     </a>
                     
@@ -3888,18 +4042,22 @@
                 
                 <!-- Ultra-Premium Background System -->
                 <div class="absolute inset-0 w-full h-full">
-                    <!-- Deep Space Gradient -->
+                    <!-- Modern Vibrant Gradient -->
                     <div class="absolute inset-0" 
-                         style="background: radial-gradient(ellipse at top, #000428 0%, #004e92 50%, #001935 100%);"></div>
+                         style="background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);"></div>
+                    
+                    <!-- Subtle Overlay -->
+                    <div class="absolute inset-0" 
+                         style="background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, transparent 50%, rgba(0,0,0,0.2) 100%);"></div>
                     
                     <!-- Animated Gradient Mesh -->
-                    <div class="absolute inset-0 opacity-40"
+                    <div class="absolute inset-0 opacity-30"
                          style="background: 
-                                radial-gradient(at 20% 30%, rgba(99, 102, 241, 0.4) 0px, transparent 50%),
-                                radial-gradient(at 80% 20%, rgba(168, 85, 247, 0.3) 0px, transparent 50%),
-                                radial-gradient(at 40% 70%, rgba(59, 130, 246, 0.3) 0px, transparent 50%),
-                                radial-gradient(at 90% 80%, rgba(236, 72, 153, 0.2) 0px, transparent 50%);
-                                animation: meshMove 15s ease-in-out infinite;"></div>
+                                radial-gradient(at 20% 30%, rgba(255, 255, 255, 0.2) 0px, transparent 50%),
+                                radial-gradient(at 80% 20%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                                radial-gradient(at 40% 70%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+                                radial-gradient(at 90% 80%, rgba(236, 72, 153, 0.1) 0px, transparent 50%);
+                                animation: meshMove 20s ease-in-out infinite;"></div>
                     
                     <!-- Floating Particles -->
                     <div class="absolute inset-0" id="hero-particles"></div>
@@ -3960,7 +4118,8 @@
                                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                                             <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                                         </span>
-                                        <span class="translate-text text-xs font-semibold text-white" 
+                                        <span class="translate-text text-sm font-bold text-white" 
+                                              style="text-shadow: 0 1px 4px rgba(0,0,0,0.5);"
                                               data-ar="متاح الآن" 
                                               data-en="Available Now">متاح الآن</span>
                                     </div>
@@ -3969,8 +4128,9 @@
                                 <!-- Credentials Badge -->
                                 <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2">
                                     <div class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full glass-premium">
-                                        <i class="fas fa-user-md text-blue-400"></i>
-                                        <span class="translate-text text-xs font-bold text-white" 
+                                        <i class="fa-solid fa-user-doctor text-blue-300 text-lg"></i>
+                                        <span class="translate-text text-sm font-bold text-white" 
+                                              style="text-shadow: 0 1px 4px rgba(0,0,0,0.5);"
                                               data-ar="طبيب معتمد" 
                                               data-en="Certified Doctor">طبيب معتمد</span>
                                     </div>
@@ -4018,7 +4178,7 @@
                                    class="shimmer-btn inline-flex items-center px-10 py-5 rounded-2xl text-white font-bold text-lg shadow-2xl hover:scale-105 transition-transform"
                                    style="background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
                                           box-shadow: 0 20px 60px rgba(99, 102, 241, 0.4);">
-                                    <i class="fab fa-whatsapp ml-2"></i>
+                                    <i class="fa-brands fa-whatsapp ml-2 text-2xl"></i>
                                     <span class="translate-text" data-ar="ابدأ رحلة الشفاء" data-en="Start Healing Journey">ابدأ رحلة الشفاء</span>
                                 </a>
                                 <a href="#" class="nav-link glass-premium inline-flex items-center px-8 py-5 rounded-2xl text-white font-semibold hover:scale-105 transition-transform" data-view="dashboard">
@@ -4029,15 +4189,15 @@
                             <!-- Trust Elements -->
                             <div class="flex gap-6 justify-end text-sm text-white/60 flex-wrap">
                                 <div class="flex items-center gap-2">
-                                    <i class="fas fa-shield-check text-green-400"></i>
+                                    <i class="fa-solid fa-shield-check text-green-400 text-lg"></i>
                                     <span class="translate-text" data-ar="خصوصية تامة" data-en="Complete Privacy">خصوصية تامة</span>
                                 </div>
                                 <div class="flex items-center gap-2">
-                                    <i class="fas fa-gift text-blue-400"></i>
+                                    <i class="fa-solid fa-gift text-blue-400 text-lg"></i>
                                     <span class="translate-text" data-ar="استشارة أولية مجانية" data-en="Free Initial Consultation">استشارة أولية مجانية</span>
                                 </div>
                                 <div class="flex items-center gap-2">
-                                    <i class="fas fa-heart text-pink-400"></i>
+                                    <i class="fa-solid fa-heart-pulse text-pink-400 text-lg"></i>
                                     <span class="translate-text" data-ar="رعاية شخصية" data-en="Personal Care">رعاية شخصية</span>
                                 </div>
                             </div>
@@ -4111,7 +4271,7 @@
                         </a>
                         
                         <!-- Card 5: Store -->
-                        <a href="#" class="nav-link group relative bg-gradient-to-br from-pink-500/10 to-rose-500/10 backdrop-blur-md border border-pink-500/20 hover:border-pink-500/40 p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/20" data-view="store">
+                        <a href="#" class="nav-link group relative bg-gradient-to-br from-pink-500/10 to-rose-500/10 backdrop-blur-md border border-pink-500/20 hover:border-pink-500/40 p-6 rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/20" data-view="shop">
                             <div class="absolute top-2 right-2 bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 px-2 py-0.5 rounded-full text-xs font-bold">قريباً</div>
                             <div class="flex flex-col items-center text-center space-y-3">
                                 <div class="w-16 h-16 rounded-2xl flex items-center justify-center bg-gradient-to-br from-pink-500 to-rose-600 shadow-lg group-hover:scale-110 transition-transform">
@@ -4146,14 +4306,14 @@
             <section id="view-booking" class="page-view bg-gradient-to-br from-indigo-50 via-white to-purple-50 hidden">
                 <div class="container max-w-6xl mx-auto px-4 py-20">
                     <button class="nav-link mb-10 inline-flex items-center gap-2 text-gray-600 hover:text-gray-900" data-view="hero">
-                        <i class="fas fa-arrow-right"></i>
-                        <span>العودة</span>
+                        <i class="fa-solid fa-arrow-right-long text-lg"></i>
+                        <span class="font-bold">العودة</span>
                     </button>
 
                     <!-- Header -->
                     <div class="text-center mb-16">
                         <div class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 mb-6">
-                            <i class="fas fa-calendar-check text-indigo-600"></i>
+                            <i class="fa-solid fa-calendar-check text-indigo-600 text-xl"></i>
                             <span class="text-indigo-900 font-semibold">نظام الحجز الذكي</span>
                         </div>
                         <h1 class="text-5xl font-bold text-gray-900 mb-4">احجز موعدك الآن</h1>
@@ -4165,23 +4325,23 @@
                     <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                         <!-- Online Consultation -->
                         <div class="bg-white rounded-3xl shadow-2xl p-8 border-2 border-transparent hover:border-blue-500 transition-all">
-                            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mb-6 mx-auto">
-                                <i class="fas fa-video text-white text-3xl"></i>
+                            <div class="w-24 h-24 rounded-3xl bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-600 flex items-center justify-center mb-6 mx-auto shadow-2xl">
+                                <i class="fa-solid fa-video text-white text-4xl drop-shadow-lg"></i>
                             </div>
                             <h3 class="text-2xl font-bold text-center mb-4">استشارة أونلاين</h3>
                             <p class="text-gray-600 text-center mb-6">جلسة فيديو خاصة من أي مكان</p>
                             
                             <div class="space-y-4 mb-8">
-                                <div class="flex items-center gap-3 text-gray-700">
-                                    <i class="fas fa-check-circle text-green-500"></i>
+                                <div class="flex items-center gap-3 text-gray-700 font-semibold">
+                                    <i class="fa-solid fa-circle-check text-green-500 text-xl"></i>
                                     <span>مدة الجلسة: 45 دقيقة</span>
                                 </div>
-                                <div class="flex items-center gap-3 text-gray-700">
-                                    <i class="fas fa-check-circle text-green-500"></i>
+                                <div class="flex items-center gap-3 text-gray-700 font-semibold">
+                                    <i class="fa-solid fa-circle-check text-green-500 text-xl"></i>
                                     <span>تقرير طبي مفصل بعد الجلسة</span>
                                 </div>
-                                <div class="flex items-center gap-3 text-gray-700">
-                                    <i class="fas fa-check-circle text-green-500"></i>
+                                <div class="flex items-center gap-3 text-gray-700 font-semibold">
+                                    <i class="fa-solid fa-circle-check text-green-500 text-xl"></i>
                                     <span>متابعة لمدة أسبوع</span>
                                 </div>
                             </div>
@@ -4193,8 +4353,8 @@
 
                             <a href="https://wa.me/967771447111?text=أريد حجز استشارة أونلاين" 
                                target="_blank"
-                               class="block w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-center rounded-2xl font-bold hover:scale-105 transition-transform shadow-lg">
-                                <i class="fab fa-whatsapp ml-2"></i>
+                               class="block w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-center rounded-2xl font-bold text-lg hover:scale-105 transition-transform shadow-2xl">
+                                <i class="fa-brands fa-whatsapp ml-2 text-2xl"></i>
                                 احجز عبر WhatsApp
                             </a>
                         </div>
@@ -4206,27 +4366,27 @@
                                 الأكثر طلباً
                             </div>
                             
-                            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mb-6 mx-auto mt-8">
-                                <i class="fas fa-clinic-medical text-white text-3xl"></i>
+                            <div class="w-24 h-24 rounded-3xl bg-gradient-to-br from-purple-500 via-purple-600 to-pink-600 flex items-center justify-center mb-6 mx-auto mt-8 shadow-2xl">
+                                <i class="fa-solid fa-hospital text-white text-4xl drop-shadow-lg"></i>
                             </div>
                             <h3 class="text-2xl font-bold text-center mb-4">استشارة في العيادة</h3>
                             <p class="text-gray-600 text-center mb-6">جلسة شخصية في بيئة احترافية</p>
                             
                             <div class="space-y-4 mb-8">
-                                <div class="flex items-center gap-3 text-gray-700">
-                                    <i class="fas fa-check-circle text-green-500"></i>
+                                <div class="flex items-center gap-3 text-gray-700 font-semibold">
+                                    <i class="fa-solid fa-circle-check text-green-500 text-xl"></i>
                                     <span>مدة الجلسة: 60 دقيقة</span>
                                 </div>
-                                <div class="flex items-center gap-3 text-gray-700">
-                                    <i class="fas fa-check-circle text-green-500"></i>
+                                <div class="flex items-center gap-3 text-gray-700 font-semibold">
+                                    <i class="fa-solid fa-circle-check text-green-500 text-xl"></i>
                                     <span>فحص شامل وتقييم دقيق</span>
                                 </div>
-                                <div class="flex items-center gap-3 text-gray-700">
-                                    <i class="fas fa-check-circle text-green-500"></i>
+                                <div class="flex items-center gap-3 text-gray-700 font-semibold">
+                                    <i class="fa-solid fa-circle-check text-green-500 text-xl"></i>
                                     <span>خطة علاج مخصصة</span>
                                 </div>
-                                <div class="flex items-center gap-3 text-gray-700">
-                                    <i class="fas fa-check-circle text-green-500"></i>
+                                <div class="flex items-center gap-3 text-gray-700 font-semibold">
+                                    <i class="fa-solid fa-circle-check text-green-500 text-xl"></i>
                                     <span>متابعة لمدة شهر</span>
                                 </div>
                             </div>
@@ -4239,7 +4399,7 @@
                             <a href="https://wa.me/967771447111?text=أريد حجز استشارة في العيادة" 
                                target="_blank"
                                class="block w-full px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-center rounded-2xl font-bold hover:scale-105 transition-transform shadow-lg">
-                                <i class="fab fa-whatsapp ml-2"></i>
+                                <i class="fa-brands fa-whatsapp ml-2 text-2xl"></i>
                                 احجز عبر WhatsApp
                             </a>
                         </div>
@@ -4251,14 +4411,14 @@
                         <div class="bg-white rounded-3xl shadow-xl p-8">
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl">
-                                    <i class="fas fa-calendar-day text-indigo-600 text-2xl"></i>
+                                    <i class="fa-solid fa-calendar-day text-indigo-600 text-3xl"></i>
                                     <div>
                                         <div class="font-bold text-gray-900">السبت - الأربعاء</div>
                                         <div class="text-gray-600">9:00 صباحاً - 5:00 مساءً</div>
                                     </div>
                                 </div>
                                 <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl">
-                                    <i class="fas fa-calendar-day text-indigo-600 text-2xl"></i>
+                                    <i class="fa-solid fa-calendar-day text-indigo-600 text-3xl"></i>
                                     <div>
                                         <div class="font-bold text-gray-900">الخميس</div>
                                         <div class="text-gray-600">9:00 صباحاً - 2:00 ظهراً</div>
@@ -4267,7 +4427,7 @@
                             </div>
 
                             <div class="mt-8 p-6 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl text-center">
-                                <i class="fas fa-info-circle text-indigo-600 text-2xl mb-3"></i>
+                                <i class="fa-solid fa-circle-info text-indigo-600 text-3xl mb-3"></i>
                                 <p class="text-gray-700 leading-relaxed">
                                     💡 <strong>نصيحة:</strong> يُفضل الحجز قبل 48 ساعة على الأقل لضمان توفر الموعد المناسب
                                 </p>
@@ -4295,14 +4455,14 @@
             <section id="view-health-journal" class="page-view bg-gradient-to-br from-teal-50 via-white to-cyan-50 hidden">
                 <div class="container max-w-6xl mx-auto px-4 py-20">
                     <button class="nav-link mb-10 inline-flex items-center gap-2 text-gray-600 hover:text-gray-900" data-view="hero">
-                        <i class="fas fa-arrow-right"></i>
-                        <span>العودة</span>
+                        <i class="fa-solid fa-arrow-right-long text-lg"></i>
+                        <span class="font-bold">العودة</span>
                     </button>
 
                     <!-- Header -->
                     <div class="text-center mb-16">
                         <div class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-teal-100 to-cyan-100 mb-6">
-                            <i class="fas fa-book-medical text-teal-600"></i>
+                            <i class="fa-solid fa-book-medical text-teal-600 text-xl"></i>
                             <span class="text-teal-900 font-semibold">يوميات الصحة الشخصية</span>
                         </div>
                         <h1 class="text-5xl font-bold text-gray-900 mb-4">تتبع رحلتك الصحية</h1>
@@ -4400,7 +4560,7 @@
                             <!-- Submit Button -->
                             <div class="text-center">
                                 <button type="submit" class="px-12 py-5 bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-bold text-lg rounded-2xl hover:scale-105 transition-transform shadow-2xl">
-                                    <i class="fas fa-save ml-2"></i>
+                                    <i class="fa-solid fa-floppy-disk ml-2 text-xl"></i>
                                     حفظ التسجيل
                                 </button>
                             </div>
@@ -4424,14 +4584,14 @@
             <section id="view-community" class="page-view bg-gradient-to-br from-rose-50 via-white to-pink-50 hidden">
                 <div class="container max-w-6xl mx-auto px-4 py-20">
                     <button class="nav-link mb-10 inline-flex items-center gap-2 text-gray-600 hover:text-gray-900" data-view="hero">
-                        <i class="fas fa-arrow-right"></i>
-                        <span>العودة</span>
+                        <i class="fa-solid fa-arrow-right-long text-lg"></i>
+                        <span class="font-bold">العودة</span>
                     </button>
 
                     <!-- Header -->
                     <div class="text-center mb-16">
                         <div class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-rose-100 to-pink-100 mb-6">
-                            <i class="fas fa-users text-rose-600"></i>
+                            <i class="fa-solid fa-users text-rose-600 text-xl"></i>
                             <span class="text-rose-900 font-semibold">مجتمع Ṭibrah</span>
                         </div>
                         <h1 class="text-5xl font-bold text-gray-900 mb-4">انضم لمجتمع الصحة الواعية</h1>
@@ -4461,13 +4621,12 @@
                     </div>
 
                     <!-- Forum Categories -->
-                    <div class="grid md:grid-cols-2 gap-6">
                         <!-- Category 1 -->
                         <a href="https://wa.me/967771447111?text=أريد الانضمام لمجموعة التغذية" target="_blank"
                            class="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-shadow group">
                             <div class="flex items-center gap-4 mb-4">
-                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center">
-                                    <i class="fas fa-utensils text-white text-2xl"></i>
+                                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center shadow-xl">
+                                    <i class="fa-solid fa-utensils text-white text-3xl drop-shadow-lg"></i>
                                 </div>
                                 <div>
                                     <h3 class="text-2xl font-bold text-gray-900">التغذية العلاجية</h3>
@@ -4483,8 +4642,8 @@
                         <a href="https://wa.me/967771447111?text=أريد الانضمام لمجموعة الأمراض المزمنة" target="_blank"
                            class="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-shadow group">
                             <div class="flex items-center gap-4 mb-4">
-                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-                                    <i class="fas fa-heartbeat text-white text-2xl"></i>
+                                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-xl">
+                                    <i class="fa-solid fa-heart-pulse text-white text-3xl drop-shadow-lg"></i>
                                 </div>
                                 <div>
                                     <h3 class="text-2xl font-bold text-gray-900">الأمراض المزمنة</h3>
@@ -4500,8 +4659,8 @@
                         <a href="https://wa.me/967771447111?text=أريد الانضمام لمجموعة الصحة العقلية" target="_blank"
                            class="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-shadow group">
                             <div class="flex items-center gap-4 mb-4">
-                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                                    <i class="fas fa-brain text-white text-2xl"></i>
+                                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-xl">
+                                    <i class="fa-solid fa-brain text-white text-3xl drop-shadow-lg"></i>
                                 </div>
                                 <div>
                                     <h3 class="text-2xl font-bold text-gray-900">الصحة العقلية والعاطفية</h3>
@@ -4517,8 +4676,8 @@
                         <a href="https://wa.me/967771447111?text=أريد الانضمام لمجموعة الطب البديل" target="_blank"
                            class="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-shadow group">
                             <div class="flex items-center gap-4 mb-4">
-                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
-                                    <i class="fas fa-spa text-white text-2xl"></i>
+                                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-xl">
+                                    <i class="fa-solid fa-spa text-white text-3xl drop-shadow-lg"></i>
                                 </div>
                                 <div>
                                     <h3 class="text-2xl font-bold text-gray-900">الطب البديل والتكميلي</h3>
@@ -4536,28 +4695,28 @@
                         <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">قواعد المجتمع</h3>
                         <div class="grid md:grid-cols-2 gap-6">
                             <div class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
+                                <i class="fa-solid fa-circle-check text-green-500 text-2xl mt-1"></i>
                                 <div>
                                     <h4 class="font-bold text-gray-900 mb-2">الاحترام المتبادل</h4>
                                     <p class="text-gray-600 text-sm">تعامل مع الجميع بلطف وتفهم</p>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
+                                <i class="fa-solid fa-circle-check text-green-500 text-2xl mt-1"></i>
                                 <div>
                                     <h4 class="font-bold text-gray-900 mb-2">خصوصية معلوماتك</h4>
                                     <p class="text-gray-600 text-sm">لا تشارك معلومات شخصية حساسة</p>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
+                                <i class="fa-solid fa-circle-check text-green-500 text-2xl mt-1"></i>
                                 <div>
                                     <h4 class="font-bold text-gray-900 mb-2">محتوى هادف</h4>
                                     <p class="text-gray-600 text-sm">شارك معلومات دقيقة ومفيدة فقط</p>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
-                                <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
+                                <i class="fa-solid fa-circle-check text-green-500 text-2xl mt-1"></i>
                                 <div>
                                     <h4 class="font-bold text-gray-900 mb-2">لا نصائح طبية مباشرة</h4>
                                     <p class="text-gray-600 text-sm">شارك تجاربك لكن لا تعطِ تشخيص أو علاج</p>
@@ -5423,80 +5582,117 @@
             </section>
 
             <!-- Home Services Section (Primary iOS-like Cards) -->
-            <section id="featured-services" class="page-view py-16 bg-white dark:bg-gray-900">
+            <section id="featured-services" class="page-view py-16 bg-gradient-to-br from-blue-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
                 <div class="container max-w-screen-lg mx-auto px-4 sm:px-6">
-                    <div class="text-center mb-10">
-                        <h2 class="large-title section-title">ابدأ من هنا</h2>
-                        <p class="text-gray-600 max-w-2xl mx-auto">ركّزنا رحلتك على ثلاث خدمات محورية تقود قراراتك
-                            الطبية بثقة.</p>
+                    <div class="text-center mb-12">
+                        <div class="inline-flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-blue-100 to-teal-100 dark:from-blue-900/30 dark:to-teal-900/30 rounded-full mb-4">
+                            <i class="fas fa-sparkles text-blue-600 dark:text-blue-400"></i>
+                            <span class="text-sm font-bold text-gray-700 dark:text-gray-300">ابدأ رحلتك الصحية</span>
+                        </div>
+                        <h2 class="text-5xl font-black mb-4 bg-gradient-to-r from-blue-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent">ابدأ من هنا</h2>
+                        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">ركّزنا رحلتك على ثلاث خدمات محورية تقود قراراتك الطبية بثقة وعلم.</p>
                     </div>
-                    <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+                    <div class="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
                         <!-- Card: Medical Travel -->
                         <a href="#"
-                            class="nav-link dashboard-card block p-8 rounded-2xl shadow-lg text-center hover:shadow-2xl transition"
+                            class="nav-link group relative overflow-hidden block p-8 rounded-3xl bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
                             data-view="medical-travel">
-                            <span class="badge badge-primary mb-3 inline-block">موصى به</span>
-                            <div class="text-5xl text-[--primary-color] mb-3"><i class="fa-solid fa-plane"></i></div>
-                            <h3 class="text-2xl font-bold mb-2">تنسيق السفر الطبي</h3>
-                            <p class="text-gray-600">تنسيق شامل للمواعيد، التقارير، والسكن بالمراكز المتقدمة.</p>
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full -mr-16 -mt-16"></div>
+                            <div class="relative">
+                                <span class="badge bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-1 rounded-full text-xs mb-4 inline-block shadow-lg">⭐ موصى به</span>
+                                <div class="w-20 h-20 mx-auto mb-5 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                                    <i class="fa-solid fa-plane-departure text-3xl text-white"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-3 text-gray-900 dark:text-white">تنسيق السفر الطبي</h3>
+                                <p class="text-gray-600 dark:text-gray-300 leading-relaxed">تنسيق شامل للمواعيد، التقارير، والسكن بالمراكز الطبية المتقدمة عالمياً.</p>
+                                <div class="mt-4 flex items-center justify-center gap-2 text-blue-600 dark:text-blue-400 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <span>اكتشف المزيد</span>
+                                    <i class="fas fa-arrow-left"></i>
+                                </div>
+                            </div>
                         </a>
                         <!-- Card: Second Opinion -->
                         <a href="#"
-                            class="nav-link dashboard-card block p-8 rounded-2xl shadow-lg text-center hover:shadow-2xl transition"
+                            class="nav-link group relative overflow-hidden block p-8 rounded-3xl bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
                             data-view="second-opinion">
-                            <span class="badge badge-primary mb-3 inline-block">موصى به</span>
-                            <div class="text-5xl text-[--primary-color] mb-3"><i class="fa-solid fa-file-medical"></i>
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-teal-500/10 to-transparent rounded-full -mr-16 -mt-16"></div>
+                            <div class="relative">
+                                <span class="badge bg-gradient-to-r from-teal-500 to-teal-600 text-white px-4 py-1 rounded-full text-xs mb-4 inline-block shadow-lg">⭐ موصى به</span>
+                                <div class="w-20 h-20 mx-auto mb-5 rounded-2xl bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                                    <i class="fa-solid fa-user-doctor text-3xl text-white"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-3 text-gray-900 dark:text-white">الرأي الطبي الثاني</h3>
+                                <p class="text-gray-600 dark:text-gray-300 leading-relaxed">إرسال التقارير إلى استشاريين متخصصين والحصول على توصية طبية دقيقة.</p>
+                                <div class="mt-4 flex items-center justify-center gap-2 text-teal-600 dark:text-teal-400 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <span>أرسل تقريرك</span>
+                                    <i class="fas fa-arrow-left"></i>
+                                </div>
                             </div>
-                            <h3 class="text-2xl font-bold mb-2">الرأي الطبي الثاني</h3>
-                            <p class="text-gray-600">ارسال التقارير إلى استشاريين كبار والحصول على توصية واضحة.</p>
                         </a>
                         <!-- Card: Chronic Disease Hub -->
                         <a href="#"
-                            class="nav-link dashboard-card block p-8 rounded-2xl shadow-lg text-center hover:shadow-2xl transition"
+                            class="nav-link group relative overflow-hidden block p-8 rounded-3xl bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
                             data-view="chronic-care">
-                            <div class="text-5xl text-[--primary-color] mb-3"><i class="fa-solid fa-heart-pulse"></i>
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-cyan-500/10 to-transparent rounded-full -mr-16 -mt-16"></div>
+                            <div class="relative">
+                                <div class="w-20 h-20 mx-auto mb-5 rounded-2xl bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                                    <i class="fa-solid fa-heart-pulse text-3xl text-white"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-3 text-gray-900 dark:text-white">مركز الأمراض المزمنة</h3>
+                                <p class="text-gray-600 dark:text-gray-300 leading-relaxed">محتوى طبي مُراجع من الخبراء لفهم حالتك الصحية بشكل أفضل.</p>
+                                <div class="mt-4 flex items-center justify-center gap-2 text-cyan-600 dark:text-cyan-400 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <span>تصفح المحتوى</span>
+                                    <i class="fas fa-arrow-left"></i>
+                                </div>
                             </div>
-                            <h3 class="text-2xl font-bold mb-2">مركز الأمراض المزمنة</h3>
-                            <p class="text-gray-600">محتوى طبي مُراجع لفهم حالتك، مع مساعد معلومات عام ثانوياً.</p>
                         </a>
                     </div>
 
-                    <div class="mt-12">
-                        <h3 class="text-xl font-bold mb-4 text-right">خدمات وأدوات إضافية</h3>
-                        <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-                            <a href="#" class="nav-link dashboard-card block p-6 rounded-xl shadow-lg text-center"
+                    <div class="mt-16">
+                        <div class="text-center mb-8">
+                            <h3 class="text-3xl font-bold mb-2 text-gray-900 dark:text-white">خدمات وأدوات إضافية</h3>
+                            <p class="text-gray-600 dark:text-gray-400">اكتشف المزيد من الأدوات والخدمات المساعدة</p>
+                        </div>
+                        <div class="grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+                            <a href="#" class="nav-link group relative overflow-hidden block p-5 rounded-2xl bg-gradient-to-br from-purple-50 to-white dark:from-purple-900/20 dark:to-gray-800 shadow-lg hover:shadow-xl text-center transition-all duration-300 hover:-translate-y-1"
                                 data-view="services">
-                                <div class="text-4xl text-[--primary-color] mb-2"><i class="fas fa-user-doctor"></i>
+                                <div class="w-16 h-16 mx-auto mb-3 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-calendar-check text-2xl text-white"></i>
                                 </div>
-                                <h4 class="text-lg font-bold mb-1">الجلسات الاستشارية</h4>
-                                <p class="text-gray-600">استشارة أولية أو متابعة.</p>
+                                <h4 class="text-sm font-bold mb-1 text-gray-900 dark:text-white">الجلسات الاستشارية</h4>
+                                <p class="text-xs text-gray-600 dark:text-gray-400">استشارة أولية أو متابعة</p>
                             </a>
-                            <a href="#" class="nav-link dashboard-card block p-6 rounded-xl shadow-lg text-center"
-                                data-view="store">
-                                <div class="text-4xl text-[--primary-color] mb-2"><i class="fas fa-store"></i></div>
-                                <h4 class="text-lg font-bold mb-1">المتجر العلاجي</h4>
-                                <p class="text-gray-600">منتجات ومكملات موصى بها.</p>
+                            <a href="#" class="nav-link group relative overflow-hidden block p-5 rounded-2xl bg-gradient-to-br from-pink-50 to-white dark:from-pink-900/20 dark:to-gray-800 shadow-lg hover:shadow-xl text-center transition-all duration-300 hover:-translate-y-1"
+                                data-view="shop">
+                                <div class="w-16 h-16 mx-auto mb-3 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-shopping-bag text-2xl text-white"></i>
+                                </div>
+                                <h4 class="text-sm font-bold mb-1 text-gray-900 dark:text-white">المتجر العلاجي</h4>
+                                <p class="text-xs text-gray-600 dark:text-gray-400">منتجات ومكملات موصى بها</p>
                             </a>
-                            <a href="#" class="nav-link dashboard-card block p-6 rounded-xl shadow-lg text-center"
+                            <a href="#" class="nav-link group relative overflow-hidden block p-5 rounded-2xl bg-gradient-to-br from-orange-50 to-white dark:from-orange-900/20 dark:to-gray-800 shadow-lg hover:shadow-xl text-center transition-all duration-300 hover:-translate-y-1"
                                 data-view="faq">
-                                <div class="text-4xl text-[--primary-color] mb-2"><i class="fas fa-circle-question"></i>
+                                <div class="w-16 h-16 mx-auto mb-3 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-question-circle text-2xl text-white"></i>
                                 </div>
-                                <h4 class="text-lg font-bold mb-1">الأسئلة الشائعة</h4>
-                                <p class="text-gray-600">أجوبة مرتبة بعيداً عن تذييل الصفحات.</p>
+                                <h4 class="text-sm font-bold mb-1 text-gray-900 dark:text-white">الأسئلة الشائعة</h4>
+                                <p class="text-xs text-gray-600 dark:text-gray-400">أجوبة على استفساراتك</p>
                             </a>
-                            <a href="#" class="nav-link dashboard-card block p-6 rounded-xl shadow-lg text-center"
+                            <a href="#" class="nav-link group relative overflow-hidden block p-5 rounded-2xl bg-gradient-to-br from-indigo-50 to-white dark:from-indigo-900/20 dark:to-gray-800 shadow-lg hover:shadow-xl text-center transition-all duration-300 hover:-translate-y-1"
                                 data-view="frequencies">
-                                <div class="text-4xl text-[--primary-color] mb-2"><i class="fas fa-wave-square"></i>
+                                <div class="w-16 h-16 mx-auto mb-3 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-music text-2xl text-white"></i>
                                 </div>
-                                <h4 class="text-lg font-bold mb-1">الترددات الشفائية</h4>
-                                <p class="text-gray-600">علاج بالترددات الصوتية المُعايرة طبياً.</p>
+                                <h4 class="text-sm font-bold mb-1 text-gray-900 dark:text-white">الترددات الشفائية</h4>
+                                <p class="text-xs text-gray-600 dark:text-gray-400">علاج بالترددات الصوتية</p>
                             </a>
-                            <a href="#" class="nav-link dashboard-card block p-6 rounded-xl shadow-lg text-center"
+                            <a href="#" class="nav-link group relative overflow-hidden block p-5 rounded-2xl bg-gradient-to-br from-emerald-50 to-white dark:from-emerald-900/20 dark:to-gray-800 shadow-lg hover:shadow-xl text-center transition-all duration-300 hover:-translate-y-1"
                                 data-view="dashboard">
-                                <div class="text-4xl text-[--primary-color] mb-2"><i
-                                        class="fas fa-magic-wand-sparkles"></i></div>
-                                <h4 class="text-lg font-bold mb-1">الأدوات الذكية</h4>
-                                <p class="text-gray-600">تحليلات وتوصيات مُعينة.</p>
+                                <div class="w-16 h-16 mx-auto mb-3 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-brain text-2xl text-white"></i>
+                                </div>
+                                <h4 class="text-sm font-bold mb-1 text-gray-900 dark:text-white">الأدوات الذكية</h4>
+                                <p class="text-xs text-gray-600 dark:text-gray-400">تحليلات بالذكاء الاصطناعي</p>
                             </a>
                         </div>
                     </div>
@@ -5526,11 +5722,15 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <!-- Card 1: AI Tools -->
                         <div class="p-8 rounded-xl shadow-lg dashboard-card text-center md:col-span-2">
-                            <div class="text-5xl text-[--primary-color] mb-4"><i class="fas fa-magic-wand-sparkles"></i>
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-robot text-white text-2xl"></i>
+                                </div>
+                                <div class="text-right">
+                                    <h3 class="text-2xl font-bold text-gray-900">الأدوات الذكية</h3>
+                                    <p class="text-sm text-gray-600">مدعومة بالذكاء الاصطناعي</p>
+                                </div>
                             </div>
-                            <h3 class="text-2xl font-bold mb-3">الأدوات الذكية</h3>
-                            <p class="text-gray-600 mb-4">استخدم أدوات الذكاء الاصطناعي للتشخيص، إنشاء الخطط العلاجية،
-                                الحصول على توصيات، والمزيد.</p>
                             <div class="mb-4 flex flex-col md:flex-row items-stretch md:items-center gap-3">
                                 <div class="segmented-control" role="tablist" aria-label="تصنيف الأدوات">
                                     <button class="tool-cat-btn btn btn-outline px-3 py-1 rounded-full" data-cat="all"
@@ -7524,98 +7724,493 @@
                 </div>
             </section>
 
-            <!-- Store Section -->
-            <section id="view-store" class="page-view bg-gradient-to-br from-pink-50 via-white to-rose-50 hidden">
-                <div class="container max-w-7xl mx-auto px-4 py-20">
-                    <button class="nav-link mb-10 inline-flex items-center gap-2 text-gray-600 hover:text-gray-900" data-view="hero">
+            <!-- Advanced Shop Section - Marketing Psychology -->
+            <section id="view-shop" class="page-view bg-gradient-to-br from-emerald-50 via-teal-50 to-green-50 min-h-screen hidden">
+                <div class="container max-w-7xl mx-auto px-4 py-12">
+                    <button class="nav-link mb-6 inline-flex items-center gap-2 text-gray-700 hover:text-teal-600 font-semibold transition-all" data-view="hero">
                         <i class="fas fa-arrow-right"></i>
-                        <span>العودة</span>
+                        <span>العودة للرئيسية</span>
                     </button>
 
-                    <div class="text-center mb-16">
-                        <div class="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 px-4 py-2 rounded-full text-sm font-bold mb-4">
-                            <i class="fas fa-star"></i>
-                            <span>قريباً</span>
+                    <!-- Hero with Social Proof -->
+                    <div class="text-center mb-12">
+                        <div class="inline-flex items-center gap-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-2 rounded-full text-sm font-bold mb-4 shadow-lg animate-pulse">
+                            <i class="fas fa-fire"></i>
+                            <span>🔥 عروض حصرية - توصيل مجاني فوق 200 ريال</span>
                         </div>
-                        <h1 class="text-5xl font-bold text-gray-900 mb-4">
-                            <i class="fas fa-store text-pink-600 ml-3"></i>
-                            متجر Ṭibrah
+                        <h1 class="text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-600 mb-4">
+                            متجر Ṭibrah الصحي
                         </h1>
-                        <p class="text-xl text-gray-600 max-w-2xl mx-auto">منتجات صحية طبيعية ومكملات غذائية عالية الجودة</p>
+                        <p class="text-xl text-gray-700 max-w-3xl mx-auto mb-6">منتجات طبيعية 100% • شحن سريع • ضمان الجودة</p>
+                        
+                        <!-- Trust Badges -->
+                        <div class="flex flex-wrap justify-center items-center gap-6 mb-8">
+                            <div class="flex items-center gap-2 text-amber-600">
+                                <i class="fas fa-star text-xl"></i>
+                                <span class="font-bold">4.9/5</span>
+                                <span class="text-sm text-gray-600">(2,847 تقييم)</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-green-600">
+                                <i class="fas fa-shield-check text-xl"></i>
+                                <span class="font-bold">ضمان 30 يوم</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-blue-600">
+                                <i class="fas fa-shipping-fast text-xl"></i>
+                                <span class="font-bold">شحن سريع 2-3 أيام</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Coming Soon Message -->
-                    <div class="max-w-3xl mx-auto bg-white rounded-3xl shadow-2xl p-12 text-center">
-                        <div class="mb-8">
-                            <div class="w-32 h-32 bg-gradient-to-br from-pink-500 to-rose-600 rounded-full mx-auto flex items-center justify-center mb-6 animate-pulse">
-                                <i class="fas fa-shopping-basket text-6xl text-white"></i>
+                    <!-- Shop Search Bar -->
+                    <div class="max-w-3xl mx-auto mb-8 relative" id="shop-search-container">
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                id="shop-search-input"
+                                placeholder="ابحث في المتجر..." 
+                                class="w-full px-6 py-4 pr-14 rounded-2xl border-2 border-teal-200 focus:border-teal-500 focus:outline-none transition-all duration-300 text-lg bg-white shadow-lg"
+                                autocomplete="off"
+                            />
+                            <i class="fas fa-search absolute right-5 top-1/2 -translate-y-1/2 text-teal-400 text-xl"></i>
+                            <button id="shop-search-clear" class="hidden absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xl">
+                                <i class="fas fa-times-circle"></i>
+                            </button>
+                        </div>
+                        <!-- Shop Search Results Dropdown -->
+                        <div id="shop-search-results" class="hidden absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-2xl border-2 border-teal-100 max-h-96 overflow-y-auto z-50">
+                            <!-- Results will be inserted here -->
+                        </div>
+                    </div>
+
+                    <!-- Category Filters -->
+                    <div class="flex flex-wrap justify-center gap-3 mb-10">
+                        <button class="shop-cat-btn active px-6 py-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-xl font-bold shadow-lg hover:shadow-xl transition-all hover:scale-105" data-category="all">
+                            <i class="fas fa-th-large ml-2"></i>كل المنتجات
+                        </button>
+                        <button class="shop-cat-btn px-6 py-3 bg-white text-gray-700 rounded-xl font-bold shadow hover:shadow-lg transition-all hover:scale-105" data-category="supplements">
+                            <i class="fas fa-capsules ml-2"></i>المكملات
+                        </button>
+                        <button class="shop-cat-btn px-6 py-3 bg-white text-gray-700 rounded-xl font-bold shadow hover:shadow-lg transition-all hover:scale-105" data-category="herbs">
+                            <i class="fas fa-leaf ml-2"></i>الأعشاب
+                        </button>
+                        <button class="shop-cat-btn px-6 py-3 bg-white text-gray-700 rounded-xl font-bold shadow hover:shadow-lg transition-all hover:scale-105" data-category="oils">
+                            <i class="fas fa-spa ml-2"></i>الزيوت
+                        </button>
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div class="grid md:grid-cols-3 gap-8 mb-16" id="products-container">
+
+                        <!-- Product 1: DMSO -->
+                        <div class="product-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group" data-category="supplements">
+                            <div class="relative overflow-hidden bg-white">
+                                <div class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold z-10">
+                                    الأكثر طلباً
+                                </div>
+                                <img src="assets/images/DMSO .webp" alt="DMSO للشفاء" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
                             </div>
-                            <h2 class="text-3xl font-bold text-gray-900 mb-4">المتجر قيد الإنشاء</h2>
-                            <p class="text-lg text-gray-600 leading-relaxed mb-6">
-                                نعمل على توفير أفضل المنتجات الصحية الطبيعية لك. سيتضمن المتجر:
-                            </p>
+                            <div class="p-6">
+                                <div class="flex items-center gap-1 mb-2">
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <span class="text-xs text-gray-600 mr-2">(432 تقييم)</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">DMSO النقي للشفاء</h3>
+                                <p class="text-sm text-gray-600 mb-4">مذيب طبيعي قوي • يخترق الجلد بعمق • تخفيف الألم والالتهابات</p>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-2xl font-black text-teal-600">150 ريال</span>
+                                </div>
+                                <button class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-3 rounded-xl font-bold hover:from-teal-700 hover:to-emerald-700 transition-all hover:scale-105 shadow-lg">
+                                    <i class="fas fa-shopping-cart ml-2"></i>أضف للسلة
+                                </button>
+                            </div>
                         </div>
 
-                        <div class="grid md:grid-cols-2 gap-6 text-right mb-8">
-                            <div class="bg-gradient-to-br from-pink-50 to-rose-50 p-6 rounded-xl">
-                                <div class="flex items-start gap-3">
-                                    <div class="w-12 h-12 bg-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <i class="fas fa-pills text-white text-xl"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h3 class="font-bold text-gray-900 mb-2">مكملات غذائية</h3>
-                                        <p class="text-sm text-gray-600">فيتامينات ومعادن طبيعية عالية الجودة</p>
-                                    </div>
+                        <!-- Product 2: Vitamin D3 -->
+                        <div class="product-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group" data-category="supplements">
+                            <div class="relative overflow-hidden bg-gradient-to-br from-yellow-100 to-amber-100 p-8">
+                                <div class="absolute top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+                                    الأكثر مبيعاً
                                 </div>
+                                <i class="fas fa-sun text-8xl text-amber-500 group-hover:scale-110 transition-transform duration-300"></i>
                             </div>
-
-                            <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl">
-                                <div class="flex items-start gap-3">
-                                    <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <i class="fas fa-leaf text-white text-xl"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h3 class="font-bold text-gray-900 mb-2">أعشاب طبية</h3>
-                                        <p class="text-sm text-gray-600">أعشاب طبيعية مختارة بعناية</p>
-                                    </div>
+                            <div class="p-6">
+                                <div class="flex items-center gap-1 mb-2">
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <span class="text-xs text-gray-600 mr-2">(891 تقييم)</span>
                                 </div>
-                            </div>
-
-                            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-xl">
-                                <div class="flex items-start gap-3">
-                                    <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <i class="fas fa-spa text-white text-xl"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h3 class="font-bold text-gray-900 mb-2">زيوت عطرية</h3>
-                                        <p class="text-sm text-gray-600">زيوت نقية للعلاج العطري</p>
-                                    </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">فيتامين D3 + K2</h3>
+                                <p class="text-sm text-gray-600 mb-4">5000 وحدة دولية • دعم المناعة والعظام • 90 كبسولة</p>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-2xl font-black text-teal-600">120 ريال</span>
                                 </div>
-                            </div>
-
-                            <div class="bg-gradient-to-br from-amber-50 to-yellow-50 p-6 rounded-xl">
-                                <div class="flex items-start gap-3">
-                                    <div class="w-12 h-12 bg-amber-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <i class="fas fa-book-medical text-white text-xl"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h3 class="font-bold text-gray-900 mb-2">كتب صحية</h3>
-                                        <p class="text-sm text-gray-600">مراجع طبية وأدلة العافية</p>
-                                    </div>
-                                </div>
+                                <button class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-3 rounded-xl font-bold hover:from-teal-700 hover:to-emerald-700 transition-all hover:scale-105 shadow-lg">
+                                    <i class="fas fa-shopping-cart ml-2"></i>أضف للسلة
+                                </button>
                             </div>
                         </div>
 
-                        <div class="bg-gradient-to-r from-pink-600 to-rose-600 text-white p-6 rounded-2xl">
-                            <h3 class="font-bold text-xl mb-2">كن أول من يعلم عند الإطلاق!</h3>
-                            <p class="text-pink-100 mb-4">سجل اهتمامك وسنرسل لك إشعار فور افتتاح المتجر</p>
-                            <a href="https://wa.me/967771447111?text=أريد%20التسجيل%20للحصول%20على%20إشعار%20عند%20افتتاح%20المتجر" 
-                               target="_blank"
-                               class="inline-flex items-center gap-2 bg-white text-pink-600 px-8 py-3 rounded-xl font-bold hover:scale-105 transition-transform">
-                                <i class="fab fa-whatsapp"></i>
-                                <span>سجل اهتمامك عبر واتساب</span>
-                            </a>
+                        <!-- Product 3: Turmeric Curcumin -->
+                        <div class="product-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group" data-category="herbs">
+                            <div class="relative overflow-hidden bg-gradient-to-br from-orange-100 to-yellow-100 p-8">
+                                <i class="fas fa-mortar-pestle text-8xl text-orange-500 group-hover:scale-110 transition-transform duration-300"></i>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center gap-1 mb-2">
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star-half-alt text-amber-400 text-sm"></i>
+                                    <span class="text-xs text-gray-600 mr-2">(567 تقييم)</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">كركم كركمين فائق</h3>
+                                <p class="text-sm text-gray-600 mb-4">95% كركمين • مع الفلفل الأسود • مضاد للالتهابات • 60 كبسولة</p>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-2xl font-black text-teal-600">95 ريال</span>
+                                </div>
+                                <button class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-3 rounded-xl font-bold hover:from-teal-700 hover:to-emerald-700 transition-all hover:scale-105 shadow-lg">
+                                    <i class="fas fa-shopping-cart ml-2"></i>أضف للسلة
+                                </button>
+                            </div>
                         </div>
+
+                        <!-- Product 4: Lavender Oil -->
+                        <div class="product-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group" data-category="oils">
+                            <div class="relative overflow-hidden bg-gradient-to-br from-purple-100 to-pink-100 p-8">
+                                <i class="fas fa-seedling text-8xl text-purple-500 group-hover:scale-110 transition-transform duration-300"></i>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center gap-1 mb-2">
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <span class="text-xs text-gray-600 mr-2">(324 تقييم)</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">زيت اللافندر العطري</h3>
+                                <p class="text-sm text-gray-600 mb-4">نقاء 100% • عضوي • للاسترخاء والنوم • 30 مل</p>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-2xl font-black text-teal-600">85 ريال</span>
+                                </div>
+                                <button class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-3 rounded-xl font-bold hover:from-teal-700 hover:to-emerald-700 transition-all hover:scale-105 shadow-lg">
+                                    <i class="fas fa-shopping-cart ml-2"></i>أضف للسلة
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 5: Magnesium -->
+                        <div class="product-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group" data-category="supplements">
+                            <div class="relative overflow-hidden bg-gradient-to-br from-green-100 to-teal-100 p-8">
+                                <div class="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-bold">جديد</div>
+                                <i class="fas fa-bolt text-8xl text-green-500 group-hover:scale-110 transition-transform duration-300"></i>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center gap-1 mb-2">
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <span class="text-xs text-gray-600 mr-2">(218 تقييم)</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">مغنيسيوم جلايسينات</h3>
+                                <p class="text-sm text-gray-600 mb-4">امتصاص عالي • لتحسين النوم والعضلات • 120 كبسولة</p>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-2xl font-black text-teal-600">110 ريال</span>
+                                </div>
+                                <button class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-3 rounded-xl font-bold hover:from-teal-700 hover:to-emerald-700 transition-all hover:scale-105 shadow-lg">
+                                    <i class="fas fa-shopping-cart ml-2"></i>أضف للسلة
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 6: Green Tea -->
+                        <div class="product-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group" data-category="herbs">
+                            <div class="relative overflow-hidden bg-gradient-to-br from-lime-100 to-green-100 p-8">
+                                <i class="fas fa-mug-hot text-8xl text-green-600 group-hover:scale-110 transition-transform duration-300"></i>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center gap-1 mb-2">
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star-half-alt text-amber-400 text-sm"></i>
+                                    <span class="text-xs text-gray-600 mr-2">(445 تقييم)</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">مستخلص الشاي الأخضر</h3>
+                                <p class="text-sm text-gray-600 mb-4">EGCG عالي • مضادات أكسدة قوية • 90 كبسولة</p>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-2xl font-black text-teal-600">75 ريال</span>
+                                </div>
+                                <button class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-3 rounded-xl font-bold hover:from-teal-700 hover:to-emerald-700 transition-all hover:scale-105 shadow-lg">
+                                    <i class="fas fa-shopping-cart ml-2"></i>أضف للسلة
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 7: Magnesium Oil -->
+                        <div class="product-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group" data-category="oils">
+                            <div class="relative overflow-hidden bg-white">
+                                <div class="absolute top-4 right-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-bold z-10">موصى به</div>
+                                <img src="assets/images/magnesium-citrate-solaray-400-2.webp" alt="زيت المغنيسيوم النقي" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center gap-1 mb-2">
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <span class="text-xs text-gray-600 mr-2">(356 تقييم)</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">زيت المغنيسيوم النقي - الاسترخاء العميق</h3>
+                                <p class="text-sm text-gray-600 mb-4">امتصاص فوري عبر الجلد • يخفف التشنجات العضلية • نوم هادئ</p>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-2xl font-black text-teal-600">95 ريال</span>
+                                </div>
+                                <button class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-3 rounded-xl font-bold hover:from-teal-700 hover:to-emerald-700 transition-all hover:scale-105 shadow-lg">
+                                    <i class="fas fa-shopping-cart ml-2"></i>أضف للسلة
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 8: Probiotic -->
+                        <div class="product-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group" data-category="supplements">
+                            <div class="relative overflow-hidden bg-white">
+                                <img src="assets/images/بكتيرياء نافعة probiotic .png" alt="بروبيوتيك" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center gap-1 mb-2">
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star-half-alt text-amber-400 text-sm"></i>
+                                    <span class="text-xs text-gray-600 mr-2">(521 تقييم)</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">بروبيوتيك متقدم - صحة الميكروبيوم</h3>
+                                <p class="text-sm text-gray-600 mb-4">50 مليار وحدة حية • 10 سلالات نافعة • مناعة قوية وهضم صحي</p>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-2xl font-black text-teal-600">140 ريال</span>
+                                </div>
+                                <button class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-3 rounded-xl font-bold hover:from-teal-700 hover:to-emerald-700 transition-all hover:scale-105 shadow-lg">
+                                    <i class="fas fa-shopping-cart ml-2"></i>أضف للسلة
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 9: Tibrah Ora -->
+                        <div class="product-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group" data-category="oils">
+                            <div class="relative overflow-hidden bg-white">
+                                <div class="absolute top-4 right-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-3 py-1 rounded-full text-sm font-bold z-10">باكج متكامل</div>
+                                <img src="assets/images/اساسي 2 ).png" alt="Tibrah Ora صحة الأسنان" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center gap-1 mb-2">
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <span class="text-xs text-gray-600 mr-2">(198 تقييم)</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">Tibrah Ora - العناية الشاملة بالفم</h3>
+                                <p class="text-sm text-gray-600 mb-4">مضمضة علاجية + بخاخ عشبي • صحة اللثة • نَفَس منعش طبيعي</p>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-2xl font-black text-teal-600">130 ريال</span>
+                                </div>
+                                <button class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-3 rounded-xl font-bold hover:from-teal-700 hover:to-emerald-700 transition-all hover:scale-105 shadow-lg">
+                                    <i class="fas fa-shopping-cart ml-2"></i>أضف للسلة
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 10: Natural Deodorant -->
+                        <div class="product-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group" data-category="oils">
+                            <div class="relative overflow-hidden bg-white">
+                                <div class="absolute top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-bold z-10">خالٍ من الألمنيوم</div>
+                                <img src="assets/images/UXIRA  DEODERANT .png" alt="مزيل عرق طبيعي" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center gap-1 mb-2">
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <span class="text-xs text-gray-600 mr-2">(412 تقييم)</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">UXIRA - مزيل العرق الطبيعي الفاخر</h3>
+                                <p class="text-sm text-gray-600 mb-4">بدون ألمنيوم أو بارابين • حماية 24 ساعة • برائحة اللافندر</p>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-2xl font-black text-teal-600">65 ريال</span>
+                                </div>
+                                <button class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-3 rounded-xl font-bold hover:from-teal-700 hover:to-emerald-700 transition-all hover:scale-105 shadow-lg">
+                                    <i class="fas fa-shopping-cart ml-2"></i>أضف للسلة
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 11: Natural Soap -->
+                        <div class="product-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group" data-category="oils">
+                            <div class="relative overflow-hidden bg-gradient-to-br from-cyan-100 to-blue-100 p-8">
+                                <div class="absolute top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-bold">يدوي 100%</div>
+                                <i class="fas fa-soap text-8xl text-cyan-500 group-hover:scale-110 transition-transform duration-300"></i>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center gap-1 mb-2">
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <span class="text-xs text-gray-600 mr-2">(289 تقييم)</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">صابون الزيتون الحلبي الأصيل</h3>
+                                <p class="text-sm text-gray-600 mb-4">صناعة يدوية تقليدية • زيت زيتون وغار نقي • للبشرة الحساسة</p>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-2xl font-black text-teal-600">45 ريال</span>
+                                </div>
+                                <button class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-3 rounded-xl font-bold hover:from-teal-700 hover:to-emerald-700 transition-all hover:scale-105 shadow-lg">
+                                    <i class="fas fa-shopping-cart ml-2"></i>أضف للسلة
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 12: Organic Cloth Pads -->
+                        <div class="product-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group" data-category="oils">
+                            <div class="relative overflow-hidden bg-gradient-to-br from-pink-100 to-rose-100 p-8">
+                                <div class="absolute top-4 right-4 bg-pink-600 text-white px-3 py-1 rounded-full text-sm font-bold">صديق للبيئة</div>
+                                <i class="fas fa-leaf text-8xl text-pink-500 group-hover:scale-110 transition-transform duration-300"></i>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center gap-1 mb-2">
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <span class="text-xs text-gray-600 mr-2">(167 تقييم)</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">فوط قماشية عضوية - راحة واعية</h3>
+                                <p class="text-sm text-gray-600 mb-4">قطن عضوي 100% • قابلة للغسيل • خيار صحي وآمن • 6 قطع</p>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-2xl font-black text-teal-600">180 ريال</span>
+                                </div>
+                                <button class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-3 rounded-xl font-bold hover:from-teal-700 hover:to-emerald-700 transition-all hover:scale-105 shadow-lg">
+                                    <i class="fas fa-shopping-cart ml-2"></i>أضف للسلة
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 13: Natural Toothpaste -->
+                        <div class="product-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group" data-category="oils">
+                            <div class="relative overflow-hidden bg-gradient-to-br from-emerald-100 to-teal-100 p-8">
+                                <div class="absolute top-4 right-4 bg-teal-600 text-white px-3 py-1 rounded-full text-sm font-bold">خالٍ من الفلورايد</div>
+                                <i class="fas fa-tooth text-8xl text-teal-500 group-hover:scale-110 transition-transform duration-300"></i>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center gap-1 mb-2">
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star-half-alt text-amber-400 text-sm"></i>
+                                    <span class="text-xs text-gray-600 mr-2">(334 تقييم)</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">معجون الأسنان بالفحم النشط</h3>
+                                <p class="text-sm text-gray-600 mb-4">فحم نشط طبيعي • زيت النعناع • تبييض لطيف • 100 مل</p>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-2xl font-black text-teal-600">55 ريال</span>
+                                </div>
+                                <button class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-3 rounded-xl font-bold hover:from-teal-700 hover:to-emerald-700 transition-all hover:scale-105 shadow-lg">
+                                    <i class="fas fa-shopping-cart ml-2"></i>أضف للسلة
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 14: Bamboo Toothbrush -->
+                        <div class="product-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group" data-category="oils">
+                            <div class="relative overflow-hidden bg-gradient-to-br from-amber-100 to-yellow-100 p-8">
+                                <div class="absolute top-4 right-4 bg-amber-600 text-white px-3 py-1 rounded-full text-sm font-bold">قابل للتحلل</div>
+                                <i class="fas fa-seedling text-8xl text-amber-600 group-hover:scale-110 transition-transform duration-300"></i>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center gap-1 mb-2">
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <i class="fas fa-star text-amber-400 text-sm"></i>
+                                    <span class="text-xs text-gray-600 mr-2">(256 تقييم)</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">فرشاة أسنان من البامبو - عناية مستدامة</h3>
+                                <p class="text-sm text-gray-600 mb-4">خشب البامبو الطبيعي • شعيرات فحمية ناعمة • حزمة 4 قطع</p>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-2xl font-black text-teal-600">70 ريال</span>
+                                </div>
+                                <button class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-3 rounded-xl font-bold hover:from-teal-700 hover:to-emerald-700 transition-all hover:scale-105 shadow-lg">
+                                    <i class="fas fa-shopping-cart ml-2"></i>أضف للسلة
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Why Choose Us -->
+                    <div class="bg-white rounded-3xl shadow-xl p-10 mb-12">
+                        <h2 class="text-3xl font-bold text-gray-900 text-center mb-10">لماذا تختار Ṭibrah؟</h2>
+                        <div class="grid md:grid-cols-4 gap-8">
+                            <div class="text-center">
+                                <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full mx-auto flex items-center justify-center mb-4">
+                                    <i class="fas fa-leaf text-3xl text-white"></i>
+                                </div>
+                                <h3 class="font-bold text-gray-900 mb-2">100% طبيعي</h3>
+                                <p class="text-sm text-gray-600">جميع منتجاتنا طبيعية بالكامل بدون مواد كيميائية</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-full mx-auto flex items-center justify-center mb-4">
+                                    <i class="fas fa-certificate text-3xl text-white"></i>
+                                </div>
+                                <h3 class="font-bold text-gray-900 mb-2">معتمد ومختبر</h3>
+                                <p class="text-sm text-gray-600">منتجات معتمدة من جهات عالمية ومختبرة</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full mx-auto flex items-center justify-center mb-4">
+                                    <i class="fas fa-truck text-3xl text-white"></i>
+                                </div>
+                                <h3 class="font-bold text-gray-900 mb-2">شحن سريع</h3>
+                                <p class="text-sm text-gray-600">توصيل مجاني فوق 200 ريال خلال 2-3 أيام</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-600 rounded-full mx-auto flex items-center justify-center mb-4">
+                                    <i class="fas fa-undo text-3xl text-white"></i>
+                                </div>
+                                <h3 class="font-bold text-gray-900 mb-2">ضمان الاسترجاع</h3>
+                                <p class="text-sm text-gray-600">استرجاع كامل خلال 30 يوم إذا لم تكن راضياً</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Section -->
+                    <div class="bg-gradient-to-r from-teal-600 to-emerald-600 rounded-3xl p-10 text-center text-white shadow-2xl">
+                        <h3 class="text-3xl font-bold mb-4">هل لديك استفسار عن منتجاتنا؟</h3>
+                        <p class="text-lg text-teal-100 mb-6">تواصل معنا مباشرة عبر واتساب للحصول على استشارة مجانية</p>
+                        <a href="https://wa.me/967771447111?text=مرحباً، أريد الاستفسار عن منتجات المتجر" 
+                           target="_blank"
+                           class="inline-flex items-center gap-3 bg-white text-teal-600 px-10 py-4 rounded-xl font-bold hover:scale-105 transition-transform shadow-lg text-lg">
+                            <i class="fab fa-whatsapp text-2xl"></i>
+                            <span>تواصل معنا الآن</span>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -8380,142 +8975,6 @@
                 </div>
             </section>
 
-            <!-- Store Section - ENHANCED PROFESSIONAL GLOBAL STORE -->
-            <section id="view-store" class="page-view py-20 bg-gradient-to-br from-gray-50 to-blue-50 hidden">
-                <div class="container max-w-7xl mx-auto px-4 sm:px-6">
-                    <div class="text-right mb-12">
-                        <button
-                            class="nav-link font-bold text-[--primary-color] hover:text-[--accent-color] transition-all transform hover:scale-105"
-                            data-view="dashboard">
-                            <i class="fas fa-arrow-right-long ml-2"></i>
-                            <span class="translate-text" data-ar="الرجوع إلى لوحة التحكم" data-en="Back to Dashboard">الرجوع إلى لوحة التحكم</span>
-                        </button>
-                    </div>
-                    
-                    <!-- Store Header -->
-                    <div class="text-center mb-16">
-                        <div class="inline-block px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full mb-4 text-sm font-bold">
-                            <i class="fas fa-store mr-2"></i>
-                            <span class="translate-text" data-ar="متجر عالمي معتمد" data-en="Certified Global Store">متجر عالمي معتمد</span>
-                        </div>
-                        <h2 class="large-title text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                            <span class="translate-text" data-ar="متجر المنتجات الشافية" data-en="Healing Products Store">متجر المنتجات الشافية</span>
-                        </h2>
-                        <p class="max-w-3xl mx-auto text-lg text-gray-700 mb-8">
-                            <span class="translate-text" data-ar="مجموعة منتقاة بعناية من المنتجات الطبيعية والأدوية الوظيفية عالية الجودة التي أثق بها وأوصي بها لدعم رحلتك العلاجية" data-en="Carefully selected collection of high-quality natural products and functional supplements that I trust and recommend to support your healing journey">مجموعة منتقاة بعناية من المنتجات الطبيعية والأدوية الوظيفية عالية الجودة التي أثق بها وأوصي بها لدعم رحلتك العلاجية</span>
-                        </p>
-                        
-                        <!-- Store Features -->
-                        <div class="flex flex-wrap justify-center gap-4 mb-8">
-                            <div class="bg-white px-4 py-2 rounded-lg shadow-sm">
-                                <i class="fas fa-shield-check text-green-500 mr-2"></i>
-                                <span class="translate-text" data-ar="منتجات معتمدة" data-en="Certified Products">منتجات معتمدة</span>
-                            </div>
-                            <div class="bg-white px-4 py-2 rounded-lg shadow-sm">
-                                <i class="fas fa-shipping-fast text-blue-500 mr-2"></i>
-                                <span class="translate-text" data-ar="شحن عالمي" data-en="Global Shipping">شحن عالمي</span>
-                            </div>
-                            <div class="bg-white px-4 py-2 rounded-lg shadow-sm">
-                                <i class="fas fa-headset text-purple-500 mr-2"></i>
-                                <span class="translate-text" data-ar="دعم 24/7" data-en="24/7 Support">دعم 24/7</span>
-                            </div>
-                            <div class="bg-white px-4 py-2 rounded-lg shadow-sm">
-                                <i class="fas fa-award text-yellow-500 mr-2"></i>
-                                <span class="translate-text" data-ar="جودة مضمونة" data-en="Quality Guaranteed">جودة مضمونة</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Store Filter -->
-                        <div class="flex flex-wrap justify-center gap-3">
-                            <button class="store-filter-btn active px-6 py-2 rounded-full bg-[--primary-color] text-white font-bold transition-all hover:shadow-lg" data-category="all">
-                                <span class="translate-text" data-ar="الكل" data-en="All">الكل</span>
-                            </button>
-                            <button class="store-filter-btn px-6 py-2 rounded-full bg-white text-gray-700 font-bold transition-all hover:shadow-lg" data-category="supplements">
-                                <span class="translate-text" data-ar="المكملات" data-en="Supplements">المكملات</span>
-                            </button>
-                            <button class="store-filter-btn px-6 py-2 rounded-full bg-white text-gray-700 font-bold transition-all hover:shadow-lg" data-category="skincare">
-                                <span class="translate-text" data-ar="العناية بالبشرة" data-en="Skincare">العناية بالبشرة</span>
-                            </button>
-                            <button class="store-filter-btn px-6 py-2 rounded-full bg-white text-gray-700 font-bold transition-all hover:shadow-lg" data-category="oral">
-                                <span class="translate-text" data-ar="صحة الفم" data-en="Oral Health">صحة الفم</span>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Products Grid -->
-                    <div id="store-products-grid" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                        <div
-                            class="border bg-white border-gray-200 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 fade-in-up hover:-translate-y-2">
-                            <img src="assets/images/DMSO%20.webp" alt="DMSO للجلد" loading="lazy" decoding="async"
-                                class="w-full h-56 object-cover">
-                            <div class="p-6">
-                                <h3 class="text-xl font-bold mb-2">DMSO للجلد</h3>
-                                <p class="text-gray-600 mb-4">مذيب طبيعي قوي لدعم الشفاء وتخفيف الألم الموضعي.</p>
-                                <p class="text-2xl font-bold text-[--primary-color] mb-4">$45</p>
-                                <a href="https://wa.me/967771447111?text=أرغب%20في%20شراء%20DMSO%20للجلد"
-                                    target="_blank" class="btn btn-secondary w-full block py-2 rounded-full">اطلب عبر
-                                    واتساب</a>
-                            </div>
-                        </div>
-                        <div class="border bg-white border-gray-200 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 fade-in-up hover:-translate-y-2"
-                            style="animation-delay: 0.1s;">
-                            <img src="assets/images/Vit%20D3%20+%20K2%20.webp" alt="مكمل فيتامين D3 + K2" loading="lazy"
-                                decoding="async" class="w-full h-56 object-cover">
-                            <div class="p-6">
-                                <h3 class="text-xl font-bold mb-2">مكمل فيتامين د3 + ك2</h3>
-                                <p class="text-gray-600 mb-4">لدعم صحة العظام والمناعة.</p>
-                                <p class="text-2xl font-bold text-[--primary-color] mb-4">$35</p>
-                                <a href="https://wa.me/967771447111?text=أرغب%20في%20شراء%20مكمل%20فيتامين%20د3%20%2B%20ك2"
-                                    target="_blank" class="btn btn-secondary w-full block py-2 rounded-full">اطلب عبر
-                                    واتساب</a>
-                            </div>
-                        </div>
-                        <div class="border bg-white border-gray-200 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 fade-in-up hover:-translate-y-2"
-                            style="animation-delay: 0.2s;">
-                            <img src="assets/images/magnesium-citrate-solaray-400-2.webp" alt="زيت الماغنيسيوم النقي"
-                                loading="lazy" decoding="async" class="w-full h-56 object-cover">
-                            <div class="p-6">
-                                <h3 class="text-xl font-bold mb-2">زيت الماغنسيوم النقي</h3>
-                                <p class="text-gray-600 mb-4">للاسترخاء وتخفيف آلام العضلات.</p>
-                                <p class="text-2xl font-bold text-[--primary-color] mb-4">$25</p>
-                                <a href="https://wa.me/967771447111?text=أرغب%20في%20شراء%20زيت%20الماغنسيوم%20النقي"
-                                    target="_blank" class="btn btn-secondary w-full block py-2 rounded-full">اطلب عبر
-                                    واتساب</a>
-                            </div>
-                        </div>
-                        <div class="border bg-white border-gray-200 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 fade-in-up hover:-translate-y-2"
-                            style="animation-delay: 0.3s;">
-                            <img src="assets/images/بكتيرياء%20نافعة%20probiotic%20.png" alt="بروبيوتيك عالي الجودة"
-                                loading="lazy" decoding="async" class="w-full h-56 object-cover">
-                            <div class="p-6">
-                                <h3 class="text-xl font-bold mb-2">بروبيوتيك عالي الجودة</h3>
-                                <p class="text-gray-600 mb-4">لدعم صحة الجهاز الهضمي والميكروبيوم.</p>
-                                <p class="text-2xl font-bold text-[--primary-color] mb-4">$50</p>
-                                <a href="https://wa.me/967771447111?text=أرغب%20في%20شراء%20بروبيوتيك%20عالي%20الجودة"
-                                    target="_blank" class="btn btn-secondary w-full block py-2 rounded-full">اطلب عبر
-                                    واتساب</a>
-                            </div>
-                        </div>
-                        <!-- NEW Product: Tibrah Ora – باكج صحة اللثة والأسنان -->
-                        <div class="border bg-white border-gray-200 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 fade-in-up hover:-translate-y-2"
-                            style="animation-delay: 0.4s;">
-                            <img src="assets/images/اساسي 2 ).png" alt="tibrah ora | باكج صحة اللثة والأسنان"
-                                loading="lazy" decoding="async" class="w-full h-56 object-cover">
-                            <div class="p-6 text-right">
-                                <h3 class="text-xl font-bold mb-2">tibrah ora | باكج صحة اللثة والأسنان</h3>
-                                <p class="text-gray-600 mb-4">نظام متكامل لتنقية الفم وإنعاش النفس (مضمضة علاجية + بخاخ
-                                    عشبي).</p>
-                                <p class="text-2xl font-bold text-[--primary-color] mb-4">3300 ريال يمني</p>
-                                <a href="https://wa.me/967771447111?text=أرغب%20في%20شراء%20باكج%20Tibrah%20Ora"
-                                    target="_blank" class="btn btn-secondary w-full block py-2 rounded-full">اطلب عبر
-                                    واتساب</a>
-                                <button class="btn btn-outline w-full mt-4 details-button" data-prod="tibrahOra">وصف
-                                    المنتج</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <!-- Frequency Generator Section - REDESIGNED -->
             <section id="view-frequencies" class="page-view py-20 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 hidden transition-all duration-1000">
@@ -10293,14 +10752,14 @@
             // !! ‫مفتاح API - يجب تعيينه من متغيرات البيئة !!
             // =========================================================================
             // احصل على المفتاح من: https://aistudio.google.com/apikey
-            const GEMINI_API_KEY = window.GEMINI_API_KEY || ""; // يتم تعيينه من ملف خارجي
+            const GEMINI_API_KEY = "AIzaSyCaev1GHwaZ7EqoxIyvRmgLehWs6Hq1gDw";
             // =========================================================================
 
             // --- FIREBASE CONFIG ---
             const firebaseConfig = typeof __firebase_config !== 'undefined'
                 ? JSON.parse(__firebase_config)
                 : {
-                    apiKey: window.FIREBASE_API_KEY || "", // يتم تعيينه من ملف خارجي
+                    apiKey: "AIzaSyBi2y64T-X1FNwbhv8ATQnF5xTZ3Pq4neg",
                     authDomain: "tibrasoul.firebaseapp.com",
                     projectId: "tibrasoul",
                     storageBucket: "tibrasoul.appspot.com",
@@ -17457,7 +17916,7 @@ ${planData}
                     // OpenAI API Configuration
                     // ⚠️ تنبيه: هذا المفتاح يجب تحديثه من لوحة تحكم OpenAI
                     // احصل على مفتاح جديد من: https://platform.openai.com/api-keys
-                    const OPENAI_API_KEY = window.OPENAI_API_KEY || ''; // يتم تعيينه من ملف خارجي
+                    const OPENAI_API_KEY = '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';
                     
                     console.log('🤖 محاولة الاتصال بـ OpenAI API...');
                     
@@ -18877,6 +19336,61 @@ ${planData}
     window.registerCourse = registerCourse;
     window.showNotification = showNotification;
 
+    // ===== SHOP CATEGORY FILTERING SYSTEM =====
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoryButtons = document.querySelectorAll('.shop-cat-btn');
+        const productCards = document.querySelectorAll('.product-card');
+
+        categoryButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                
+                // Update active button
+                categoryButtons.forEach(b => {
+                    b.classList.remove('active', 'bg-gradient-to-r', 'from-teal-600', 'to-emerald-600', 'text-white');
+                    b.classList.add('bg-white', 'text-gray-700');
+                });
+                this.classList.add('active', 'bg-gradient-to-r', 'from-teal-600', 'to-emerald-600', 'text-white');
+                this.classList.remove('bg-white', 'text-gray-700');
+
+                // Filter products
+                productCards.forEach(card => {
+                    if (category === 'all' || card.getAttribute('data-category') === category) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'scale(1)';
+                        }, 10);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.8)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // Add to cart
+        document.querySelectorAll('.product-card button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const productCard = this.closest('.product-card');
+                const productName = productCard.querySelector('h3').textContent;
+                
+                showNotification(`✅ تمت إضافة "${productName}" للسلة!`, 'success');
+                
+                const originalHTML = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check ml-2"></i>تمت الإضافة';
+                this.classList.add('bg-green-600');
+                
+                setTimeout(() => {
+                    this.innerHTML = originalHTML;
+                    this.classList.remove('bg-green-600');
+                }, 2000);
+            });
+        });
+    });
 
 
     // Exit popup disabled for medical professional design
@@ -19448,11 +19962,16 @@ ${planData}
     </a>
 </nav>
 
-<!-- Floating AI Chatbot Button -->
-<button id="floating-chatbot-btn" class="fixed bottom-20 left-6 z-[110] w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-600 text-white rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center group md:bottom-6">
+<!-- Floating AI Chatbot Button - Enhanced Version -->
+<button id="floating-chatbot-btn" class="fixed bottom-20 left-6 z-[110] w-16 h-16 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 text-white rounded-full shadow-2xl hover:shadow-blue-500/50 hover:scale-110 transition-all flex items-center justify-center group md:bottom-6 animate-pulse-slow">
     <i class="fas fa-robot text-2xl"></i>
-    <div class="absolute bottom-full left-0 mb-2 hidden group-hover:block bg-gray-900 text-white px-4 py-2 rounded-lg text-sm whitespace-nowrap">
-        المساعد الذكي
+    <div class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full animate-pulse"></div>
+    <div class="absolute bottom-full left-0 mb-3 hidden group-hover:block">
+        <div class="bg-gradient-to-r from-gray-900 to-gray-800 text-white px-4 py-3 rounded-xl text-sm whitespace-nowrap shadow-xl">
+            <div class="font-bold">💬 المساعد الذكي</div>
+            <div class="text-xs text-gray-300">اسألني عن أي شيء!</div>
+            <div class="absolute bottom-0 left-4 transform translate-y-1/2 rotate-45 w-2 h-2 bg-gray-900"></div>
+        </div>
     </div>
 </button>
 
@@ -19505,17 +20024,31 @@ ${planData}
             </div>
         </div>
 
-        <!-- Quick Questions -->
-        <div class="flex flex-wrap gap-2 py-2">
-            <button class="floating-quick-question px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full text-xs hover:bg-blue-200 transition-colors">
-                ما هو الطب الوظيفي؟
-            </button>
-            <button class="floating-quick-question px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full text-xs hover:bg-purple-200 transition-colors">
-                كيف أحسن نومي؟
-            </button>
-            <button class="floating-quick-question px-3 py-1.5 bg-green-100 text-green-700 rounded-full text-xs hover:bg-green-200 transition-colors">
-                ما أفضل نظام غذائي؟
-            </button>
+        <!-- Quick Questions - Enhanced -->\n        <div class="px-2 py-3 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl">
+            <div class="text-xs font-bold text-gray-700 mb-2 flex items-center gap-2">
+                <i class="fas fa-lightbulb text-yellow-500"></i>
+                اختصارات سريعة:
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <button class="floating-quick-question px-3 py-1.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full text-xs hover:shadow-lg transition-all hover:scale-105">
+                    💊 ما هو الطب الوظيفي؟
+                </button>
+                <button class="floating-quick-question px-3 py-1.5 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-full text-xs hover:shadow-lg transition-all hover:scale-105">
+                    😴 كيف أحسن نومي؟
+                </button>
+                <button class="floating-quick-question px-3 py-1.5 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full text-xs hover:shadow-lg transition-all hover:scale-105">
+                    🥗 ما أفضل نظام غذائي؟
+                </button>
+                <button class="floating-quick-question px-3 py-1.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-full text-xs hover:shadow-lg transition-all hover:scale-105">
+                    🧘 كيف أتخلص من التوتر؟
+                </button>
+                <button class="floating-quick-question px-3 py-1.5 bg-gradient-to-r from-pink-500 to-pink-600 text-white rounded-full text-xs hover:shadow-lg transition-all hover:scale-105">
+                    🎵 ما فائدة الترددات الشفائية؟
+                </button>
+                <button class="floating-quick-question px-3 py-1.5 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-full text-xs hover:shadow-lg transition-all hover:scale-105">
+                    🩺 كيف أحجز استشارة؟
+                </button>
+            </div>
         </div>
     </div>
 
@@ -19542,6 +20075,62 @@ ${planData}
     </div>
 </div>
 
+<!-- Mobile Search Modal -->
+<div id="mobile-search-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[200] hidden">
+    <div class="fixed inset-0 bg-gradient-to-b from-white to-gray-50">
+        <!-- Header -->
+        <div class="sticky top-0 bg-white/95 backdrop-blur-lg border-b border-gray-200 px-4 py-4 flex items-center gap-3 shadow-sm z-10">
+            <button id="close-mobile-search" class="w-11 h-11 rounded-xl bg-gray-100 hover:bg-gray-200 active:scale-95 flex items-center justify-center transition-all">
+                <i class="fas fa-arrow-right text-gray-700 text-lg"></i>
+            </button>
+            <div class="flex-1 relative">
+                <input 
+                    type="text" 
+                    id="mobile-search-input"
+                    placeholder="ابحث في الموقع... 🔍" 
+                    class="w-full px-4 py-3.5 pr-11 rounded-2xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none text-base bg-gray-50 focus:bg-white transition-all"
+                    autocomplete="off"
+                />
+                <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+            </div>
+            <button id="mobile-search-clear-btn" class="hidden w-11 h-11 rounded-xl bg-gray-100 hover:bg-gray-200 active:scale-95 flex items-center justify-center transition-all">
+                <i class="fas fa-times text-gray-700"></i>
+            </button>
+        </div>
+        
+        <!-- Results -->
+        <div id="mobile-search-results" class="overflow-y-auto h-[calc(100vh-76px)] p-5">
+            <!-- Initial State -->
+            <div id="search-initial-state" class="text-center py-16 px-4">
+                <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
+                    <i class="fas fa-search text-5xl text-blue-500"></i>
+                </div>
+                <h3 class="text-gray-800 text-xl font-bold mb-2">ابحث عن أي شيء</h3>
+                <p class="text-gray-500 text-base leading-relaxed mb-6">جرب البحث عن منتجات، خدمات، دورات تعليمية، أدوات صحية، أو مقالات طبية...</p>
+                <div class="grid grid-cols-2 gap-3 max-w-sm mx-auto">
+                    <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                        <i class="fas fa-shopping-bag text-teal-500 text-2xl mb-2"></i>
+                        <p class="text-xs text-gray-600 font-medium">منتجات</p>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                        <i class="fas fa-stethoscope text-blue-500 text-2xl mb-2"></i>
+                        <p class="text-xs text-gray-600 font-medium">خدمات طبية</p>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                        <i class="fas fa-graduation-cap text-orange-500 text-2xl mb-2"></i>
+                        <p class="text-xs text-gray-600 font-medium">دورات</p>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                        <i class="fas fa-newspaper text-green-500 text-2xl mb-2"></i>
+                        <p class="text-xs text-gray-600 font-medium">مقالات</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Results will be inserted here -->
+        </div>
+    </div>
+</div>
+
 <!-- Bottom Sheet Component -->
 <div class="bottom-sheet-overlay" id="body-map-sheet-overlay" aria-hidden="true"></div>
 <div class="bottom-sheet" id="body-map-sheet" role="dialog" aria-labelledby="sheet-title" aria-modal="true">
@@ -19556,6 +20145,408 @@ ${planData}
         <p>اختر عضواً من الخريطة لعرض التفاصيل</p>
     </div>
 </div>
+
+<script>
+// ===== ADVANCED SEARCH SYSTEM =====
+(function() {
+    const searchDB = {
+        products: [
+            {name:'DMSO النقي للشفاء',price:'150 ريال',desc:'مذيب طبيعي قوي',view:'shop',icon:'fa-flask'},
+            {name:'فيتامين D3 + K2',price:'120 ريال',desc:'دعم المناعة والعظام',view:'shop',icon:'fa-sun'},
+            {name:'زيت المغنيسيوم النقي',price:'95 ريال',desc:'الاسترخاء العميق',view:'shop',icon:'fa-droplet'},
+            {name:'بروبيوتيك متقدم',price:'140 ريال',desc:'صحة الميكروبيوم',view:'shop',icon:'fa-capsules'},
+            {name:'Tibrah Ora',price:'130 ريال',desc:'العناية الشاملة بالفم',view:'shop',icon:'fa-tooth'},
+            {name:'UXIRA مزيل العرق',price:'65 ريال',desc:'خالٍ من الألمنيوم',view:'shop',icon:'fa-spray-can'},
+            {name:'صابون الزيتون الحلبي',price:'45 ريال',desc:'صناعة يدوية',view:'shop',icon:'fa-soap'},
+            {name:'فوط قماشية عضوية',price:'180 ريال',desc:'راحة واعية',view:'shop',icon:'fa-leaf'},
+            {name:'معجون الأسنان بالفحم',price:'55 ريال',desc:'تبييض طبيعي',view:'shop',icon:'fa-tooth'},
+            {name:'فرشاة البامبو',price:'70 ريال',desc:'عناية مستدامة',view:'shop',icon:'fa-seedling'},
+            {name:'كركم كركمين',price:'95 ريال',desc:'مضاد للالتهابات',view:'shop',icon:'fa-mortar-pestle'},
+            {name:'زيت اللافندر',price:'85 ريال',desc:'للاسترخاء والنوم',view:'shop',icon:'fa-seedling'},
+            {name:'مغنيسيوم جلايسينات',price:'110 ريال',desc:'تحسين النوم',view:'shop',icon:'fa-bolt'},
+            {name:'الشاي الأخضر',price:'75 ريال',desc:'مضادات أكسدة',view:'shop',icon:'fa-mug-hot'}
+        ],
+        services: [
+            {name:'تنسيق السفر الطبي',desc:'تنسيق شامل للمواعيد',view:'medical-travel',icon:'fa-plane-departure'},
+            {name:'الرأي الطبي الثاني',desc:'استشارة متخصصة',view:'second-opinion',icon:'fa-user-doctor'},
+            {name:'مركز الأمراض المزمنة',desc:'محتوى طبي مراجع',view:'chronic-care',icon:'fa-heart-pulse'},
+            {name:'الجلسات الاستشارية',desc:'استشارة أولية',view:'services',icon:'fa-calendar-check'}
+        ],
+        tools: [
+            {name:'فك شفرة التحاليل',desc:'فهم نتائج التحاليل',view:'dashboard',icon:'fa-microscope'},
+            {name:'مساعد التشخيص',desc:'تحليل الأعراض',view:'dashboard',icon:'fa-stethoscope'},
+            {name:'خطة علاجية',desc:'إنشاء خطة علاج',view:'dashboard',icon:'fa-notes-medical'},
+            {name:'توصية المكملات',desc:'اقتراحات مخصصة',view:'dashboard',icon:'fa-pills'},
+            {name:'تداخلات الأدوية',desc:'فحص التفاعلات',view:'dashboard',icon:'fa-triangle-exclamation'},
+            {name:'خطة التغذية',desc:'خطة أسبوعية',view:'dashboard',icon:'fa-apple-whole'},
+            {name:'الترددات الشفائية',desc:'علاج بالترددات',view:'frequencies',icon:'fa-music'},
+            {name:'خريطة الجسم',desc:'اكتشف العلاقة بين المشاعر والأعضاء',view:'body-map',icon:'fa-person'}
+        ],
+        courses: [
+            {name:'دورة الشفاء الذاتي',desc:'تعلم أساسيات الشفاء الطبيعي',duration:'8 أسابيع',view:'home',icon:'fa-graduation-cap'},
+            {name:'أساسيات الطب الوظيفي',desc:'فهم الطب الوظيفي الحديث',duration:'6 أسابيع',view:'home',icon:'fa-book-medical'},
+            {name:'التغذية العلاجية',desc:'استخدام الطعام كدواء',duration:'10 أسابيع',view:'home',icon:'fa-carrot'},
+            {name:'إدارة الأمراض المزمنة',desc:'السيطرة على الأمراض المزمنة',duration:'12 أسبوع',view:'home',icon:'fa-heart-pulse'},
+            {name:'صحة الأمعاء والهضم',desc:'إصلاح الجهاز الهضمي بشكل طبيعي',duration:'8 أسابيع',view:'home',icon:'fa-stomach'},
+            {name:'توازن الهرمونات',desc:'استعادة التوازن الهرموني',duration:'10 أسابيع',view:'home',icon:'fa-dna'},
+            {name:'إزالة السموم الطبيعية',desc:'تنظيف الجسم بطرق آمنة',duration:'6 أسابيع',view:'home',icon:'fa-leaf'},
+            {name:'النوم والاسترخاء',desc:'تحسين جودة النوم والراحة',duration:'4 أسابيع',view:'home',icon:'fa-moon'},
+            {name:'المكملات الغذائية',desc:'دليل شامل للمكملات',duration:'6 أسابيع',view:'home',icon:'fa-pills'},
+            {name:'الترددات الشفائية المتقدمة',desc:'استخدام الترددات للشفاء',duration:'8 أسابيع',view:'frequencies',icon:'fa-waveform-lines'}
+        ],
+        articles: [
+            {name:'كيف تتخلص من جميع أمراضك بدون طبيب',desc:'الدليل الكامل للشفاء الذاتي',category:'تغذية',view:'home',icon:'fa-newspaper'},
+            {name:'السر الطبي المخفي للأمراض المزمنة',desc:'الجذر الحقيقي لجميع الأمراض',category:'أمراض مزمنة',view:'chronic-care',icon:'fa-file-medical'},
+            {name:'سر الصحة المخفي في أمعائك',desc:'كيف تشفي 80% من أمراضك',category:'صحة الأمعاء',view:'home',icon:'fa-notes-medical'},
+            {name:'دليل شفاء الغدة الدرقية',desc:'عكس القصور والنشاط الزائد',category:'هرمونات',view:'chronic-care',icon:'fa-newspaper'},
+            {name:'بروتوكول النوم المثالي',desc:'كيف تنام كطفل وتستيقظ بطاقة',category:'نوم',view:'home',icon:'fa-moon'},
+            {name:'علاج الالتهابات المزمنة',desc:'القضاء على الالتهاب المزمن',category:'التهابات',view:'chronic-care',icon:'fa-fire'},
+            {name:'معجزة الصيام المتقطع',desc:'التجديد الخلوي والشفاء',category:'تغذية',view:'home',icon:'fa-clock'},
+            {name:'إزالة السموم من الجسم',desc:'دليل آمن للديتوكس',category:'إزالة السموم',view:'home',icon:'fa-droplet'},
+            {name:'قوة فيتامين D',desc:'الهرمون المعجزة للصحة',category:'مكملات',view:'shop',icon:'fa-sun'},
+            {name:'المغنيسيوم المعجزة',desc:'المعدن الذي يحتاجه الجميع',category:'مكملات',view:'shop',icon:'fa-bolt'},
+            {name:'صحة القلب الطبيعية',desc:'حماية قلبك بطرق طبيعية',category:'قلب',view:'chronic-care',icon:'fa-heart'},
+            {name:'عكس مقاومة الإنسولين',desc:'الطريق للتخلص من السكري',category:'سكري',view:'chronic-care',icon:'fa-syringe'},
+            {name:'خفض الكوليسترول طبيعياً',desc:'بدون أدوية ستاتين',category:'قلب',view:'chronic-care',icon:'fa-heart-pulse'},
+            {name:'شفاء المناعة الذاتية',desc:'إيقاف هجوم الجسم على نفسه',category:'مناعة',view:'chronic-care',icon:'fa-shield-virus'},
+            {name:'علاج الاكتئاب طبيعياً',desc:'استعادة التوازن العقلي',category:'صحة نفسية',view:'home',icon:'fa-brain'}
+        ]
+    };
+
+    function search(q, ctx='global') {
+        if(!q) return [];
+        q = q.toLowerCase();
+        let res = [];
+        const cats = ctx==='shop' ? ['products'] : ['products','services','tools','courses','articles'];
+        
+        cats.forEach(c => {
+            if(searchDB[c]) {
+                searchDB[c].forEach(item => {
+                    let score = 0;
+                    const n = item.name.toLowerCase();
+                    const d = item.desc.toLowerCase();
+                    const cat = (item.category || '').toLowerCase();
+                    if(n===q) score+=100;
+                    if(n.startsWith(q)) score+=50;
+                    if(n.includes(q)) score+=30;
+                    if(d.includes(q)) score+=10;
+                    if(cat.includes(q)) score+=5;
+                    if(score>0) res.push({...item,score,type:c});
+                });
+            }
+        });
+        
+        return res.sort((a,b)=>b.score-a.score).slice(0,ctx==='mobile'?12:8);
+    }
+
+    function render(items, id, isMobile=false) {
+        const el = document.getElementById(id);
+        if(!el) return;
+        
+        // Hide initial state if exists
+        const initialState = document.getElementById('search-initial-state');
+        if(initialState) initialState.classList.add('hidden');
+        
+        if(items.length===0) {
+            el.innerHTML='<div class="p-6 text-center text-gray-500"><i class="fas fa-search text-3xl mb-3 text-gray-300"></i><p class="text-lg font-bold mb-1">لا توجد نتائج</p><p class="text-sm">جرب البحث بكلمات أخرى</p></div>';
+            if(!isMobile) el.classList.remove('hidden');
+            return;
+        }
+        
+        let h = isMobile ? '' : '<div class="p-3">';
+        const g = {};
+        items.forEach(i => {
+            if(!g[i.type]) g[i.type]=[];
+            g[i.type].push(i);
+        });
+        
+        Object.keys(g).forEach(t => {
+            const labels = {products:'منتجات',services:'خدمات',tools:'أدوات',courses:'دورات',articles:'مقالات'};
+            const colors = {products:'teal',services:'blue',tools:'purple',courses:'orange',articles:'green'};
+            const l = labels[t] || 'أخرى';
+            const c = colors[t] || 'gray';
+            h+=`<div class="${isMobile?'mb-6':'mb-4'}"><p class="text-xs font-bold text-gray-600 mb-2 px-2 uppercase tracking-wide">${l}</p>`;
+            g[t].forEach(i => {
+                const extraInfo = i.duration ? `<span class="text-xs px-2 py-1 bg-${c}-100 text-${c}-700 rounded-full"><i class="far fa-clock mr-1"></i>${i.duration}</span>` :
+                                i.category ? `<span class="text-xs px-2 py-1 bg-${c}-100 text-${c}-700 rounded-full">${i.category}</span>` :
+                                i.price ? `<span class="text-${c}-600 font-bold ${isMobile?'text-base':'text-sm'} whitespace-nowrap">${i.price}</span>` : 
+                                `<i class="fas fa-arrow-left text-gray-400"></i>`;
+                
+                h+=`<button class="search-item w-full text-right ${isMobile?'p-4 mb-2':'p-3'} hover:bg-gray-50 active:bg-gray-100 rounded-xl flex items-center gap-3 group transition-all" data-view="${i.view}">
+                    <div class="${isMobile?'w-12 h-12':'w-10 h-10'} rounded-lg bg-gradient-to-br from-${c}-50 to-${c}-100 flex items-center justify-center group-hover:scale-110 group-active:scale-95 transition-transform">
+                        <i class="fas ${i.icon} text-${c}-600 ${isMobile?'text-lg':'text-base'}"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="font-bold text-gray-900 ${isMobile?'text-base mb-1':'text-sm'} truncate">${i.name}</p>
+                        <p class="${isMobile?'text-sm':'text-xs'} text-gray-500 line-clamp-1">${i.desc}</p>
+                    </div>
+                    ${extraInfo}
+                </button>`;
+            });
+            h+='</div>';
+        });
+        h += isMobile ? '' : '</div>';
+        el.innerHTML=h;
+        if(!isMobile) el.classList.remove('hidden');
+        
+        el.querySelectorAll('.search-item').forEach(b => {
+            b.onclick = function() {
+                const v = this.getAttribute('data-view');
+                el.classList.add('hidden');
+                document.querySelectorAll('input[type="text"]').forEach(inp => inp.value='');
+                
+                // Close mobile modal if exists
+                const mobileModal = document.getElementById('mobile-search-modal');
+                if(mobileModal) mobileModal.classList.add('hidden');
+                
+                const lnk = document.querySelector(`[data-view="${v}"]`);
+                if(lnk) {
+                    lnk.click();
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                }
+            };
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Global Search
+        const gi = document.getElementById('global-search-input');
+        const gr = document.getElementById('global-search-results');
+        const gc = document.getElementById('global-search-clear');
+        
+        if(gi) {
+            let tm;
+            gi.oninput = function() {
+                const q = this.value.trim();
+                gc.classList.toggle('hidden', q.length===0);
+                
+                if(q.length===0) {
+                    gr.classList.add('hidden');
+                    return;
+                }
+                
+                clearTimeout(tm);
+                tm = setTimeout(()=> {
+                    const res = search(q, 'global');
+                    render(res, 'global-search-results');
+                }, 200);
+            };
+            
+            gc.onclick = function() {
+                gi.value='';
+                gr.classList.add('hidden');
+                this.classList.add('hidden');
+                gi.focus();
+            };
+            
+            document.addEventListener('click', function(e) {
+                if(!gi.contains(e.target) && !gr.contains(e.target)) {
+                    gr.classList.add('hidden');
+                }
+            });
+        }
+        
+        // Shop Search
+        const si = document.getElementById('shop-search-input');
+        const sr = document.getElementById('shop-search-results');
+        const sc = document.getElementById('shop-search-clear');
+        
+        if(si) {
+            let tm2;
+            si.oninput = function() {
+                const q = this.value.trim();
+                sc.classList.toggle('hidden', q.length===0);
+                
+                if(q.length===0) {
+                    sr.classList.add('hidden');
+                    document.querySelectorAll('.product-card').forEach(c => {
+                        c.style.display='block';
+                        c.style.opacity='1';
+                    });
+                    return;
+                }
+                
+                clearTimeout(tm2);
+                tm2 = setTimeout(()=> {
+                    const res = search(q, 'shop');
+                    render(res, 'shop-search-results');
+                    
+                    // Filter products
+                    const names = res.map(r => r.name.toLowerCase());
+                    document.querySelectorAll('.product-card').forEach(c => {
+                        const h3 = c.querySelector('h3');
+                        if(h3) {
+                            const pn = h3.textContent.toLowerCase();
+                            const match = names.some(n => pn.includes(n) || n.includes(pn));
+                            if(match) {
+                                c.style.display='block';
+                                setTimeout(()=> {c.style.opacity='1'}, 10);
+                            } else {
+                                c.style.opacity='0';
+                                setTimeout(()=> {c.style.display='none'}, 300);
+                            }
+                        }
+                    });
+                }, 200);
+            };
+            
+            sc.onclick = function() {
+                si.value='';
+                sr.classList.add('hidden');
+                this.classList.add('hidden');
+                document.querySelectorAll('.product-card').forEach(c => {
+                    c.style.display='block';
+                    c.style.opacity='1';
+                });
+                si.focus();
+            };
+            
+            document.addEventListener('click', function(e) {
+                if(!si.contains(e.target) && !sr.contains(e.target)) {
+                    sr.classList.add('hidden');
+                }
+            });
+        }
+        
+        // Mobile Search Modal
+        const mobileBtn = document.getElementById('mobile-search-btn');
+        const mobileModal = document.getElementById('mobile-search-modal');
+        const mobileInput = document.getElementById('mobile-search-input');
+        const mobileResults = document.getElementById('mobile-search-results');
+        const mobileClose = document.getElementById('close-mobile-search');
+        const mobileClear = document.getElementById('mobile-search-clear-btn');
+        const initialState = document.getElementById('search-initial-state');
+        
+        if(mobileBtn && mobileModal) {
+            mobileBtn.onclick = function() {
+                mobileModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                setTimeout(()=> {
+                    mobileInput.focus();
+                }, 100);
+            };
+            
+            mobileClose.onclick = function() {
+                mobileModal.classList.add('hidden');
+                document.body.style.overflow = '';
+                mobileInput.value = '';
+                mobileClear.classList.add('hidden');
+                if(initialState) initialState.classList.remove('hidden');
+                const resultDiv = mobileResults.querySelector('.p-4, .p-3, .p-6');
+                if(resultDiv) resultDiv.remove();
+            };
+            
+            let tm3;
+            mobileInput.oninput = function() {
+                const q = this.value.trim();
+                mobileClear.classList.toggle('hidden', q.length===0);
+                
+                if(q.length===0) {
+                    if(initialState) initialState.classList.remove('hidden');
+                    const resultDiv = mobileResults.querySelector('.p-4, .p-3, .p-6');
+                    if(resultDiv) resultDiv.remove();
+                    return;
+                }
+                
+                if(initialState) initialState.classList.add('hidden');
+                
+                clearTimeout(tm3);
+                tm3 = setTimeout(()=> {
+                    const res = search(q, 'mobile');
+                    renderMobile(res);
+                }, 200);
+            };
+            
+            mobileClear.onclick = function() {
+                mobileInput.value = '';
+                this.classList.add('hidden');
+                if(initialState) initialState.classList.remove('hidden');
+                const resultDiv = mobileResults.querySelector('.p-4, .p-3, .p-6');
+                if(resultDiv) resultDiv.remove();
+                mobileInput.focus();
+            };
+            
+            function renderMobile(items) {
+                const existingDiv = mobileResults.querySelector('.p-4, .p-3, .p-6');
+                if(existingDiv) existingDiv.remove();
+                
+                if(items.length===0) {
+                    const div = document.createElement('div');
+                    div.className = 'p-6 text-center py-12';
+                    div.innerHTML = '<i class="fas fa-search text-6xl text-gray-300 mb-4"></i><p class="text-gray-700 text-xl font-bold mb-2">لا توجد نتائج</p><p class="text-gray-500 text-base">جرب كلمات مفتاحية أخرى</p>';
+                    mobileResults.appendChild(div);
+                    return;
+                }
+                
+                let h = '<div class="p-4 pb-24">';
+                const g = {};
+                items.forEach(i => {
+                    if(!g[i.type]) g[i.type]=[];
+                    g[i.type].push(i);
+                });
+                
+                Object.keys(g).forEach(t => {
+                    const labels = {products:'🛍️ منتجات',services:'🏥 خدمات',tools:'🔧 أدوات',courses:'📚 دورات',articles:'📰 مقالات'};
+                    const colors = {products:'teal',services:'blue',tools:'purple',courses:'orange',articles:'green'};
+                    const l = labels[t] || 'أخرى';
+                    const c = colors[t] || 'gray';
+                    
+                    h+=`<div class="mb-8">
+                        <div class="flex items-center gap-2 mb-4 px-2">
+                            <div class="h-1 w-12 bg-gradient-to-r from-${c}-600 to-${c}-400 rounded-full"></div>
+                            <p class="text-base font-black text-gray-800 uppercase tracking-wider">${l}</p>
+                            <div class="flex-1 h-px bg-gray-200"></div>
+                        </div>`;
+                    
+                    g[t].forEach(i => {
+                        const extraInfo = i.duration ? `<div class="flex-shrink-0"><span class="text-xs px-3 py-1.5 bg-${c}-100 text-${c}-700 rounded-full font-bold"><i class="far fa-clock mr-1"></i>${i.duration}</span></div>` :
+                                        i.category ? `<div class="flex-shrink-0"><span class="text-xs px-3 py-1.5 bg-${c}-100 text-${c}-700 rounded-full font-bold">${i.category}</span></div>` :
+                                        i.price ? `<div class="flex-shrink-0"><span class="text-${c}-600 font-black text-lg">${i.price}</span></div>` : 
+                                        '<i class="fas fa-chevron-left text-gray-300 text-lg flex-shrink-0"></i>';
+                        
+                        h+=`<button class="mobile-search-item w-full text-right p-5 hover:bg-gradient-to-l hover:from-${c}-50/30 active:bg-${c}-50 rounded-2xl flex items-center gap-4 transition-all mb-3 shadow-sm border-2 border-gray-100 hover:border-${c}-200" data-view="${i.view}">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-${c}-500 to-${c}-400 flex items-center justify-center flex-shrink-0 shadow-lg">
+                                <i class="fas ${i.icon} text-white text-2xl"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="font-black text-gray-900 text-lg mb-1.5 leading-tight">${i.name}</p>
+                                <p class="text-sm text-gray-600 leading-snug line-clamp-2">${i.desc}</p>
+                            </div>
+                            ${extraInfo}
+                        </button>`;
+                    });
+                    h+='</div>';
+                });
+                
+                h+='</div>';
+                const div = document.createElement('div');
+                div.innerHTML = h;
+                mobileResults.appendChild(div.firstChild);
+                
+                document.querySelectorAll('.mobile-search-item').forEach(btn => {
+                    btn.onclick = function() {
+                        const v = this.getAttribute('data-view');
+                        mobileModal.classList.add('hidden');
+                        document.body.style.overflow = '';
+                        mobileInput.value = '';
+                        mobileClear.classList.add('hidden');
+                        if(initialState) initialState.classList.remove('hidden');
+                        const resultDiv = mobileResults.querySelector('.p-4, .p-3, .p-6');
+                        if(resultDiv) resultDiv.remove();
+                        setTimeout(()=> {
+                            const lnk = document.querySelector(`[data-view="${v}"]`);
+                            if(lnk) {
+                                lnk.click();
+                                window.scrollTo({top: 0, behavior: 'smooth'});
+                            }
+                        }, 200);
+                    };
+                });
+            }
+        }
+    });
+})();
+</script>
 
 </body>
 </html>
