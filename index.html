@@ -3732,19 +3732,24 @@
             /* Search results dropdown styling */
             #global-search-results {
                 position: absolute;
-                top: 100%;
+                top: calc(100% + 8px);
                 left: 0;
                 right: 0;
-                margin-top: 0.5rem;
                 background: white;
                 border-radius: 1rem;
                 box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.3),
                            0 10px 20px -5px rgba(0, 0, 0, 0.1);
                 border: 1px solid #e5e7eb;
-                max-height: 500px;
+                max-height: 70vh;
                 overflow-y: auto;
                 z-index: 9999 !important;
                 animation: slideDown 0.3s ease-out;
+                min-height: 100px;
+            }
+            
+            /* Ensure dropdown doesn't get clipped */
+            #global-search-results:not(.hidden) {
+                display: block !important;
             }
             
             @keyframes slideDown {
@@ -17914,9 +17919,19 @@ ${planData}
                 // Real AI Integration using OpenAI API
                 async function generateAIResponse(message) {
                     // OpenAI API Configuration
-                    // ⚠️ تنبيه: هذا المفتاح يجب تحديثه من لوحة تحكم OpenAI
-                    // احصل على مفتاح جديد من: https://platform.openai.com/api-keys
-                    const OPENAI_API_KEY = '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';
+                    // ⚠️ للأمان: يتم تخزين المفتاح في localStorage
+                    // احصل على مفتاح من: https://platform.openai.com/api-keys
+                    let OPENAI_API_KEY = localStorage.getItem('tibrah_openai_key');
+                    
+                    // إذا لم يكن هناك مفتاح، اطلب من المستخدم إدخاله
+                    if (!OPENAI_API_KEY) {
+                        OPENAI_API_KEY = prompt('🔑 الرجاء إدخال مفتاح OpenAI API الخاص بك:\n\nاحصل على مفتاح مجاني من:\nhttps://platform.openai.com/api-keys');
+                        if (OPENAI_API_KEY) {
+                            localStorage.setItem('tibrah_openai_key', OPENAI_API_KEY);
+                        } else {
+                            return 'عذراً، يتطلب الذكاء الاصطناعي مفتاح API للعمل. يمكنك الحصول على مفتاح مجاني من OpenAI.';
+                        }
+                    }
                     
                     console.log('🤖 محاولة الاتصال بـ OpenAI API...');
                     
@@ -17925,9 +17940,9 @@ ${planData}
                     
 معلومات عن د. عمر العماد:
 - طبيب عام وخبير في الطب الشمولي والوظيفي
-- خبرةفطرية في معالجة الأمراض المزمنة
+- خبرة طويلة في معالجة الأمراض المزمنة
 - يركز على إيجاد الأسباب الجذرية للأمراض
-- يستخدم نهج متكامل: طب تكاملي موثوق مبني على أحدث الأدوية والطرق العلاجية الحديثة بالإضافة إالى تغذية، ترددات شفائية، علاج نفسي جسدي
+- يستخدم نهج متكامل: طب تكاملي موثوق مبني على أحدث الأدوية والطرق العلاجية الحديثة بالإضافة إلى تغذية، ترددات شفائية، علاج نفسي جسدي
 - رقم الواتساب: 967771447111
 
 الخدمات المتاحة:
@@ -17943,7 +17958,7 @@ ${planData}
 1. كن لطيفاً ومحترفاً ومساعداً ومشجعاً
 2. اكتب بالعربية الفصحى الواضحة مع لمسة دافئة
 3. قدم معلومات دقيقة مفيدة ونصائح عملية
-4.  تقدم تشخيصات طبية محددة - وايضا وجّه للاستشارة عند الدكتور عمر
+4. لا تقدم تشخيصات طبية محددة - وأيضاً وجّه للاستشارة عند الدكتور عمر
 5. شجع على حجز استشارة للحالات المعقدة أو الشخصية
 6. استخدم الإيموجي بشكل معتدل لجعل المحادثة أكثر ودية
 7. في حالات الطوارئ، اطلب من المريض التوجه للمستشفى فوراً
@@ -20253,7 +20268,7 @@ ${planData}
             return;
         }
         
-        let h = isMobile ? '' : '<div class="p-3">';
+        let h = isMobile ? '' : '<div class="p-4">';
         const g = {};
         items.forEach(i => {
             if(!g[i.type]) g[i.type]=[];
@@ -20261,11 +20276,11 @@ ${planData}
         });
         
         Object.keys(g).forEach(t => {
-            const labels = {products:'منتجات',services:'خدمات',tools:'أدوات',courses:'دورات',articles:'مقالات'};
+            const labels = {products:'🛍️ منتجات',services:'🏥 خدمات',tools:'🔧 أدوات',courses:'📚 دورات',articles:'📰 مقالات'};
             const colors = {products:'teal',services:'blue',tools:'purple',courses:'orange',articles:'green'};
             const l = labels[t] || 'أخرى';
             const c = colors[t] || 'gray';
-            h+=`<div class="${isMobile?'mb-6':'mb-4'}"><p class="text-xs font-bold text-gray-600 mb-2 px-2 uppercase tracking-wide">${l}</p>`;
+            h+=`<div class="${isMobile?'mb-6':'mb-4'}"><p class="text-sm font-bold text-gray-700 mb-3 px-2">${l}</p>`;
             g[t].forEach(i => {
                 const extraInfo = i.duration ? `<span class="text-xs px-2 py-1 bg-${c}-100 text-${c}-700 rounded-full"><i class="far fa-clock mr-1"></i>${i.duration}</span>` :
                                 i.category ? `<span class="text-xs px-2 py-1 bg-${c}-100 text-${c}-700 rounded-full">${i.category}</span>` :
